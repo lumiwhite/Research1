@@ -2,7 +2,7 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{bm}
 \usepackage{mathtools}
-
+\usepackage{comment}
 
 % --- 定理・定義環境 ---
 \theoremstyle{definition}
@@ -11,6 +11,7 @@
 \newtheorem{lemma}[definition]{補題}
 \newtheorem{assumption}{仮定}
 \newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
 \input{command.tex}
 % =========================================
 \begin{document}
@@ -21,17 +22,16 @@
 \maketitle
 
 \section{$\fU, \gU$の条件を満たす解空間の特定}
-\subsection{可換性条件}
-$f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
-可換性条件は、すべての$x\in[P]$に対して
-\begin{align}
-  &f(g(x)) = g(f(x))\\
-  \Longleftrightarrow &a_1(a_2x+b_2)+b_1 = a_2(a_1x+b_1)+b_2\\
-  \Longleftrightarrow &a_1a_2x + a_1b_2 + b_1 = a_2a_1x + a_2b_1 + b_2\\
-  \Longleftrightarrow &a_1b_2 + b_1 = a_2b_1 + b_2
-\end{align}
 
-\subsection{サイクル}
+\subsection{$\fU, \gU$の満たすべき条件}
+\begin{enumerate}
+  \item 要請\ref{req:1}を満たす。
+    つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)
+  \item ある$i\neq j$について、$f_i$と$f_j$は可換でない。$g$についても同様。
+  \item UTCBC$\uU(k)\text{ for }k\in\{0,1,2\}$以外に長さ$2L$以下の閉ブロックサイクルを含まない。\label{condition:c}
+\end{enumerate}
+
+\subsection{サイクル}\label{ssec:cycle}
 サイクルは、$L$列から偶数個の列を選び、開始行を指定することで一意に特定される。
 以下、$L=6, J=2$に固定して考える。
 
@@ -52,30 +52,295 @@ $\ell=[a,b,c,d]$について考える。
 \begin{definition}
   1つの左シフトを$S(\cdot)$で表現し、$i$個左シフトする操作は$S^i(\cdot)$で表す。右シフトは$S^{-1}(\cdot)$で表す。
 \end{definition}
+
 1つシフトしたもの、2つシフトしたものについて考える(それ以上のシフトはこれらの組み合わせで再現できる。)
 $\ell=[a,b,c,d]$を1つシフトした$S(\ell)=[b,c,d,a]$について、
 \begin{align}
   \C{S(\ell)}{0}=([0,b],[0,c],[1,c],[1,d],[0,d],[0,a],[1,a],[1,b])=\C{\ell}{1}\\
   \C{S(\ell)}{1}=([1,b],[1,c],[0,c],[0,d],[1,d],[1,a],[0,a],[0,b])=\C{\ell}{0}
 \end{align}
+
 $\ell=[a,b,c,d]$を2つシフトした$S^2(\ell)=[c,d,a,b]$について、
 \begin{align}
   \C{S^2(\ell)}{0}=([0,c],[0,d],[1,d],[1,a],[0,a],[0,b],[1,b],[1,c])=\C{\ell}{0}\\
   \C{S^2(\ell)}{1}=([1,c],[1,d],[0,d],[0,a],[1,a],[1,b],[0,b],[0,c])=\C{\ell}{1}
 \end{align}
+
 以上から、以下の定理が成り立つ。
-\begin{theorem}
+\begin{theorem}\label{th:same_cycle}
   \begin{align}
     \C{(\ell)}{0} = \C{(S(\ell))}{1} = \C{S^2(\ell)}{0}\\
     \C{(\ell)}{1} = \C{(S(\ell))}{0} = \C{S^2(\ell)}{1}\\
   \end{align}
 \end{theorem}
 よって、ある列シーケンス$\ell$について、開始行が0,1行目である2つのサイクルを考えれば、列シーケンスをシフトしたものから構成されるサイクルすべてを網羅できる。
-% \paragraph{反転}
-% $\ell=[a,b,c,d]$を反転した$\ell'=[d,c,b,a]$について、
-% \begin{align}
-%   \C{\ell'}{0}=([0,d],[0,c],[1,c],[1,b],[0,b],[0,a],[1,a],[1,d])\\
-%   \C{\ell'}{1}=([1,d],[1,c],[0,c],[0,b],[1,b],[1,a],[0,a],[0,d])
-% \end{align}
+
+\begin{requirement}\label{req:1}
+  以下の可換性条件が成り立つことを要請する。
+\begin{align}
+  g_{\ell-j} \, f_{k-\ell} = f_{k-\ell} \, g_{\ell-j} \quad (\text{for all } \ell \in [L/2],\ j,k \in [J])
+\end{align}
+
+ここで、$f$ と $g$ のインデックスは $L/2$ を法として解釈される。
+これは、以下の3つの記述のいずれとも等価である。
+\begin{align}
+& f_{\ell - j} \, g_{k - \ell} = g_{k - \ell} \, f_{\ell - j} \quad (\text{for all } \ell \in [L/2],\ j, k \in [J]),\\
+& \text{すべての $\ell \in [L/2]$ および $j \in \{0,\pm 1,\ldots,\pm (J-1)\}$ に対して$f_\ell$ は $g_{- \ell + j}$ と可換である。}\\
+ & \text{すべての $\ell \in [L/2]$ および $j \in \{0,\pm 1,\ldots,\pm (J-1)\}$ に対して$g_\ell$ は $f_{- \ell + j}$ と可換である。}
+\end{align}
+\end{requirement}
+
+\subsection{条件\ref{condition:c}}
+\ref{ssec:cycle}節に基づき、検査する必要のあるサイクルの個数を考える。
+長さ$2l$のサイクル、つまり長さ$l$の列シーケンスを考える。
+定理\ref{th:same_cycle}より、開始行として0,1行目の2通りを考えれば、シフトして等しい列選択は同一視できる。
+長さ$l$のシーケンスは$L^l$通りあり、それぞれ$0~l-1$つのシフトを同一視できるので、検査すべき列シーケンスの総数は$L^l/l$個である。
+これに開始行が0,1行目の2通りあることを加えて、考慮すべきサイクルの総数は$2L^l/l$通りである。
+ゆえに、条件\ref{condition:c}で検査すべきサイクルの総数は$\sum_{l=1}^{L/2} \frac{2L^{2l}}{2l} = \sum_{l=1}^{L/2} \frac{L^{2l}}{l}$である。
+
+\subsection{UTCBC}
+論文では、開始行が0行目であるとき、列選択
+$[0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
+からなるサイクルがUTCBCであることが示されている。
+確認として、開始行が1行目の場合についても考える。
+\[
+  \uU(j)_1 = 
+  f_2
+  \rightarrow g_{j-1}
+  \rightarrow g_{j}
+  \rightarrow f_1
+  \rightarrow f_0
+  \rightarrow g_{j+1}
+  \rightarrow g_{j-1}
+  \rightarrow f_2
+  \rightarrow f_1
+  \rightarrow g_j
+  \rightarrow g_{j+1}
+  \rightarrow f_0
+  \rightarrow f_2
+\]
+\begin{align}
+  f_{\uU(j)_1}(x) &= 
+  (
+    f_0\inv
+    g_{j+1}
+    g_j\inv
+    f_1
+  )
+  (
+    f_2\inv
+    g_{j-1}
+    g_{j+1}\inv
+    f_0
+  )
+  (
+    f_2
+    g_{j-1}\inv
+    g_j
+    f_1\inv
+    )(x)\\
+  &=
+  (
+    f_1
+    g_j\inv
+    g_{j+1}
+    f_0\inv
+  )
+  (
+    f_0
+    g_{j+1}\inv
+    g_{j-1}
+    f_2\inv
+  )
+  (
+    f_2
+    g_{j-1}\inv
+    g_j
+    f_1\inv
+  )(x)=x
+\end{align}
+よって、開始行に関わらず、この列選択から構成されるサイクルはUTCBCである。
+
+\subsection{$\HHX$におけるチェックと$\HHZ$におけるチェックの等価性}
+これは証明ができていない(そもそも等価かわからない)ので現時点では両方をチェック。
+\begin{comment}
+  \begin{align}
+  \HHX
+  &= \left(
+    \begin{array}{ccc||ccc}
+    f_0 & f_1 & f_2 & g_0 & g_1 & g_2 \\\hline
+    f_2 & f_0 & f_1 & g_2 & g_0 & g_1
+\end{array}
+\right)
+\end{align}
+\begin{align}
+\HHZ 
+&= \left(
+  \begin{array}{ccc||ccc}
+  g_0\inv & g_{2}\inv & g_{1}\inv & f_0\inv & f_{2}\inv & f_{1}\inv \\\hline
+  g_1\inv & g_0\inv & g_{2}\inv & f_1\inv & f_0\inv & f_{2}\inv
+\end{array}
+\right)
+\end{align}
+について、例として$\HHX$において開始行0、列シーケンス$\ell = [0,2,4,5]$から構成されるサイクルを考える。
+\begin{align}
+\cU = 
+f_0
+\rightarrow f_2
+\rightarrow f_1
+\rightarrow g_0
+\rightarrow g_1
+\rightarrow g_2
+\rightarrow g_1
+\rightarrow f_2
+\rightarrow f_0
+\end{align}
+\begin{align}
+f_{\cU}\inv(x) =
+f_0\inv
+f_2
+f_1\inv
+    g_0
+    g_1\inv
+    g_2
+    g_1\inv
+    f_2(x)
+  \end{align}
+  ここで、構成する関数が等しくなるような$\HHZ$における列シーケンスは$\ell' = [4,5,0,2]$である。
+  この時$\HHZ$において列シーケンス$\ell'$から構成されるサイクルは、
+  \begin{align}
+  \cU'_0 = 
+  f_2\inv
+  \rightarrow f_1\inv
+  \rightarrow f_2\inv
+  \rightarrow g_1\inv
+  \rightarrow g_0\inv
+  \rightarrow g_1\inv
+  \rightarrow g_2\inv
+  \rightarrow f_0\inv
+  \rightarrow f_2\inv
+\end{align}
+\begin{align}
+f_{\cU'_0}\inv(x) =
+f_2
+f_1\inv
+f_2
+g_1\inv
+g_0
+g_1\inv
+g_2
+f_0\inv(x)
+\end{align}
+\begin{align}
+\cU'_1 = 
+f_0\inv
+\rightarrow f_2\inv
+\rightarrow f_1\inv
+\rightarrow g_0\inv
+  \rightarrow g_1\inv
+  \rightarrow g_2\inv
+  \rightarrow g_1\inv
+  \rightarrow f_2\inv
+  \rightarrow f_0\inv
+\end{align}
+\begin{align}
+f_{\cU'_1}\inv(x) =
+f_0
+f_2\inv
+f_1
+g_0\inv
+g_1
+g_2\inv
+g_1
+f_2\inv(x)
+\end{align}
+\end{comment}
+
+\subsection{可換性条件の分析}
+$f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
+可換性条件は、すべての$x\in[P]$に対して
+\begin{align}
+  &f(g(x)) = g(f(x))\\
+  \iff &a_1(a_2x+b_2)+b_1 = a_2(a_1x+b_1)+b_2\\
+  \iff &a_1a_2x + a_1b_2 + b_1 = a_2a_1x + a_2b_1 + b_2\\
+  \iff &a_1b_2 + b_1 = a_2b_1 + b_2\\
+  \iff &(a_1-1)b_2 = (a_2-1)b_1\label{eq:original}
+\end{align}
+式\ref{eq:original}を、$b_2$に関する方程式とみなす。
+この方程式は$\pmod{P}$上の1次合同方程式であることに注意する。
+\paragraph{$a_1\neq1$かつ$a_2\neq1$のとき\\}
+  $\gcd(a_1-1, P)=1$のとき、$(a_1-1)\inv$が存在するので、$b_2=(a_1-1)\inv(a_2-1)b_1$により解が一意に決まる。
+
+  $\gcd(a_1-1, P)=d>1$のとき、
+  \begin{align}
+      A &= a_1 - 1 \\
+      C &= (a_2 - 1)b_1 \\
+      x &= b_2
+  \end{align}とする。
+  これにより、式(\ref{eq:original})は以下の1次合同方程式となる。
+  \begin{equation}
+      Ax \equiv C \pmod P \label{eq:simplified}
+  \end{equation}
+
+  合同式の定義より、ある整数 $k$ が存在して $Ax - C = Pk$ が成り立つ。
+  これを変形すると、以下の1次不定方程式が得られる。
+  \begin{equation}
+      Ax - Pk = C \label{eq:diophantine}
+  \end{equation}
+  $A$ と $P$ はともに $d$ の倍数であるため、互いに素な整数 $A', P'$を用いて以下のように表せる。
+  \begin{equation}
+      A = d A', \quad P = d P'
+  \end{equation}
+  これらを式(\ref{eq:diophantine})に代入すると、
+  \begin{align}
+      d A' x - d P' k &= C \\
+      d(A' x - P' k) &= C \label{eq:factorized}
+  \end{align}
+  左辺は整数 $d$ と整数の積であるため $d$ の倍数である。したがって、等式が成立するためには、右辺 $C$ も $d$ で割り切れなければならない。
+  これより、以下の2つのケースに分類される。
+  \begin{description}
+    \item[$C \not\equiv 0 \pmod d$\\]
+      等式を満たす整数 $x, k$ は存在しない。
+      したがって、この場合、元の合同方程式の解は存在しない。
+    \item[$C \equiv 0 \pmod d$\\]
+    $C = d C'$ となる整数 $C'$ が存在する。
+    式(\ref{eq:factorized})の両辺を $d$ で割ると、
+    \begin{equation}
+      A' x - P' k = C' \label{eq:reduced}
+    \end{equation}
+    となる。これを合同式に戻すと、法 $P'$ における方程式が得られる。
+    \begin{equation}
+      A' x \equiv C' \pmod{P'} \label{eq:reduced_mod}
+    \end{equation}
+    ここで $\gcd(A', P') = 1$ であるため、法 $P'$ において $A'$ の逆元 $(A')^{-1}$ が一意に存在する。
+    よって、式(\ref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
+    \begin{equation*}
+      x \equiv x_0 \pmod{P'} \implies x = x_0 + m P' \quad (m \in \mathbb{Z})
+    \end{equation*}
+    元の法 $P$ ($= d P'$) における解 $x$ を求めるため、$0 \le x < P$ の範囲にある解を探す。
+    \begin{align*}
+        0 &\le x_0 + m P' < d P' \\
+        0 &\le \frac{x_0}{P'} + m < d
+    \end{align*}
+    $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
+    したがって、解は$b_2 = x_0+nP'(n=0,1,\dots,d-1)$
+  \end{description}
+
+\paragraph{$a_1=1$かつ$a_2\neq1$のとき}
+$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_2$が解となり、そうでない場合は解なしとなる。
+
+\paragraph{$a_2=1$のとき\\}
+このとき、$a_2-1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
+$a_1=1$の時、$A=0$より$Ax=0$となるため、任意の$b_2$で式\ref{eq:original}は成り立つ。\\
+$a_1\neq 1$のとき、以下の2つの場合に分けて考える。
+\begin{description}
+  \item[$\gcd(A, P)=1$]
+    解は$b_2=0$のみ
+  \item[$\gcd(A, P)=d>1$]
+    $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
+    $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
+    よって、解は$b_2=nP'(n=0,1,\dots,d-1)$となる。
+
+\end{description}
 
 \end{document}
