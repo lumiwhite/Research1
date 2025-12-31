@@ -151,4 +151,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tmin10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmss10.tfm
 OUTPUT out/Research_note.dvi
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
 INPUT out/Research_note.aux

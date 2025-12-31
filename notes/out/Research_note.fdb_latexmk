@@ -1,13 +1,14 @@
 # Fdb version 4
-["dvipdf"] 1766732226.12218 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1766732227.67534 0
-  "out/Research_note.dvi" 1766732226 17588 d87df58ce26b833b3b92e10b60b5c2c4 "latex"
+["dvipdf"] 1767166353.77494 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1767166355.15171 0
+  "out/Research_note.dvi" 1767166353 26788 694ed357f864c3f9a28935be34dd84ba "latex"
   (generated)
   "out/Research_note.pdf"
   (rewritten before read)
-["latex"] 1766732224.72685 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1766732227.66589 0
-  "Research_note.tex" 1766732223 12673 8b24ae87cd2d8099f9efdbc28355537c ""
-  "c:/Users/black/Research1/notes/Research_note.tex" 1766732223 12673 8b24ae87cd2d8099f9efdbc28355537c ""
+["latex"] 1767166352.4211 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1767166355.14448 0
+  "Research_note.tex" 1767166349 18669 6858cc1f433bb2862a896593324900c8 ""
+  "c:/Users/black/Research1/notes/Research_note.tex" 1767166349 18669 6858cc1f433bb2862a896593324900c8 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1759994995 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1759994644 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1760001104 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1760001104 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/standard/tgoth10.tfm" 1760001104 856 7404843a5f798859944d7973a47821d5 ""
@@ -49,6 +50,7 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1759994163 1124 6c73e740cf17375f03eec0ee63599741 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1759994163 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1759994163 1120 8b7d695260f3cff42e636090a8002094 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1759994163 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "c:/texlive/2025/texmf-dist/tex/latex/amscls/amsthm.sty" 1759993545 12594 0d51ac3a545aaaa555021326ff22a6cc ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty" 1759993549 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty" 1759993549 13829 94730e64147574077f8ecfea9bb69af4 ""
@@ -77,7 +79,7 @@
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1760002997 3337068 6d149afe652929fb95453c71bd786041 ""
   "c:/texlive/2025/texmf.cnf" 1760002729 713 e69b156964470283e0530f5060668171 ""
   "command.tex" 1766713454 251 cdaa2d792eaaceb20401885fc2d757ef ""
-  "out/Research_note.aux" 1766732226 1913 e6542953cfc4484e0e2a2a4f1764bc34 "latex"
+  "out/Research_note.aux" 1767166353 2430 cf81d3e9eb5cadec1defa9016c265021 "latex"
   (generated)
   "out/Research_note.aux"
   "out/Research_note.dvi"
