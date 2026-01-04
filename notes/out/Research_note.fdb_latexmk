@@ -1,12 +1,12 @@
 # Fdb version 4
-["dvipdf"] 1767166353.77494 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1767166355.15171 0
-  "out/Research_note.dvi" 1767166353 26788 694ed357f864c3f9a28935be34dd84ba "latex"
+["dvipdf"] 1767281588.16786 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1767281589.46105 0
+  "out/Research_note.dvi" 1767281588 36744 33094e18a9a5fd929962d986e0d05524 "latex"
   (generated)
   "out/Research_note.pdf"
   (rewritten before read)
-["latex"] 1767166352.4211 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1767166355.14448 0
-  "Research_note.tex" 1767166349 18669 6858cc1f433bb2862a896593324900c8 ""
-  "c:/Users/black/Research1/notes/Research_note.tex" 1767166349 18669 6858cc1f433bb2862a896593324900c8 ""
+["latex"] 1767281586.84955 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1767281589.45134 0
+  "Research_note.tex" 1767281585 25729 79928f9fc10384d399e8eea0df7e8765 ""
+  "c:/Users/black/Research1/notes/Research_note.tex" 1767281585 25729 79928f9fc10384d399e8eea0df7e8765 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1759994995 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1759994644 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1760001104 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -51,6 +51,8 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1759994163 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1759994163 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1759994163 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm.sty" 1759993527 3249 15763257e50278eef5db1952ccde229c ""
+  "c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithmic.sty" 1759993527 9318 793e9d5a71e74e730d97f6bf5d7e2bca ""
   "c:/texlive/2025/texmf-dist/tex/latex/amscls/amsthm.sty" 1759993545 12594 0d51ac3a545aaaa555021326ff22a6cc ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty" 1759993549 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty" 1759993549 13829 94730e64147574077f8ecfea9bb69af4 ""
@@ -61,7 +63,9 @@
   "c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty" 1759993552 88370 c780f23aea0ece6add91e09b44dca2cd ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty" 1759993552 4474 23ca1d3a79a57b405388059456d0a8df ""
   "c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty" 1759993552 2444 71618ea5f2377e33b04fb97afdd0eac2 ""
+  "c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty" 1759995711 5525 9dced5929f36b19fa837947f5175b331 ""
   "c:/texlive/2025/texmf-dist/tex/latex/comment/comment.sty" 1759994249 10197 204f75d5d8d88aa345a8c402e879e63b ""
+  "c:/texlive/2025/texmf-dist/tex/latex/float/float.sty" 1759994964 6749 16d2656a1984957e674b149555f1ea1d ""
   "c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg" 1759995193 1224 978390e9c2234eab29404bc21b268d1e ""
   "c:/texlive/2025/texmf-dist/tex/latex/graphics-def/dvipdfmx.def" 1759995194 12296 04d6453afafd99986deba3629756d9ec ""
   "c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty" 1759995192 18363 dee506cb8d56825d8a4d020f5d5f8704 ""
@@ -78,8 +82,8 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1759993445 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1760002997 3337068 6d149afe652929fb95453c71bd786041 ""
   "c:/texlive/2025/texmf.cnf" 1760002729 713 e69b156964470283e0530f5060668171 ""
-  "command.tex" 1766713454 251 cdaa2d792eaaceb20401885fc2d757ef ""
-  "out/Research_note.aux" 1767166353 2430 cf81d3e9eb5cadec1defa9016c265021 "latex"
+  "command.tex" 1767281502 317 83162421dcdd17afe0fe173abfa65fd3 ""
+  "out/Research_note.aux" 1767281588 3608 fa66fc9089cd70f77f70e030de07aea4 "latex"
   (generated)
   "out/Research_note.aux"
   "out/Research_note.dvi"

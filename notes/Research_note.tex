@@ -3,6 +3,9 @@
 \usepackage{bm}
 \usepackage{mathtools}
 \usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
 
 % --- 定理・定義環境 ---
 \theoremstyle{definition}
@@ -448,6 +451,108 @@ $a_1\neq 1$のとき、以下の2つの場合に分けて考える。
     よって、解は$b_2=nP'(n=0,1,\dots,d-1)$となる。
 \end{description}
 
+\subsection{ブロックサイクルが閉かどうかの判定}
+サイクルの関数が$f(x)=ax+b$であるとする。
+このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
+よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
 
+$a=1$のとき、$b=0$ならばすべての$x$が解である。
 
+$a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
+
+\subsection{AIに相談}
+\subsubsection{問題の定式化}
+
+$\mathbb{Z}_P$ 上のアフィン置換行列（APM）の構成を考える。行重みを $L$ とし、左右それぞれのブロック数を $L/2$ とする。アフィン置換の列を以下のように定義する。
+\[
+\underline{f} = (f_0, \dots, f_{L/2-1}), \quad \underline{g} = (g_0, \dots, g_{L/2-1})
+\]
+ここで、各置換は $f_i(x) = a_{f,i}x + b_{f,i} \pmod P$ および $g_i(x) = a_{g,i}x + b_{g,i} \pmod P$ で定義される。
+
+本手法の目的は、乗法成分（傾き）$\mathbf{a}$ を固定した状態で、可換性条件およびサイクル回避条件を満たす加法成分（シフト項）$\mathbf{b}$ を決定することである。
+すべてのシフト変数をまとめたベクトルを次のように定義する。
+\begin{equation}
+\mathbf{b} = [b_{f,0}, \dots, b_{f, L/2-1}, b_{g,0}, \dots, b_{g, L/2-1}]^\top \in \mathbb{Z}_P^{L}.
+\end{equation}
+
+\subsubsection{線形部分空間としての可換性}
+
+パリティ検査行列の直交性のために要求される可換性条件は $f_i \circ g_i = g_i \circ f_i$ で与えられる。アフィン置換において、これは以下と等価である。
+\[
+a_{f,i}(a_{g,i}x + b_{g,i}) + b_{f,i} \equiv a_{g,i}(a_{f,i}x + b_{f,i}) + b_{g,i} \pmod P
+\]
+$x$ を含む項を整理すると、シフトパラメータに関する以下の線形制約が得られる。
+\begin{equation}
+(a_{f,i} - 1)b_{g,i} - (a_{g,i} - 1)b_{f,i} \equiv 0 \pmod P.
+\end{equation}
+この式はすべての $i \in \{0, \dots, L/2-1\}$ に対して成立する。これらの方程式を行列形式でまとめると次のようになる。
+\begin{equation}
+M_{\text{comm}} \mathbf{b} \equiv \mathbf{0} \pmod P,
+\end{equation}
+ここで、$M_{\text{comm}}$ は $(L/2) \times L$ 行列である。可換性条件の解空間は $M_{\text{comm}}$ の\textbf{核}（カーネル、零空間）に対応する。この核の基底を $\{\mathbf{v}_1, \dots, \mathbf{v}_k\}$ とすると、条件を満たす任意の $\mathbf{b}$ は次のように表現できる。
+\begin{equation}
+\mathbf{b} = \sum_{j=1}^k c_j \mathbf{v}_j \pmod P, \quad c_j \in \mathbb{Z}_P.
+\label{eq:kernel_expansion}
+\end{equation}
+
+\subsubsection{禁止超平面としてのサイクル回避}
+
+タナーグラフ上のサイクルは、列遷移の系列によって形成される合成アフィン写像 $\Phi(x)$ に対応する。長さ $2\ell$ のサイクル $\mathcal{C}$ が $\ell$ 個の写像 $T_1, \dots, T_\ell$ の合成で表されるとする。
+\[
+\Phi_{\mathcal{C}}(x) = T_\ell \circ \dots \circ T_1(x) = A_{\mathcal{C}} x + B_{\mathcal{C}} \pmod P.
+\]
+ここで、$A_{\mathcal{C}}$ は傾き係数の積であり、$B_{\mathcal{C}}$ は累積されたシフト量である。
+重要な点は、$B_{\mathcal{C}}$ が元のシフトパラメータ $\mathbf{b}$ の\textbf{線形結合}であることである。したがって、ある係数ベクトル $\mathbf{w}_{\mathcal{C}} \in \mathbb{Z}^{L}$ が存在し、次式が成り立つ。
+\begin{equation}
+B_{\mathcal{C}}(\mathbf{b}) = \mathbf{w}_{\mathcal{C}}^\top \mathbf{b} \pmod P.
+\end{equation}
+
+サイクル（不動点 $x$）が存在するための条件は、合同式 $(A_{\mathcal{C}} - 1)x \equiv -B_{\mathcal{C}} \pmod P$ が解を持つことである。
+逆に、このサイクルの形成を\textbf{回避}するためには、この合同式が解を\textit{持たない}ようにすればよい。すなわち、以下の条件が必要となる。
+\begin{equation}
+B_{\mathcal{C}}(\mathbf{b}) \not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}.
+\end{equation}
+ここで $G_{\mathcal{C}} = \gcd(A_{\mathcal{C}}-1, P)$ とおく。式 \eqref{eq:kernel_expansion} をこの不等式に代入すると、自由パラメータ $c_j$ に対する制約が得られる。
+\begin{equation}
+\mathbf{w}_{\mathcal{C}}^\top \left( \sum_{j=1}^k c_j \mathbf{v}_j \right) \not\equiv 0 \pmod{G_{\mathcal{C}}}.
+\end{equation}
+これはパラメータ空間 $\{c_j\}$ における\textbf{禁止超平面}を定義する。
+
+\subsubsection{提案する構成的アルゴリズム（ふるい法）}
+
+ランダムサンプリングに代わり、以下の構成的アルゴリズムを提案する。
+
+\begin{algorithm}[H]
+\caption{サイクルフリー符号構成のための代数的ふるい法}
+\begin{algorithmic}[1]
+\STATE \textbf{入力:} 行重み $L$, 法 $P$.
+\STATE 合成写像において $\gcd(a-1, P)$ が大きくなるよう、傾きベクトル $\mathbf{a}_f, \mathbf{a}_g$ を選択する.
+\STATE $M_{\text{comm}}$ を構築し、その核の基底 $\{\mathbf{v}_1, \dots, \mathbf{v}_k\}$ を計算する.
+\STATE 禁止制約の集合を $\mathcal{F} \leftarrow \emptyset$ で初期化する.
+\FOR{長さ 4, 8 の各サイクル候補トポロジー $\mathcal{T}$}
+    \STATE 記号的な合成写像 $\Phi_{\mathcal{T}}$ を構築する.
+    \STATE 線形依存ベクトル $\mathbf{w}_{\mathcal{T}}$ と法 $G_{\mathcal{T}}$ を抽出する.
+    \STATE 制約 $(\mathbf{w}_{\mathcal{T}}^\top V \mathbf{c} \not\equiv 0 \mod G_{\mathcal{T}})$ を $\mathcal{F}$ に追加する.
+\ENDFOR
+\STATE \textbf{求解:} $\mathcal{F}$ 内のすべての制約を満たすパラメータベクトル $\mathbf{c} = (c_1, \dots, c_k)$ を探索する.
+\STATE \textbf{出力:} $\mathbf{b} = V \mathbf{c}$.
+\end{algorithmic}
+\end{algorithm}
+
+本手法は、探索問題を線形合同式上の制約充足問題（CSP）に変換するものであり、解空間の体積を直接計算し、短いサイクルを決定論的に回避することを可能にする。
+
+\subsection{行列を用いた条件a,bを満たす解空間の特定}
+条件a,bを式に表すと以下である。
+\begin{itemize}
+  \item 条件a:
+  \begin{align}
+    (a_{f,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{f,i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
+  \end{align}
+  \item 条件b:
+  \begin{align}
+    (a_{f,i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
+    (a_{g,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
+  \end{align}
+\end{itemize}
+$\aU=[\aU_f, \aU_g]=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}],\bU=[\bU_f, \bU_g]=[b_{f,0},b_{f,1},b_{f,2},b_{g,0},b_{g,1},b_{g,2}]$とする。
 \end{document}

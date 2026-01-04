@@ -43,6 +43,14 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/mathtools/mhsetup.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/mathtools/mhsetup.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/comment/comment.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/comment/comment.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithmic.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/algorithms/algorithmic.sty
 INPUT ./command.tex
 INPUT ./command.tex
 INPUT command.tex
