@@ -557,7 +557,7 @@ B_{\mathcal{C}}(\mathbf{b}) \not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}.
 $\aU=[\aU_f, \aU_g]=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}],\bU=[\bU_f, \bU_g]=[b_{f,0},b_{f,1},b_{f,2},b_{g,0},b_{g,1},b_{g,2}]$とする。
 
 条件aを行列を用いて表すと、
-\begin{align}
+\begin{align}\label{eq:cond_a_mat}
   \begin{bmatrix}
         1-a_{g,0} & 0 & 0 & a_{f,0}-1 & 0 & 0\\ %i=0,j=0
         1-a_{g,1} & 0 & 0 & 0 & a_{f,0}-1 & 0\\ %i=0,j=1
@@ -579,18 +579,19 @@ $\aU=[\aU_f, \aU_g]=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}],\bU=[\bU_f
         1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
         0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
   \end{bmatrix}
-  \bU \equiv \cU_f \pmod P\\
+  \bU \equiv \cU_f \pmod P\label{eq:cond_b_mat_f}\\
   \begin{bmatrix}
         0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
         0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
         0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
   \end{bmatrix}
-  \bU \equiv \cU_g \pmod P
+  \bU \equiv \cU_g \pmod P\label{eq:cond_b_mat_g}
 \end{align}
 この時、$\cU_f\neq\zeroU$かつ$\cU_g\neq\zeroU$である。
 
+まずは、$\aU$を定数として固定した状態で条件a,bを満たす$\bU$の解空間を特定することを考える。
+まずは簡単のため、$a_{f,i}\neq 0$、$a_{g,i}\neq 0$として考える。
+式\ref{eq:cond_a_mat}の解空間を求め、そこからランダムに選んだものが式\ref{eq:cond_b_mat_f},\ref{eq:cond_b_mat_g}を満たすか確かめる。
 
-
-
-
+\subsection{条件cの分析}
 \end{document}
