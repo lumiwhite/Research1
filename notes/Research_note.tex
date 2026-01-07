@@ -555,4 +555,42 @@ B_{\mathcal{C}}(\mathbf{b}) \not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}.
   \end{align}
 \end{itemize}
 $\aU=[\aU_f, \aU_g]=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}],\bU=[\bU_f, \bU_g]=[b_{f,0},b_{f,1},b_{f,2},b_{g,0},b_{g,1},b_{g,2}]$とする。
+
+条件aを行列を用いて表すと、
+\begin{align}
+  \begin{bmatrix}
+        1-a_{g,0} & 0 & 0 & a_{f,0}-1 & 0 & 0\\ %i=0,j=0
+        1-a_{g,1} & 0 & 0 & 0 & a_{f,0}-1 & 0\\ %i=0,j=1
+        1-a_{g,2} & 0 & 0 & 0 & 0 & a_{f,0}-1\\ %i=0,j=2
+        0 & 1-a_{g,0} & 0 & a_{f,1}-1 & 0 & 0\\ %i=1,j=0
+        0 & 1-a_{g,1} & 0 & 0 & a_{f,1}-1 & 0\\ %i=1,j=1
+        0 & 1-a_{g,2} & 0 & 0 & 0 & a_{f,1}-1\\ %i=1,j=2
+        0 & 0 & 1-a_{g,0} & a_{f,2}-1 & 0 & 0\\ %i=2,j=0
+        0 & 0 & 1-a_{g,1} & 0 & a_{f,2}-1 & 0\\ %i=2,j=1
+        0 & 0 & 1-a_{g,2} & 0 & 0 & a_{f,2}-1\\ %i=2,j=2
+  \end{bmatrix}
+  \bU \equiv O \pmod P
+\end{align}
+
+条件bを行列を用いて表すと、
+\begin{align}
+  \begin{bmatrix}
+        1-a_{f,1} & a_{f,0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
+        1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
+        0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
+  \end{bmatrix}
+  \bU \equiv \cU_f \pmod P\\
+  \begin{bmatrix}
+        0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
+        0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
+        0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
+  \end{bmatrix}
+  \bU \equiv \cU_g \pmod P
+\end{align}
+この時、$\cU_f\neq\zeroU$かつ$\cU_g\neq\zeroU$である。
+
+
+
+
+
 \end{document}
