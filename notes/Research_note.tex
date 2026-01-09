@@ -7,8 +7,10 @@
 \usepackage{algorithmic}
 \usepackage{bm}
 \usepackage{mathtools}
+\usepackage{enumitem}
 \mathtoolsset{showonlyrefs}
-
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
 % --- 定理・定義環境 ---
 \theoremstyle{definition}
 \newtheorem{definition}{定義}[section]
@@ -26,14 +28,15 @@
 \author{黒澤雅治}
 \date{2025/12/21}
 \maketitle
+\tableofcontents
+\clearpage
+\section{\texorpdfstring{$\fU, \gU$}{fU, gU}の条件を満たす解空間の特定}
 
-\section{$\fU, \gU$の条件を満たす解空間の特定}
-
-\subsection{$\fU, \gU$の満たすべき条件}
-\begin{enumerate}
+\subsection{\texorpdfstring{$\fU, \gU$}{fU, gU}の満たすべき条件}
+\begin{enumerate}[label=\Alph*., ref=\Alph*]
   \item 要請\ref{req:1}を満たす。
-    つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)
-  \item ある$i\neq j$について、$f_i$と$f_j$は可換でない。$g$についても同様。
+    つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)\label{condition:a}
+  \item ある$i\neq j$について、$f_i$と$f_j$は可換でない。$g$についても同様。\label{condition:b}
   \item UTCBC$\uU(k)\text{ for }k\in\{0,1,2\}$以外に長さ$2L$以下の閉ブロックサイクルを含まない。\label{condition:c}
 \end{enumerate}
 
@@ -51,7 +54,7 @@
 \end{align}
 \end{requirement}
 
-\subsection{可換性条件の分析}
+\subsection{可換性条件の分析}\label{ssec:analyzeCondA}
 \begin{definition}
   関数$f$の係数を
   \begin{align}
@@ -66,81 +69,55 @@
   \iff &a_fb_g  + b_f = a_g b_f + b_g \\
   \iff &(a_f-1)b_g  = (a_g -1)b_f\label{eq:original}
 \end{align}
-式\ref{eq:original}を、$b_g $に関する方程式とみなす。
+が成り立つことである。
+式\eqref{eq:original}を、$b_g $に関する方程式とみなす。
 この方程式は$\pmod{P}$上の1次合同方程式であることに注意する。
-\paragraph{$a_f\neq1$かつ$a_g \neq1$のとき\\}
-  $\gcd(a_f-1, P)=1$のとき、$(a_f-1)\inv$が存在するので、$b_g =(a_f-1)\inv(a_g -1)b_f$により解が一意に決まる。
+$A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加法成分 $b_g$ に関する1次合同方程式
+\begin{align}
+    A b_g \equiv C \pmod P
+\end{align}
+の解は以下の通りである。
 
-  $\gcd(a_f-1, P)=d>1$のとき、
-  \begin{align}
-      A &= a_f - 1 \\
-      C &= (a_g  - 1)b_f \\
-      x &= b_g 
-  \end{align}とする。
-  これにより、式(\ref{eq:original})は以下の1次合同方程式となる。
-  \begin{equation}
-      Ax \equiv C \pmod P \label{eq:simplified}
-  \end{equation}
+\subsubsection*{ケース1：$a_f \neq 1$ かつ $a_g \neq 1$ の場合}
+\begin{itemize}
+    \item \textbf{$\gcd(A, P) = 1$ のとき} \\
+    解は法 $P$ において一意に定まる。
+    \begin{align}
+        b_g \equiv A^{-1}C \pmod P
+    \end{align}
+    \item \textbf{$\gcd(A, P) = d > 1$ のとき}
+    \begin{itemize}
+        \item $C \not\equiv 0 \pmod d$ ならば、\textbf{解なし}。
+        \item $C \equiv 0 \pmod d$ ならば、法 $P$ において以下の $d$ 個の解が存在する。
+        \begin{align}
+            b_g \equiv x_0 + n \frac{P}{d} \pmod P \quad (n = 0, 1, \dots, d-1)
+        \end{align}
+        ただし、$x_0$ は法 $P/d$ における合同方程式 $(A/d)x \equiv (C/d) \pmod{P/d}$ の一意な解である。
+    \end{itemize}
+\end{itemize}
 
-  合同式の定義より、ある整数 $k$ が存在して $Ax - C = Pk$ が成り立つ。
-  これを変形すると、以下の1次不定方程式が得られる。
-  \begin{equation}
-      Ax - Pk = C \label{eq:diophantine}
-  \end{equation}
-  $A$ と $P$ はともに $d$ の倍数であるため、互いに素な整数 $A', P'$を用いて以下のように表せる。
-  \begin{equation}
-      A = d A', \quad P = d P'
-  \end{equation}
-  これらを式(\ref{eq:diophantine})に代入すると、
-  \begin{align}
-      d A' x - d P' k &= C \\
-      d(A' x - P' k) &= C \label{eq:factorized}
-  \end{align}
-  左辺は整数 $d$ と整数の積であるため $d$ の倍数である。したがって、等式が成立するためには、右辺 $C$ も $d$ で割り切れなければならない。
-  これより、以下の2つのケースに分類される。
-  \begin{description}
-    \item[$C \not\equiv 0 \pmod d$\\]
-      等式を満たす整数 $x, k$ は存在しない。
-      したがって、この場合、元の合同方程式の解は存在しない。
-    \item[$C \equiv 0 \pmod d$\\]
-    $C = d C'$ となる整数 $C'$ が存在する。
-    式(\ref{eq:factorized})の両辺を $d$ で割ると、
-    \begin{equation}
-      A' x - P' k = C' \label{eq:reduced}
-    \end{equation}
-    となる。これを合同式に戻すと、法 $P'$ における方程式が得られる。
-    \begin{equation}
-      A' x \equiv C' \pmod{P'} \label{eq:reduced_mod}
-    \end{equation}
-    ここで $\gcd(A', P') = 1$ であるため、法 $P'$ において $A'$ の逆元 $(A')^{-1}$ が一意に存在する。
-    よって、式(\ref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
-    \begin{equation*}
-      x \equiv x_0 \pmod{P'} \implies x = x_0 + m P' \quad (m \in \mathbb{Z})
-    \end{equation*}
-    元の法 $P$ ($= d P'$) における解 $x$ を求めるため、$0 \le x < P$ の範囲にある解を探す。
-    \begin{align*}
-        0 &\le x_0 + m P' < d P' \\
-        0 &\le \frac{x_0}{P'} + m < d
-    \end{align*}
-    $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
-    したがって、解は$b_g  = x_0+nP'(n=0,1,\dots,d-1)$
-  \end{description}
+\subsubsection*{ケース2：$a_f = 1$ かつ $a_g \neq 1$ の場合}
+\begin{itemize}
+    \item \textbf{$C \equiv 0 \pmod P$ のとき} \\
+    任意の $b_g \in [P]$ が解となる（全解）。
+    \item \textbf{$C \not\equiv 0 \pmod P$ のとき} \\
+    \textbf{解なし}。
+\end{itemize}
 
-\paragraph{$a_f=1$かつ$a_g \neq1$のとき}
-$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_g $が解となり、そうでない場合は解なしとなる。
-
-\paragraph{$a_g =1$のとき\\}
-このとき、$a_g -1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
-$a_f=1$の時、$A=0$より$Ax=0$となるため、任意の$b_g $で式\ref{eq:original}は成り立つ。\\
-$a_f\neq 1$のとき、以下の2つの場合に分けて考える。
-\begin{description}
-  \item[$\gcd(A, P)=1$]
-    解は$b_g =0$のみ
-  \item[$\gcd(A, P)=d>1$]
-    $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
-    $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
-    よって、解は$b_g =nP'(n=0,1,\dots,d-1)$となる。
-\end{description}
+\subsubsection*{ケース3：$a_g = 1$ の場合（$C = 0$）}
+\begin{itemize}
+    \item \textbf{$a_f = 1$ のとき} \\
+    任意の $b_g \in [P]$ が解となる。
+    \item \textbf{$a_f \neq 1$ のとき}
+    \begin{itemize}
+        \item $\gcd(A, P) = 1$ ならば、\textbf{$b_g \equiv 0 \pmod P$} のみ。
+        \item $\gcd(A, P) = d > 1$ ならば、以下の $d$ 個の解が存在する。
+        \begin{align}
+            b_g \equiv n \frac{P}{d} \pmod P \quad (n = 0, 1, \dots, d-1)
+        \end{align}
+    \end{itemize}
+\end{itemize}
+詳細な導出は付録\ref{app:proof2}を参照。
 
 \subsection{サイクル}\label{ssec:cycle}
 サイクルは、$L$列から偶数個の列を選び、開始行を指定することで一意に特定される。
@@ -267,7 +244,7 @@ $\ell = [0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
 \ref{ssec:samecycle}節に基づき、検査する必要のある列シーケンスの個数を考える。
 ここでは、隣り合う要素が異なり、かつ始点と終点が異なる（円環状に接続された）長さ$L$の列シーケンスを考える。使用できる列の総数を$k=6$とする。
 
-\begin{theorem}
+\begin{theorem}\label{th:numberOfSequence}
   円環状に並べた際に隣り合うものが異なる列シーケンスの総数は、 
   \[
     (k-1)^L + (-1)^L(k-1)
@@ -275,63 +252,7 @@ $\ell = [0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
   で表される。
   ただし、$L$は列シーケンスの長さ、$k$は列の選択肢の数。
 \end{theorem}
-\begin{proof}
-  まず、円環状にする前の、長さ$n$の直線の列$x_1, x_2, \dots, x_n$を考える。隣り合う要素$x_i, x_{i+1}$は常に異なるとする。
-  この直線の列全体における色の塗り分けの総数は、先頭$x_1$が$k$通り、それ以降の$x_2, \dots, x_n$がそれぞれ直前の要素と異なるため$k-1$通りであることから、
-  \begin{align}
-    W_n = k(k-1)^{n-1}
-  \end{align}
-  である。
-
-  ここで、$W_n$を以下の2つのケースに分割する。
-  \begin{itemize}
-    \item $a_n$：始点と終点が同じ色である場合の数 ($x_1 = x_n$)
-    \item $b_n$：始点と終点が異なる色である場合の数 ($x_1 \neq x_n$)
-  \end{itemize}
-  すなわち、
-  \begin{align}
-    a_n + b_n = k(k-1)^{n-1} \label{eq:total}
-  \end{align}
-  である。円環状に接続した際に条件を満たすのは、$x_1 \neq x_n$ の場合であるため、求める値は$b_L$となる。
-
-  次に、$n$から$n+1$への漸化式を考える。長さ$n$の列に、条件を満たすように新たな要素$x_{n+1}$を追加する。
-  \begin{enumerate}
-    \item $x_1 = x_{n+1}$ となる場合（$a_{n+1}$を構成する場合）：
-    $x_{n+1}$は$x_n$と異なる必要がある。また、$x_{n+1}$は$x_1$と同じ色になるため、必然的に$x_n \neq x_1$でなければならない。
-    つまり、$x_1 \neq x_n$である状態（$b_n$通り）の末尾に、$x_1$と同じ色（1通り）を追加する場合のみ発生する。
-    \begin{align}
-      a_{n+1} = b_n \times 1 = b_n \label{eq:rec_a}
-    \end{align}
-    
-    \item $x_1 \neq x_{n+1}$ となる場合（$b_{n+1}$を構成する場合）：
-    これは全事象から$a_{n+1}$を引いたものである。式(\ref{eq:total})より、
-    \begin{align}
-      b_{n+1} = k(k-1)^n - a_{n+1}
-    \end{align}
-  \end{enumerate}
-
-  式(\ref{eq:rec_a})を代入すると、以下の$b_n$に関する漸化式が得られる。
-  \begin{align}
-    b_{n+1} = k(k-1)^n - b_n
-  \end{align}
-  この漸化式を解く。
-  \begin{align}
-    b_{n+1} - (k-1)^{n+1} &= -(b_n - (k-1)^n) \\
-    b_n - (k-1)^n &= (-1)^{n-2} (b_2 - (k-1)^2)
-  \end{align}
-  ここで、$n=2$の場合、隣り合う要素は異なるため必ず$x_1 \neq x_2$となる。よって$a_2 = 0, b_2 = k(k-1)$である。
-  \begin{align}
-    b_2 - (k-1)^2 &= k(k-1) - (k-1)^2 \\
-    &= (k-1)(k - (k-1)) \\
-    &= k-1
-  \end{align}
-  したがって、
-  \begin{align}
-    b_n - (k-1)^n &= (-1)^{n-2}(k-1) \\
-    b_n &= (k-1)^n + (-1)^n(k-1)
-  \end{align}
-  以上より、長さ$L$の円環状の列シーケンスの総数は $(k-1)^L + (-1)^L(k-1)$ となる。
-\end{proof}
+証明は、付録\ref{app:proof1}を参照。
 まず、$L=6$の場合を考える。
 $k=6, L=6$を代入すると、
   \begin{align}
@@ -475,15 +396,15 @@ f_2\inv(x)
 \end{align}
 \end{comment}
 
-\subsection{行列を用いた条件a,bを満たす解空間の特定}
+\subsection{行列を用いた条件\ref{condition:a},\ref{condition:b}を満たす解空間の特定}
 
-条件a,bを式に表すと以下である。
+条件\ref{condition:a},\ref{condition:b}を式に表すと以下である。
 \begin{itemize}
-  \item 条件a:
+  \item 条件\ref{condition:a}:
   \begin{align}
     (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
   \end{align}
-  \item 条件b:
+  \item 条件\ref{condition:b}:
   \begin{align}
     (a_{f_i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f_i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
     (a_{g,i} - 1)b_{g_j} - (a_{g_j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
@@ -522,11 +443,11 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
 
 \end{definition}
 
-これを用いると、条件aは以下で表される。
+これを用いると、条件\ref{condition:a}は以下で表される。
 \begin{align}\label{eq:cond_a_mat}
   G_a\bU \equiv O \pmod P
 \end{align}
-これを用いると、条件bは以下で表される。
+これを用いると、条件\ref{condition:b}は以下で表される。
 \begin{align}
   G_{b,f} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_f1}\\
   G_{b,g} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_g1}
@@ -552,10 +473,10 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
 
 
 
-これを$\equiv \zeroU$として解くことで、条件bを満たさない係数$\cU$の空間が決定し、これを避けることで条件a,bを満たす$\aU,\bU$が求まる。
+これを$\equiv \zeroU$として解くことで、条件\ref{condition:b}を満たさない係数$\cU$の空間が決定し、これを避けることで条件\ref{condition:a},\ref{condition:b}を満たす$\aU,\bU$が求まる。
 ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
 
-\subsection{条件cの分析}
+\subsection{条件\ref{condition:c}の分析}
 現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
 これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
 \subsubsection{長さ4のサイクル}
@@ -677,6 +598,141 @@ $f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$で
 \end{align}
 \end{comment}
 
+\begin{appendix}
+\section{定理\ref{th:numberOfSequence}の証明}\label{app:proof1}
+\begin{proof}
+  まず、円環状にする前の、長さ$n$の直線の列$x_1, x_2, \dots, x_n$を考える。隣り合う要素$x_i, x_{i+1}$は常に異なるとする。
+  この直線の列全体における色の塗り分けの総数は、先頭$x_1$が$k$通り、それ以降の$x_2, \dots, x_n$がそれぞれ直前の要素と異なるため$k-1$通りであることから、
+  \begin{align}
+    W_n = k(k-1)^{n-1}
+  \end{align}
+  である。
 
+  ここで、$W_n$を以下の2つのケースに分割する。
+  \begin{itemize}
+    \item $a_n$：始点と終点が同じ色である場合の数 ($x_1 = x_n$)
+    \item $b_n$：始点と終点が異なる色である場合の数 ($x_1 \neq x_n$)
+  \end{itemize}
+  すなわち、
+  \begin{align}
+    a_n + b_n = k(k-1)^{n-1} \label{eq:total}
+  \end{align}
+  である。円環状に接続した際に条件を満たすのは、$x_1 \neq x_n$ の場合であるため、求める値は$b_L$となる。
+
+  次に、$n$から$n+1$への漸化式を考える。長さ$n$の列に、条件を満たすように新たな要素$x_{n+1}$を追加する。
+  \begin{enumerate}
+    \item $x_1 = x_{n+1}$ となる場合（$a_{n+1}$を構成する場合）：
+    $x_{n+1}$は$x_n$と異なる必要がある。また、$x_{n+1}$は$x_1$と同じ色になるため、必然的に$x_n \neq x_1$でなければならない。
+    つまり、$x_1 \neq x_n$である状態（$b_n$通り）の末尾に、$x_1$と同じ色（1通り）を追加する場合のみ発生する。
+    \begin{align}
+      a_{n+1} = b_n \times 1 = b_n \label{eq:rec_a}
+    \end{align}
+    
+    \item $x_1 \neq x_{n+1}$ となる場合（$b_{n+1}$を構成する場合）：
+    これは全事象から$a_{n+1}$を引いたものである。式(\eqref{eq:total})より、
+    \begin{align}
+      b_{n+1} = k(k-1)^n - a_{n+1}
+    \end{align}
+  \end{enumerate}
+
+  式(\eqref{eq:rec_a})を代入すると、以下の$b_n$に関する漸化式が得られる。
+  \begin{align}
+    b_{n+1} = k(k-1)^n - b_n
+  \end{align}
+  この漸化式を解く。
+  \begin{align}
+    b_{n+1} - (k-1)^{n+1} &= -(b_n - (k-1)^n) \\
+    b_n - (k-1)^n &= (-1)^{n-2} (b_2 - (k-1)^2)
+  \end{align}
+  ここで、$n=2$の場合、隣り合う要素は異なるため必ず$x_1 \neq x_2$となる。よって$a_2 = 0, b_2 = k(k-1)$である。
+  \begin{align}
+    b_2 - (k-1)^2 &= k(k-1) - (k-1)^2 \\
+    &= (k-1)(k - (k-1)) \\
+    &= k-1
+  \end{align}
+  したがって、
+  \begin{align}
+    b_n - (k-1)^n &= (-1)^{n-2}(k-1) \\
+    b_n &= (k-1)^n + (-1)^n(k-1)
+  \end{align}
+  以上より、長さ$L$の円環状の列シーケンスの総数は $(k-1)^L + (-1)^L(k-1)$ となる。
+\end{proof}
+
+\section{\ref{ssec:analyzeCondA}の解の導出}
+
+\paragraph{$a_f\neq1$かつ$a_g \neq1$のとき\\}
+  $\gcd(a_f-1, P)=1$のとき、$(a_f-1)\inv$が存在するので、$b_g =(a_f-1)\inv(a_g -1)b_f$により解が一意に決まる。
+
+  $\gcd(a_f-1, P)=d>1$のとき、
+  \begin{align}
+      A &= a_f - 1 \\
+      C &= (a_g  - 1)b_f \\
+      x &= b_g 
+  \end{align}とする。
+  これにより、式(\eqref{eq:original})は以下の1次合同方程式となる。
+  \begin{equation}
+      Ax \equiv C \pmod P \label{eq:simplified}
+  \end{equation}
+
+  合同式の定義より、ある整数 $k$ が存在して $Ax - C = Pk$ が成り立つ。
+  これを変形すると、以下の1次不定方程式が得られる。
+  \begin{equation}
+      Ax - Pk = C \label{eq:diophantine}
+  \end{equation}
+  $A$ と $P$ はともに $d$ の倍数であるため、互いに素な整数 $A', P'$を用いて以下のように表せる。
+  \begin{equation}
+      A = d A', \quad P = d P'
+  \end{equation}
+  これらを式(\eqref{eq:diophantine})に代入すると、
+  \begin{align}
+      d A' x - d P' k &= C \\
+      d(A' x - P' k) &= C \label{eq:factorized}
+  \end{align}
+  左辺は整数 $d$ と整数の積であるため $d$ の倍数である。したがって、等式が成立するためには、右辺 $C$ も $d$ で割り切れなければならない。
+  これより、以下の2つのケースに分類される。
+  \begin{description}
+    \item[$C \not\equiv 0 \pmod d$\\]
+      等式を満たす整数 $x, k$ は存在しない。
+      したがって、この場合、元の合同方程式の解は存在しない。
+    \item[$C \equiv 0 \pmod d$\\]
+    $C = d C'$ となる整数 $C'$ が存在する。
+    式(\eqref{eq:factorized})の両辺を $d$ で割ると、
+    \begin{equation}
+      A' x - P' k = C' \label{eq:reduced}
+    \end{equation}
+    となる。これを合同式に戻すと、法 $P'$ における方程式が得られる。
+    \begin{equation}
+      A' x \equiv C' \pmod{P'} \label{eq:reduced_mod}
+    \end{equation}
+    ここで $\gcd(A', P') = 1$ であるため、法 $P'$ において $A'$ の逆元 $(A')^{-1}$ が一意に存在する。
+    よって、式(\eqref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
+    \begin{equation*}
+      x \equiv x_0 \pmod{P'} \implies x = x_0 + m P' \quad (m \in \mathbb{Z})
+    \end{equation*}
+    元の法 $P$ ($= d P'$) における解 $x$ を求めるため、$0 \le x < P$ の範囲にある解を探す。
+    \begin{align*}
+        0 &\le x_0 + m P' < d P' \\
+        0 &\le \frac{x_0}{P'} + m < d
+    \end{align*}
+    $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
+    したがって、解は$b_g  = x_0+nP'(n=0,1,\dots,d-1)$
+  \end{description}
+
+\paragraph{$a_f=1$かつ$a_g \neq1$のとき}
+$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_g $が解となり、そうでない場合は解なしとなる。
+
+\paragraph{$a_g =1$のとき\\}
+このとき、$a_g -1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
+$a_f=1$の時、$A=0$より$Ax=0$となるため、任意の$b_g $で式\eqref{eq:original}は成り立つ。\\
+$a_f\neq 1$のとき、以下の2つの場合に分けて考える。
+\begin{description}
+  \item[$\gcd(A, P)=1$]
+    解は$b_g =0$のみ
+  \item[$\gcd(A, P)=d>1$]
+    $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
+    $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
+    よって、解は$b_g =nP'(n=0,1,\dots,d-1)$となる。
+\end{description}
+\end{appendix}
 
 \end{document}
