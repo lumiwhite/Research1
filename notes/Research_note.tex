@@ -17,6 +17,7 @@
 \newtheorem{assumption}{仮定}
 \newtheorem{proposition}[definition]{命題}
 \newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
 \input{command.tex}
 % =========================================
 \begin{document}
@@ -51,25 +52,30 @@
 \end{requirement}
 
 \subsection{可換性条件の分析}
-$f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
+\begin{definition}
+  関数$f$の係数を
+  \begin{align}
+    f = a_f x + b_f
+  \end{align}で表す。($a_f,b_f\in[P],\quad \gcd(a_f, P) = 1$)
+\end{definition}
 可換性条件は、すべての$x\in[P]$に対して
 \begin{align}
   &f(g(x)) = g(f(x))\\
-  \iff &a_1(a_2x+b_2)+b_1 = a_2(a_1x+b_1)+b_2\\
-  \iff &a_1a_2x + a_1b_2 + b_1 = a_2a_1x + a_2b_1 + b_2\\
-  \iff &a_1b_2 + b_1 = a_2b_1 + b_2\\
-  \iff &(a_1-1)b_2 = (a_2-1)b_1\label{eq:original}
+  \iff &a_f(a_g x+b_g )+b_f = a_g (a_fx+b_f)+b_g \\
+  \iff &a_fa_g x + a_fb_g  + b_f = a_g a_fx + a_g b_f + b_g \\
+  \iff &a_fb_g  + b_f = a_g b_f + b_g \\
+  \iff &(a_f-1)b_g  = (a_g -1)b_f\label{eq:original}
 \end{align}
-式\ref{eq:original}を、$b_2$に関する方程式とみなす。
+式\ref{eq:original}を、$b_g $に関する方程式とみなす。
 この方程式は$\pmod{P}$上の1次合同方程式であることに注意する。
-\paragraph{$a_1\neq1$かつ$a_2\neq1$のとき\\}
-  $\gcd(a_1-1, P)=1$のとき、$(a_1-1)\inv$が存在するので、$b_2=(a_1-1)\inv(a_2-1)b_1$により解が一意に決まる。
+\paragraph{$a_f\neq1$かつ$a_g \neq1$のとき\\}
+  $\gcd(a_f-1, P)=1$のとき、$(a_f-1)\inv$が存在するので、$b_g =(a_f-1)\inv(a_g -1)b_f$により解が一意に決まる。
 
-  $\gcd(a_1-1, P)=d>1$のとき、
+  $\gcd(a_f-1, P)=d>1$のとき、
   \begin{align}
-      A &= a_1 - 1 \\
-      C &= (a_2 - 1)b_1 \\
-      x &= b_2
+      A &= a_f - 1 \\
+      C &= (a_g  - 1)b_f \\
+      x &= b_g 
   \end{align}とする。
   これにより、式(\ref{eq:original})は以下の1次合同方程式となる。
   \begin{equation}
@@ -117,23 +123,23 @@ $f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
         0 &\le \frac{x_0}{P'} + m < d
     \end{align*}
     $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
-    したがって、解は$b_2 = x_0+nP'(n=0,1,\dots,d-1)$
+    したがって、解は$b_g  = x_0+nP'(n=0,1,\dots,d-1)$
   \end{description}
 
-\paragraph{$a_1=1$かつ$a_2\neq1$のとき}
-$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_2$が解となり、そうでない場合は解なしとなる。
+\paragraph{$a_f=1$かつ$a_g \neq1$のとき}
+$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_g $が解となり、そうでない場合は解なしとなる。
 
-\paragraph{$a_2=1$のとき\\}
-このとき、$a_2-1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
-$a_1=1$の時、$A=0$より$Ax=0$となるため、任意の$b_2$で式\ref{eq:original}は成り立つ。\\
-$a_1\neq 1$のとき、以下の2つの場合に分けて考える。
+\paragraph{$a_g =1$のとき\\}
+このとき、$a_g -1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
+$a_f=1$の時、$A=0$より$Ax=0$となるため、任意の$b_g $で式\ref{eq:original}は成り立つ。\\
+$a_f\neq 1$のとき、以下の2つの場合に分けて考える。
 \begin{description}
   \item[$\gcd(A, P)=1$]
-    解は$b_2=0$のみ
+    解は$b_g =0$のみ
   \item[$\gcd(A, P)=d>1$]
     $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
     $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
-    よって、解は$b_2=nP'(n=0,1,\dots,d-1)$となる。
+    よって、解は$b_g =nP'(n=0,1,\dots,d-1)$となる。
 \end{description}
 
 \subsection{サイクル}\label{ssec:cycle}
@@ -363,13 +369,13 @@ $k=6, L=6$を代入すると、
 
 以上より、検査する列シーケンスの総数は$2635+165+15=2815$通り。
 
-\subsection{ブロックサイクルが閉かどうかの判定}
+\subsection{ブロックサイクルが閉かどうかの判定}\label{ssec:is_cbc}
 サイクルの関数が$f(x)=ax+b$であるとする。
 このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
 よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
 この条件は、
 \begin{align}
-  b \equiv 0 \pmod{\gcd(a-1, P)}
+  b \equiv 0 \pmod{\gcd(a-1, P)}\label{eq:cbc}
 \end{align}
 と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
 $a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
@@ -470,97 +476,148 @@ f_2\inv(x)
 \end{comment}
 
 \subsection{行列を用いた条件a,bを満たす解空間の特定}
+
 条件a,bを式に表すと以下である。
 \begin{itemize}
   \item 条件a:
   \begin{align}
-    (a_{f,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{f,i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
+    (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
   \end{align}
   \item 条件b:
   \begin{align}
-    (a_{f,i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
-    (a_{g,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
+    (a_{f_i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f_i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
+    (a_{g,i} - 1)b_{g_j} - (a_{g_j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
   \end{align}
 \end{itemize}
-$\aU=[\aU_f, \aU_g]\tr=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}]\tr,\bU=[\bU_f, \bU_g]\tr=[b_{f,0},b_{f,1},b_{f,2},b_{g,0},b_{g,1},b_{g,2}]\tr$とする。
 
-条件aを行列を用いて表すと、
-\begin{align}\label{eq:cond_a_mat}
-  \begin{bmatrix}
-        1-a_{g,0} & 0 & 0 & a_{f,0}-1 & 0 & 0\\ %i=0,j=0
-        1-a_{g,1} & 0 & 0 & 0 & a_{f,0}-1 & 0\\ %i=0,j=1
-        1-a_{g,2} & 0 & 0 & 0 & 0 & a_{f,0}-1\\ %i=0,j=2
-        0 & 1-a_{g,0} & 0 & a_{f,1}-1 & 0 & 0\\ %i=1,j=0
-        0 & 1-a_{g,1} & 0 & 0 & a_{f,1}-1 & 0\\ %i=1,j=1
-        0 & 1-a_{g,2} & 0 & 0 & 0 & a_{f,1}-1\\ %i=1,j=2
-        0 & 0 & 1-a_{g,0} & a_{f,2}-1 & 0 & 0\\ %i=2,j=0
-        0 & 0 & 1-a_{g,1} & 0 & a_{f,2}-1 & 0\\ %i=2,j=1
-        0 & 0 & 1-a_{g,2} & 0 & 0 & a_{f,2}-1\\ %i=2,j=2
+\begin{definition}
+$\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=[\bU_f, \bU_g]\tr=[b_{f_0},b_{f_1},b_{f_2},b_{g_0},b_{g_1},b_{g_2}]\tr$とする。
+\end{definition}
+
+\begin{definition}
+  行列を以下のように定義する。
+  \begin{align}
+  G_a &= \begin{bmatrix}
+        1-a_{g_0} & 0 & 0 & a_{f_0}-1 & 0 & 0\\ %i=0,j=0
+        1-a_{g_1} & 0 & 0 & 0 & a_{f_0}-1 & 0\\ %i=0,j=1
+        1-a_{g_2} & 0 & 0 & 0 & 0 & a_{f_0}-1\\ %i=0,j=2
+        0 & 1-a_{g_0} & 0 & a_{f_1}-1 & 0 & 0\\ %i=1,j=0
+        0 & 1-a_{g_1} & 0 & 0 & a_{f_1}-1 & 0\\ %i=1,j=1
+        0 & 1-a_{g_2} & 0 & 0 & 0 & a_{f_1}-1\\ %i=1,j=2
+        0 & 0 & 1-a_{g_0} & a_{f_2}-1 & 0 & 0\\ %i=2,j=0
+        0 & 0 & 1-a_{g_1} & 0 & a_{f_2}-1 & 0\\ %i=2,j=1
+        0 & 0 & 1-a_{g_2} & 0 & 0 & a_{f_2}-1\\ %i=2,j=2
+  \end{bmatrix}\\
+  G_{b,f} &= \begin{bmatrix}
+        1-a_{f_1} & a_{f_0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
+        1-a_{f_2} & 0 & a_{f_0}-1 & 0 & 0 & 0\\ %i=0,j=2
+        0 & 1-a_{f_2} & a_{f_1}-1 & 0 & 0 & 0\\ %i=1,j=2
+  \end{bmatrix}\\
+  G_{b,g} &= \begin{bmatrix}
+        0 & 0 & 0 & 1-a_{g_1} & a_{g_0}-1 & 0\\ %i=0,j=1
+        0 & 0 & 0 & 1-a_{g_2} & 0 & a_{g_0}-1\\ %i=0,j=2
+        0 & 0 & 0 & 0 & 1-a_{g_2} & a_{g_1}-1\\ %i=1,j=2
   \end{bmatrix}
-  \bU \equiv O \pmod P
 \end{align}
 
-条件bを行列を用いて表すと、
+\end{definition}
+
+これを用いると、条件aは以下で表される。
+\begin{align}\label{eq:cond_a_mat}
+  G_a\bU \equiv O \pmod P
+\end{align}
+これを用いると、条件bは以下で表される。
 \begin{align}
-  \begin{bmatrix}
-        1-a_{f,1} & a_{f,0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
-        1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
-        0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
-  \end{bmatrix}
-  \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_f1}\\
-  \begin{bmatrix}
-        0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
-        0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
-        0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
-  \end{bmatrix}
-  \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_g1}
+  G_{b,f} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_f1}\\
+  G_{b,g} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_g1}
 \end{align}
 
 まずは、$\aU$を定数として固定した状態で条件a,bを満たす$\bU$の解空間を特定することを考える。
-まずは簡単のため、$a_{f,i}\neq 0$、$a_{g,i}\neq 0$として考える。
-式\ref{eq:cond_a_mat}を解くと、基底$\vU_0,\dots,\vU_5$及係数$\cU=[c_0,\dots,c_5]\tr$により、解空間として
+まずは簡単のため、$a_{f_i}\neq 0$、$a_{g,i}\neq 0$として考える。
+式\eqref{eq:cond_a_mat}を解くと、基底$\vU_0,\dots,\vU_5$及係数$\cU=[c_0,\dots,c_5]\tr$により、解空間として
 \begin{align}
   \bU = \sum_{j=0}^5 c_j \vU_j = V\cU
 \end{align}
 が求められる。ただし、$V=[\vU_0,\dots,\vU_5^\top],c_i\in[P]$である。
-これにより、式\ref{eq:cond_b_mat_f1}と\ref{eq:cond_b_mat_g1}は
+
+これにより、式\eqref{eq:cond_b_mat_f1}と\eqref{eq:cond_b_mat_g1}は
 \begin{align}
-  \begin{bmatrix}
-        1-a_{f,1} & a_{f,0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
-        1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
-        0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
-  \end{bmatrix}
-  V\cU \not\equiv \zeroU\label{eq:cond_b_mat_f2}\\
-  \iff G_f\cU \not\equiv \zeroU\label{eq:cond_b_mat_f3}
-  (G_f = 
-  \begin{bmatrix}
-        1-a_{f,1} & a_{f,0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
-        1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
-        0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
-  \end{bmatrix}V
-  )\\
-  \begin{bmatrix}
-    0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
-    0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
-    0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
-  \end{bmatrix}
-  V\cU \not\equiv \zeroU\label{eq:cond_b_mat_g2}\\
-  \iff G_g\cU \not\equiv \zeroU\label{eq:cond_b_mat_g3}
-  (G_g = 
-  \begin{bmatrix}
-    0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
-    0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
-    0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
-  \end{bmatrix}V
-  )\\
+  G_{b,f}V\cU &\not\equiv \zeroU\label{eq:cond_b_mat_f2}\\
+  \iff M_f\cU &\not\equiv \zeroU\label{eq:cond_b_mat_f3}
+  (M_f = G_{b,f}V)\\
+  G_{b,g}V\cU &\not\equiv \zeroU\label{eq:cond_b_mat_g2}\\
+  \iff M_g\cU &\not\equiv \zeroU\label{eq:cond_b_mat_g3}
+  (M_g = G_{b,g}V)\\
 \end{align}
+
+
+
 これを$\equiv \zeroU$として解くことで、条件bを満たさない係数$\cU$の空間が決定し、これを避けることで条件a,bを満たす$\aU,\bU$が求まる。
 ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
 
 \subsection{条件cの分析}
 現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
 これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
-例として、長さ4のサイクルに関する方程式を考える。
+\subsubsection{長さ4のサイクル}
+例として、長さ4のサイクル$\mathcal{C}$に関する方程式を考える。
+\begin{align}
+  \mathcal{C} = f\rightarrow g\rightarrow h\rightarrow l\rightarrow f
+\end{align}
+とすると、
+\begin{align}
+  f_{\mathcal{C}}\inv(x) = 
+  f\inv g h\inv l(x)
+\end{align}
+であり、
+$f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$であるから、
+ \begin{align}
+    f_{\mathcal{C}}\inv(x) &= f\inv f h\inv l(x)\\
+    &= a_f\inv(a_g a_h\inv(a_l x + b_l - b_h) + b_g - b_f)\\
+    &= a_f\inv a_g a_h\inv a_l x + a_f\inv(b_g - b_f) + a_f\inv a_g a_h\inv (b_l - b_h)\\
+\end{align}
+とかける。
+
+\begin{definition}
+  ここで、サイクル$\mathcal{C}$の関数$f_(\mathcal{C})(x)$について、
+  \begin{align}
+    f_(\mathcal{C})(x) = A_(\mathcal{C})x+B_(\mathcal{C})
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+この表現を用いると、
+\begin{align}
+  \ABCfour{\mathcal{C}}{f}{g}{h}{l}\\
+\end{align}
+と書ける。
+
+\ref{ssec:is_cbc}節より、このブロックサイクルが閉となるのは
+\begin{align}
+  B_(\mathcal{C}) \equiv 0 \pmod{\gcd(A_(\mathcal{C})-1, P)}
+\end{align}
+が成り立つときである。
+
+\begin{definition}
+  ここで、$B_{\mathcal{C}}$は$\bU$の線形結合なので、
+  \begin{align}
+    B_{\mathcal{C}} = M_{\mathcal{C}}\bU
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+式\eqref{eq:cbc}に当てはめると、
+\begin{align}
+  B_{\mathcal{C}} &\equiv 0\\
+  \iff M_{\mathcal{C}}\bU &\equiv 0\\
+  \iff M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}
+\end{align}
+現在、この式は$\bmod{gcd(A_{\mathcal{C}}-1, P)}$上の方程式であるが、これを$\bmod{P}$上の方程式に持ち上げる。
+\begin{align}
+  M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}\\
+  \iff \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}M_{\mathcal{C}}V\cU &\equiv 0 \pmod{P}
+\end{align}
+
+実際のサイクルで考えてみる。
 まず、
 \begin{align}
   \HHX
@@ -581,49 +638,44 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}]\tr,\bU=
 \right)
 \end{align}
 である。
-列選択$[0,1]$について、
-\begin{align}
-  \cy{X}{[0,1]}{0} = 
-    f_0\rightarrow
-    f_1\rightarrow
-    f_0\rightarrow
-    f_2\rightarrow
-    f_0
-  \end{align}
-  となり、サイクルの関数$f_{\cy{X}{[0,1]}{0}}(x)$について
-\begin{align}
-    f_{\cy{X}{[0,1]}{0}}\inv(x) = 
-    f_0\inv
-    f_1
-    f_0\inv
-    f_2(x)
-\end{align}
-が成り立つ。
-ここで、$f_i(x) = a_{f,i}x + b_{f,i}$および$f_i\inv(x) = a_{f,i}\inv(x - b_{f,i})$であるから、
- \begin{align}
-    f_{\cy{X}{[0,1]}{0}}\inv(x) &= f_0\inv f_1f_0\inv f_2(x)\\
-    &= a_{f,0}\inv(a_{f,1}a_{f,0}\inv(a_{f,2}x + b_{f,2} - b_{f,0}) + b_{f,1} - b_{f,0})\\
-    &= a_{f,0}\inv a_{f,1}a_{f,0}\inv a_{f,2} x + a_{f,0}\inv a_{f,1}a_{f,0}\inv (b_{f,2} - b_{f,0}) + a_{f,0}\inv (b_{f,1} - b_{f,0})\\
-    &= a_{f,0}\inv a_{f,1}a_{f,0}\inv a_{f,2} x -  
-    a_{f,0}\inv (1+a_{f,1}a_{f,0}\inv)b_{f,0} + a_{f,0}\inv (b_{f,1}) + a_{f,0}\inv a_{f,1}a_{f,0}\inv (b_{f,2})
-\end{align}
-\begin{definition}
-  ここで、サイクル$\cy{X}{\ell}{0}$の関数$f_{\cy{X}{\ell}{0}}(x)$について、
+\begin{example}
+  
+  列選択[0,1]について
   \begin{align}
-    f_{\cy{X}{\ell}{0}}(x) = A_{\cy{X}{\ell}{0}}x+B_{\cy{X}{\ell}{0}}
+  \cy{X}{[0,1]}{0}=f_0\rightarrow f_1\rightarrow f_0\rightarrow f_2\rightarrow f_0
+\end{align}
+  なので、
+  \begin{align}
+    \ABCfour{\cy{X}{[0,1]}{0}}{f_0}{f_1}{f_0}{f_2}\\
   \end{align}
-  と表すこととする。
-\end{definition}
-つまり、
+
+  \begin{align}
+  B_{\cy{X}{[0,1]}{0}} &= 
+  \begin{bmatrix}
+    -a_{f_0}\inv(1+a_{f_1}a_{f_0}\inv) & a_{f_0}\inv & - a_{f_0}\inv a_{f_1}a_{f_0}\inv & 0 & 0 & 0
+  \end{bmatrix}
+  \bU
+\end{align}
+であるから、
 \begin{align}
-  A_{\cy{X}{[0,1]}{0}} &= a_{f,0}\inv a_{f,1}a_{f,0}\inv a_{f,2}\\
-  B_{\cy{X}{[0,1]}{0}} &= - a_{f,0}\inv (1+a_{f,1}a_{f,0}\inv)b_{f,0} + a_{f,0}\inv b_{f,1} + a_{f,0}\inv a_{f,1}a_{f,0}\inv b_{f,2}
+    M_{\cy{X}{[0,1]}{0}} =
+    \begin{bmatrix}
+      -a_{f_0}\inv(1+a_{f_1}a_{f_0}\inv) & a_{f_0}\inv & - a_{f_0}\inv a_{f_1}a_{f_0}\inv & 0 & 0 & 0
+  \end{bmatrix}
 \end{align}
 である。
-このブロックサイクルが閉でないための条件は、
-\begin{align}
-  B_{\cy{X}{[0,1]}{0}} \not\equiv 0 \pmod{\gcd(A_{\cy{X}{[0,1]}{0}}-1, P)}
+\end{example}
+        
+\begin{comment}
+  列選択[2,3]について
+  \begin{align}
+  \cy{X}{[2,3]}{0}=f_2\rightarrow g_0\rightarrow g_2\rightarrow f_1\rightarrow f_2
 \end{align}
+なので、
+\begin{align}
+\ABCfour{\cy{X}{[2,3]}{0}}{f_2}{g_0}{g_2}{f_1}\\
+\end{align}
+\end{comment}
 
 
 

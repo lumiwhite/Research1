@@ -1,12 +1,12 @@
 # Fdb version 4
-["dvipdf"] 1767923000.72322 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1767923002.1916 0
-  "out/Research_note.dvi" 1767923000 40240 1b07dee5088fc89b565af42a326d82c4 "latex"
+["dvipdf"] 1767929061.70382 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1767929062.61331 0
+  "out/Research_note.dvi" 1767929061 41808 4c6b75d5f74197b98070b40cd09e99c0 "latex"
   (generated)
   "out/Research_note.pdf"
   (rewritten before read)
-["latex"] 1767922999.33921 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1767923002.18319 0
-  "Research_note.tex" 1767922996 26325 9fd719c042e58f1f94914d531ea519a6 ""
-  "c:/Users/black/Research1/notes/Research_note.tex" 1767922996 26325 9fd719c042e58f1f94914d531ea519a6 ""
+["latex"] 1767929060.8147 "c:/Users/black/Research1/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1767929062.60859 0
+  "Research_note.tex" 1767929058 27284 06210e892d1a11807b6347a4ebabab33 ""
+  "c:/Users/black/Research1/notes/Research_note.tex" 1767929058 27284 06210e892d1a11807b6347a4ebabab33 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1759994995 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1759994644 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1760001104 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -82,8 +82,8 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1759993445 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1760002997 3337068 6d149afe652929fb95453c71bd786041 ""
   "c:/texlive/2025/texmf.cnf" 1760002729 713 e69b156964470283e0530f5060668171 ""
-  "command.tex" 1767921755 497 7970b81e67d4d9fb8baeb4f65ea065b4 ""
-  "out/Research_note.aux" 1767923000 3260 ee420a3ae1ab7870cf8546efa89d91c5 "latex"
+  "command.tex" 1767927011 1496 cd2a124c83954ad28faf4d2192c653c3 ""
+  "out/Research_note.aux" 1767929061 3583 93f146266d26b9b5f071448e6ca10c4b "latex"
   (generated)
   "out/Research_note.aux"
   "out/Research_note.dvi"
