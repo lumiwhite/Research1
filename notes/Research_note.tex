@@ -479,6 +479,56 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
 \subsection{条件\ref{condition:c}の分析}
 現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
 これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
+\begin{definition}
+  サイクル$\mathcal{C}$の関数$f_{\mathcal{C}}(x)$について、
+  \begin{align}
+    f_{\mathcal{C}}(x) = A_{\mathcal{C}}x+B_{\mathcal{C}}
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+
+\ref{ssec:is_cbc}節より、このブロックサイクルが閉とならないための条件は
+\begin{align}
+  B_{\mathcal{C}} \not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}
+\end{align}
+である。
+
+\begin{definition}
+  ここで、$B_{\mathcal{C}}$は$\bU$の線形結合なので、
+  \begin{align}
+    B_{\mathcal{C}} = V_{\mathcal{C}}\bU
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+式\eqref{eq:cbc}に当てはめると、
+\begin{align}
+  B_{\mathcal{C}} &\not\equiv 0\\
+  \iff V_{\mathcal{C}}\bU &\not\equiv 0\\
+  \iff V_{\mathcal{C}}V\cU &\not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}
+\end{align}
+現在、この式は$\bmod{gcd(A_{\mathcal{C}}-1, P)}$上の方程式であるが、これを$\bmod{P}$上の方程式に持ち上げる。
+\begin{align}
+  V_{\mathcal{C}}V\cU &\not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}\\
+  \iff \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}V_{\mathcal{C}}V\cU &\not\equiv 0 \pmod{P}\\
+  \iff V'_{\mathcal{C}}\cU &\not\equiv 0 \pmod{P}\left(V'_{\mathcal{C}} = \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}V_{\mathcal{C}}\right)
+\end{align}
+この式を複数のサイクルに関して考えた結果、$V'_{\mathcal{C}_1},V'_{\mathcal{C}_2},\dots$が生成されたとする。
+これを用いて、
+\begin{align}
+  M = \begin{bmatrix}
+    V'_{\mathcal{C}_1}\\
+    V'_{\mathcal{C}_2}\\
+    \vdots
+  \end{bmatrix}
+\end{align}
+とすると、条件\ref{condition:c}を満たすための必要条件は
+\begin{align}
+  M\cU \equiv \dU\pmod{P}
+\end{align}
+において、$\dU$の要素がすべて非ゼロであることである。
+
 \subsubsection{長さ4のサイクル}
 例として、長さ4のサイクル$\mathcal{C}$に関する方程式を考える。
 \begin{align}
@@ -498,78 +548,42 @@ $f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$で
 \end{align}
 とかける。
 
-\begin{definition}
-  ここで、サイクル$\mathcal{C}$の関数$f_(\mathcal{C})(x)$について、
-  \begin{align}
-    f_(\mathcal{C})(x) = A_(\mathcal{C})x+B_(\mathcal{C})
-  \end{align}
-  と表すこととする。
-\end{definition}
-
 この表現を用いると、
 \begin{align}
   \ABCfour{\mathcal{C}}{f}{g}{h}{l}\\
 \end{align}
 と書ける。
 
-\ref{ssec:is_cbc}節より、このブロックサイクルが閉となるのは
-\begin{align}
-  B_(\mathcal{C}) \equiv 0 \pmod{\gcd(A_(\mathcal{C})-1, P)}
-\end{align}
-が成り立つときである。
-
-\begin{definition}
-  ここで、$B_{\mathcal{C}}$は$\bU$の線形結合なので、
-  \begin{align}
-    B_{\mathcal{C}} = M_{\mathcal{C}}\bU
-  \end{align}
-  と表すこととする。
-\end{definition}
-
-式\eqref{eq:cbc}に当てはめると、
-\begin{align}
-  B_{\mathcal{C}} &\equiv 0\\
-  \iff M_{\mathcal{C}}\bU &\equiv 0\\
-  \iff M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}
-\end{align}
-現在、この式は$\bmod{gcd(A_{\mathcal{C}}-1, P)}$上の方程式であるが、これを$\bmod{P}$上の方程式に持ち上げる。
-\begin{align}
-  M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}\\
-  \iff \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}M_{\mathcal{C}}V\cU &\equiv 0 \pmod{P}
-\end{align}
-
 実際のサイクルで考えてみる。
-まず、
-\begin{align}
-  \HHX
+\begin{example}
+  まず、
+  \begin{align}
+    \HHX
+    &= \left(
+      \begin{array}{ccc||ccc}
+      f_0 & f_1 & f_2 & g_0 & g_1 & g_2 \\\hline
+      f_2 & f_0 & f_1 & g_2 & g_0 & g_1
+  \end{array}
+  \right)
+  \end{align}
+  \begin{align}
+  \HHZ 
   &= \left(
     \begin{array}{ccc||ccc}
-    f_0 & f_1 & f_2 & g_0 & g_1 & g_2 \\\hline
-    f_2 & f_0 & f_1 & g_2 & g_0 & g_1
-\end{array}
-\right)
-\end{align}
-\begin{align}
-\HHZ 
-&= \left(
-  \begin{array}{ccc||ccc}
-  g_0\inv & g_{2}\inv & g_{1}\inv & f_0\inv & f_{2}\inv & f_{1}\inv \\\hline
-  g_1\inv & g_0\inv & g_{2}\inv & f_1\inv & f_0\inv & f_{2}\inv
-\end{array}
-\right)
-\end{align}
-である。
-\begin{example}
-  
+    g_0\inv & g_{2}\inv & g_{1}\inv & f_0\inv & f_{2}\inv & f_{1}\inv \\\hline
+    g_1\inv & g_0\inv & g_{2}\inv & f_1\inv & f_0\inv & f_{2}\inv
+  \end{array}
+  \right)
+  \end{align}
+  である。
   列選択[0,1]について
   \begin{align}
-  \cy{X}{[0,1]}{0}=f_0\rightarrow f_1\rightarrow f_0\rightarrow f_2\rightarrow f_0
-\end{align}
+    \cy{X}{[0,1]}{0}=f_0\rightarrow f_1\rightarrow f_0\rightarrow f_2\rightarrow f_0
+  \end{align}
   なので、
   \begin{align}
     \ABCfour{\cy{X}{[0,1]}{0}}{f_0}{f_1}{f_0}{f_2}\\
   \end{align}
-
   \begin{align}
   B_{\cy{X}{[0,1]}{0}} &= 
   \begin{bmatrix}
@@ -579,7 +593,7 @@ $f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$で
 \end{align}
 であるから、
 \begin{align}
-    M_{\cy{X}{[0,1]}{0}} =
+    V_{\cy{X}{[0,1]}{0}} =
     \begin{bmatrix}
       -a_{f_0}\inv(1+a_{f_1}a_{f_0}\inv) & a_{f_0}\inv & - a_{f_0}\inv a_{f_1}a_{f_0}\inv & 0 & 0 & 0
   \end{bmatrix}

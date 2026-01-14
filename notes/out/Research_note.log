@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  12 JAN 2026 23:44
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  14 JAN 2026 14:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -519,13 +519,13 @@ Overfull \hbox (7.703pt too wide) in paragraph at lines 415--416
 
 [9] Excluding 'comment' comment.
 LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <10> not available
-(Font)              Font shape `JT1/mc/m/n' tried instead on input line 604.
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 618.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 604.
+(Font)              scaled to size 9.60999pt on input line 618.
 LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <10> not available
-(Font)              Font shape `JY1/mc/m/n' tried instead on input line 604.
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 618.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 604.
+(Font)              scaled to size 9.60999pt on input line 618.
 
 
 [10]
@@ -553,6 +553,6 @@ Here is how much of TeX's memory you used:
  38684 multiletter control sequences out of 15000+600000
  705239 words of font info for 147 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 72i,14n,79p,580b,804s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,15n,79p,580b,697s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on out/Research_note.dvi (13 pages, 63788 bytes).
+Output written on out/Research_note.dvi (13 pages, 64960 bytes).
