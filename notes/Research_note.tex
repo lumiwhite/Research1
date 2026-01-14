@@ -6,7 +6,11 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{bm}
-
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
 % --- 定理・定義環境 ---
 \theoremstyle{definition}
 \newtheorem{definition}{定義}[section]
@@ -15,6 +19,7 @@
 \newtheorem{assumption}{仮定}
 \newtheorem{proposition}[definition]{命題}
 \newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
 \input{command.tex}
 % =========================================
 \begin{document}
@@ -23,14 +28,15 @@
 \author{黒澤雅治}
 \date{2025/12/21}
 \maketitle
+\tableofcontents
+\clearpage
+\section{\texorpdfstring{$\fU, \gU$}{fU, gU}の条件を満たす解空間の特定}
 
-\section{$\fU, \gU$の条件を満たす解空間の特定}
-
-\subsection{$\fU, \gU$の満たすべき条件}
-\begin{enumerate}
+\subsection{\texorpdfstring{$\fU, \gU$}{fU, gU}の満たすべき条件}
+\begin{enumerate}[label=\Alph*., ref=\Alph*]
   \item 要請\ref{req:1}を満たす。
-    つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)
-  \item ある$i\neq j$について、$f_i$と$f_j$は可換でない。$g$についても同様。
+    つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)\label{condition:a}
+  \item ある$i\neq j$について、$f_i$と$f_j$は可換でない。$g$についても同様。\label{condition:b}
   \item UTCBC$\uU(k)\text{ for }k\in\{0,1,2\}$以外に長さ$2L$以下の閉ブロックサイクルを含まない。\label{condition:c}
 \end{enumerate}
 
@@ -47,6 +53,71 @@
  & \text{すべての $\ell \in [L/2]$ および $j \in \{0,\pm 1,\ldots,\pm (J-1)\}$ に対して$g_\ell$ は $f_{- \ell + j}$ と可換である。}
 \end{align}
 \end{requirement}
+
+\subsection{可換性条件の分析}\label{ssec:analyzeCondA}
+\begin{definition}
+  関数$f$の係数を
+  \begin{align}
+    f = a_f x + b_f
+  \end{align}で表す。($a_f,b_f\in[P],\quad \gcd(a_f, P) = 1$)
+\end{definition}
+可換性条件は、すべての$x\in[P]$に対して
+\begin{align}
+  &f(g(x)) = g(f(x))\\
+  \iff &a_f(a_g x+b_g )+b_f = a_g (a_fx+b_f)+b_g \\
+  \iff &a_fa_g x + a_fb_g  + b_f = a_g a_fx + a_g b_f + b_g \\
+  \iff &a_fb_g  + b_f = a_g b_f + b_g \\
+  \iff &(a_f-1)b_g  = (a_g -1)b_f\label{eq:original}
+\end{align}
+が成り立つことである。
+式\eqref{eq:original}を、$b_g $に関する方程式とみなす。
+この方程式は$\pmod{P}$上の1次合同方程式であることに注意する。
+$A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加法成分 $b_g$ に関する1次合同方程式
+\begin{align}
+    A b_g \equiv C \pmod P
+\end{align}
+の解は以下の通りである。
+
+\subsubsection*{ケース1：$a_f \neq 1$ かつ $a_g \neq 1$ の場合}
+\begin{itemize}
+    \item \textbf{$\gcd(A, P) = 1$ のとき} \\
+    解は法 $P$ において一意に定まる。
+    \begin{align}
+        b_g \equiv A^{-1}C \pmod P
+    \end{align}
+    \item \textbf{$\gcd(A, P) = d > 1$ のとき}
+    \begin{itemize}
+        \item $C \not\equiv 0 \pmod d$ ならば、\textbf{解なし}。
+        \item $C \equiv 0 \pmod d$ ならば、法 $P$ において以下の $d$ 個の解が存在する。
+        \begin{align}
+            b_g \equiv x_0 + n \frac{P}{d} \pmod P \quad (n = 0, 1, \dots, d-1)
+        \end{align}
+        ただし、$x_0$ は法 $P/d$ における合同方程式 $(A/d)x \equiv (C/d) \pmod{P/d}$ の一意な解である。
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{ケース2：$a_f = 1$ かつ $a_g \neq 1$ の場合}
+\begin{itemize}
+    \item \textbf{$C \equiv 0 \pmod P$ のとき} \\
+    任意の $b_g \in [P]$ が解となる（全解）。
+    \item \textbf{$C \not\equiv 0 \pmod P$ のとき} \\
+    \textbf{解なし}。
+\end{itemize}
+
+\subsubsection*{ケース3：$a_g = 1$ の場合（$C = 0$）}
+\begin{itemize}
+    \item \textbf{$a_f = 1$ のとき} \\
+    任意の $b_g \in [P]$ が解となる。
+    \item \textbf{$a_f \neq 1$ のとき}
+    \begin{itemize}
+        \item $\gcd(A, P) = 1$ ならば、\textbf{$b_g \equiv 0 \pmod P$} のみ。
+        \item $\gcd(A, P) = d > 1$ ならば、以下の $d$ 個の解が存在する。
+        \begin{align}
+            b_g \equiv n \frac{P}{d} \pmod P \quad (n = 0, 1, \dots, d-1)
+        \end{align}
+    \end{itemize}
+\end{itemize}
+詳細な導出は付録\ref{app:proof2}を参照。
 
 \subsection{サイクル}\label{ssec:cycle}
 サイクルは、$L$列から偶数個の列を選び、開始行を指定することで一意に特定される。
@@ -101,119 +172,18 @@ $\ell=[a,b,c,d]$を2つシフトした$S^2(\ell)=[c,d,a,b]$について、
 ここで、$[1,2,3,3,2,5]$のような形の場合、同じ列を取り除いた結果、$[1,2,2,5]$のように同じ列の連続が生じることもあることに注意する。
 また、今回サイクルを形成する列選択なので、$[1,2,3,4,3,1]$のように先頭と最後の要素が等しいときも、$[2,3,4,3]$と同一視することができる。
 
-\subsection{条件\ref{condition:c}で検査する列シーケンスの個数}
-\ref{ssec:samecycle}節に基づき、検査する必要のある列シーケンスの個数を考える。
-ここでは、隣り合う要素が異なり、かつ始点と終点が異なる（円環状に接続された）長さ$L$の列シーケンスを考える。使用できる列の総数を$k=6$とする。
-
-\begin{theorem}
-  円環状に並べた際に隣り合うものが異なる列シーケンスの総数は、 
-  \[
-    (k-1)^L + (-1)^L(k-1)
-  \]
-  で表される。
-  ただし、$L$は列シーケンスの長さ、$k$は列の選択肢の数。
-\end{theorem}
-\begin{proof}
-  まず、円環状にする前の、長さ$n$の直線の列$x_1, x_2, \dots, x_n$を考える。隣り合う要素$x_i, x_{i+1}$は常に異なるとする。
-  この直線の列全体における色の塗り分けの総数は、先頭$x_1$が$k$通り、それ以降の$x_2, \dots, x_n$がそれぞれ直前の要素と異なるため$k-1$通りであることから、
-  \begin{align}
-    W_n = k(k-1)^{n-1}
-  \end{align}
-  である。
-
-  ここで、$W_n$を以下の2つのケースに分割する。
-  \begin{itemize}
-    \item $a_n$：始点と終点が同じ色である場合の数 ($x_1 = x_n$)
-    \item $b_n$：始点と終点が異なる色である場合の数 ($x_1 \neq x_n$)
-  \end{itemize}
-  すなわち、
-  \begin{align}
-    a_n + b_n = k(k-1)^{n-1} \label{eq:total}
-  \end{align}
-  である。円環状に接続した際に条件を満たすのは、$x_1 \neq x_n$ の場合であるため、求める値は$b_L$となる。
-
-  次に、$n$から$n+1$への漸化式を考える。長さ$n$の列に、条件を満たすように新たな要素$x_{n+1}$を追加する。
-  \begin{enumerate}
-    \item $x_1 = x_{n+1}$ となる場合（$a_{n+1}$を構成する場合）：
-    $x_{n+1}$は$x_n$と異なる必要がある。また、$x_{n+1}$は$x_1$と同じ色になるため、必然的に$x_n \neq x_1$でなければならない。
-    つまり、$x_1 \neq x_n$である状態（$b_n$通り）の末尾に、$x_1$と同じ色（1通り）を追加する場合のみ発生する。
-    \begin{align}
-      a_{n+1} = b_n \times 1 = b_n \label{eq:rec_a}
-    \end{align}
-    
-    \item $x_1 \neq x_{n+1}$ となる場合（$b_{n+1}$を構成する場合）：
-    これは全事象から$a_{n+1}$を引いたものである。式(\ref{eq:total})より、
-    \begin{align}
-      b_{n+1} = k(k-1)^n - a_{n+1}
-    \end{align}
-  \end{enumerate}
-
-  式(\ref{eq:rec_a})を代入すると、以下の$b_n$に関する漸化式が得られる。
-  \begin{align}
-    b_{n+1} = k(k-1)^n - b_n
-  \end{align}
-  この漸化式を解く。
-  \begin{align}
-    b_{n+1} - (k-1)^{n+1} &= -(b_n - (k-1)^n) \\
-    b_n - (k-1)^n &= (-1)^{n-2} (b_2 - (k-1)^2)
-  \end{align}
-  ここで、$n=2$の場合、隣り合う要素は異なるため必ず$x_1 \neq x_2$となる。よって$a_2 = 0, b_2 = k(k-1)$である。
-  \begin{align}
-    b_2 - (k-1)^2 &= k(k-1) - (k-1)^2 \\
-    &= (k-1)(k - (k-1)) \\
-    &= k-1
-  \end{align}
-  したがって、
-  \begin{align}
-    b_n - (k-1)^n &= (-1)^{n-2}(k-1) \\
-    b_n &= (k-1)^n + (-1)^n(k-1)
-  \end{align}
-  以上より、長さ$L$の円環状の列シーケンスの総数は $(k-1)^L + (-1)^L(k-1)$ となる。
-\end{proof}
-まず、$L=6$の場合を考える。
-$k=6, L=6$を代入すると、
-  \begin{align}
-    5^6 + 5 = 15630
-  \end{align}
-  通りとなる。
-\ref{para:shift}節を考慮し、シフトにより重なるものを同一視する。この際、周期的なパターン（$ababab$のような周期2の列や、$abcabc$のような周期3の列）は、シフトにより生成される同値類のサイズが小さくなるため、区別して数える必要がある。
-\begin{itemize}
-  \item 周期2の列（例：$ababab$）：$a,b$の選び方は$6 \times 5 = 30$通り。これらはシフトにより2つの列と同一視されるため、検査対象は$30/2 = 15$通り。
-  \item 周期3の列（例：$abcabc$）：$a,b,c$が条件を満たす選び方は $5^3 - 5 = 120$通り。これらはシフトにより3つの列と同一視されるため、検査対象は$120/3 = 40$通り。
-  \item 周期6の列（上記のいずれでもないもの）：総数から周期的な列を除くと $15630 - 30 - 120 = 15480$通り。これらはシフトにより6つの列と同一視されるため、検査対象は $15480/6 = 2580$通り。
-\end{itemize}
-以上より、検査すべき列シーケンスは $15 + 40 + 2580 = 2635$通りとなる。
-
-次に、$L=4$の場合を考える。
-同様に列シーケンス（始点指定あり）の総数は、
-\begin{align}
-  5^4 + 5 = 630
-\end{align}
-通りとなる。シフトによる同一視を考慮する。
-\begin{itemize}
-  \item 周期2の列（例：$abab$）：$6 \times 5 = 30$通り。シフトにより2つの列と同一視されるため、$30/2 = 15$通り。
-  \item 周期4の列（周期2でないもの）：$630 - 30 = 600$通り。シフトにより4つの列と同一視されるため、$600/4 = 150$通り。
-\end{itemize}
-以上より、検査すべき列シーケンスは $15 + 150 = 165$通りとなる。
-
-最後に、$L=2$の場合を考える。
-列シーケンス（始点指定あり）の総数は、
-\begin{align}
-  5^2 + 5 = 30
-\end{align}
-通りとなる。
-周期1の列（$aa$）は条件を満たさないため存在しない。すべての列が周期2（最小周期が長さと一致）であるため、単純に$L=2$で割ることができる。
-検査すべき列シーケンスは $30/2 = 15$通りとなる。
-
-以上より、検査する列シーケンスの総数は$2635+165+15=2815$通り。
-
 \subsection{UTCBC}
+ここでサイクルの表記を定義する。
+\begin{definition}
+  行列$\HHX(\HHZ)$における、列選択$\ell$、開始行0(1)行目のサイクルを
+  $\cy{X(Z)}{\ell}{0(1)}$で表す
+\end{definition}
 論文では、開始行が0行目であるとき、列選択
-$[0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
+$\ell = [0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
 からなるサイクルがUTCBCであることが示されている。
 確認として、開始行が1行目の場合についても考える。
 \begin{align}
-  \uU(j)_1 = 
+  \cy{X}{\ell}{1} = 
   f_2
   \rightarrow g_{j-1}
   \rightarrow g_{j}
@@ -229,7 +199,7 @@ $[0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
   \rightarrow f_2
 \end{align}
 \begin{align}
-  f_{\uU(j)_1}(x) &= 
+  f_{\cy{X}{\ell}{1}}(x) &= 
   (
     f_0\inv
     g_{j+1}
@@ -269,6 +239,67 @@ $[0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
   )(x)=x
 \end{align}
 よって、開始行に関わらず、この列選択から構成されるサイクルはUTCBCである。
+
+\subsection{条件\ref{condition:c}で検査する列シーケンスの個数}
+\ref{ssec:samecycle}節に基づき、検査する必要のある列シーケンスの個数を考える。
+ここでは、隣り合う要素が異なり、かつ始点と終点が異なる（円環状に接続された）長さ$L$の列シーケンスを考える。使用できる列の総数を$k=6$とする。
+
+\begin{theorem}\label{th:numberOfSequence}
+  円環状に並べた際に隣り合うものが異なる列シーケンスの総数は、 
+  \[
+    (k-1)^L + (-1)^L(k-1)
+  \]
+  で表される。
+  ただし、$L$は列シーケンスの長さ、$k$は列の選択肢の数。
+\end{theorem}
+証明は、付録\ref{app:proof1}を参照。
+まず、$L=6$の場合を考える。
+$k=6, L=6$を代入すると、
+  \begin{align}
+    5^6 + 5 = 15630
+  \end{align}
+  通りとなる。
+\ref{para:shift}節を考慮し、シフトにより重なるものを同一視する。この際、周期的なパターン（$ababab$のような周期2の列や、$abcabc$のような周期3の列）は、シフトにより生成される同値類のサイズが小さくなるため、区別して数える必要がある。
+\begin{itemize}
+  \item 周期2の列（例：$ababab$）：$a,b$の選び方は$6 \times 5 = 30$通り。これらはシフトにより2つの列と同一視されるため、検査対象は$30/2 = 15$通り。
+  \item 周期3の列（例：$abcabc$）：$a,b,c$が条件を満たす選び方は $5^3 - 5 = 120$通り。これらはシフトにより3つの列と同一視されるため、検査対象は$120/3 = 40$通り。
+  \item 周期6の列（上記のいずれでもないもの）：総数から周期的な列を除くと $15630 - 30 - 120 = 15480$通り。これらはシフトにより6つの列と同一視されるため、検査対象は $15480/6 = 2580$通り。
+\end{itemize}
+以上より、検査すべき列シーケンスは $15 + 40 + 2580 = 2635$通りとなる。
+
+次に、$L=4$の場合を考える。
+同様に列シーケンス（始点指定あり）の総数は、
+\begin{align}
+  5^4 + 5 = 630
+\end{align}
+通りとなる。シフトによる同一視を考慮する。
+\begin{itemize}
+  \item 周期2の列（例：$abab$）：$6 \times 5 = 30$通り。シフトにより2つの列と同一視されるため、$30/2 = 15$通り。
+  \item 周期4の列（周期2でないもの）：$630 - 30 = 600$通り。シフトにより4つの列と同一視されるため、$600/4 = 150$通り。
+\end{itemize}
+以上より、検査すべき列シーケンスは $15 + 150 = 165$通りとなる。
+
+最後に、$L=2$の場合を考える。
+列シーケンス（始点指定あり）の総数は、
+\begin{align}
+  5^2 + 5 = 30
+\end{align}
+通りとなる。
+周期1の列（$aa$）は条件を満たさないため存在しない。すべての列が周期2（最小周期が長さと一致）であるため、単純に$L=2$で割ることができる。
+検査すべき列シーケンスは $30/2 = 15$通りとなる。
+
+以上より、検査する列シーケンスの総数は$2635+165+15=2815$通り。
+
+\subsection{ブロックサイクルが閉かどうかの判定}\label{ssec:is_cbc}
+サイクルの関数が$f(x)=ax+b$であるとする。
+このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
+よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
+この条件は、
+\begin{align}
+  b \equiv 0 \pmod{\gcd(a-1, P)}\label{eq:cbc}
+\end{align}
+と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
+$a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
 
 \subsection{$\HHX$におけるチェックと$\HHZ$におけるチェックの等価性}
 これは証明ができていない(そもそも等価かわからない)ので現時点では両方をチェック。
@@ -365,28 +396,280 @@ f_2\inv(x)
 \end{align}
 \end{comment}
 
-\subsection{可換性条件の分析}
-$f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
-可換性条件は、すべての$x\in[P]$に対して
-\begin{align}
-  &f(g(x)) = g(f(x))\\
-  \iff &a_1(a_2x+b_2)+b_1 = a_2(a_1x+b_1)+b_2\\
-  \iff &a_1a_2x + a_1b_2 + b_1 = a_2a_1x + a_2b_1 + b_2\\
-  \iff &a_1b_2 + b_1 = a_2b_1 + b_2\\
-  \iff &(a_1-1)b_2 = (a_2-1)b_1\label{eq:original}
-\end{align}
-式\ref{eq:original}を、$b_2$に関する方程式とみなす。
-この方程式は$\pmod{P}$上の1次合同方程式であることに注意する。
-\paragraph{$a_1\neq1$かつ$a_2\neq1$のとき\\}
-  $\gcd(a_1-1, P)=1$のとき、$(a_1-1)\inv$が存在するので、$b_2=(a_1-1)\inv(a_2-1)b_1$により解が一意に決まる。
+\subsection{行列を用いた条件\ref{condition:a},\ref{condition:b}を満たす解空間の特定}
 
-  $\gcd(a_1-1, P)=d>1$のとき、
+条件\ref{condition:a},\ref{condition:b}を式に表すと以下である。
+\begin{itemize}
+  \item 条件\ref{condition:a}:
   \begin{align}
-      A &= a_1 - 1 \\
-      C &= (a_2 - 1)b_1 \\
-      x &= b_2
+    (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
+  \end{align}
+  \item 条件\ref{condition:b}:
+  \begin{align}
+    (a_{f_i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f_i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
+    (a_{g,i} - 1)b_{g_j} - (a_{g_j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
+  \end{align}
+\end{itemize}
+
+\begin{definition}
+$\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=[\bU_f, \bU_g]\tr=[b_{f_0},b_{f_1},b_{f_2},b_{g_0},b_{g_1},b_{g_2}]\tr$とする。
+\end{definition}
+
+\begin{definition}
+  行列を以下のように定義する。
+  \begin{align}
+  G_a &= \begin{bmatrix}
+        1-a_{g_0} & 0 & 0 & a_{f_0}-1 & 0 & 0\\ %i=0,j=0
+        1-a_{g_1} & 0 & 0 & 0 & a_{f_0}-1 & 0\\ %i=0,j=1
+        1-a_{g_2} & 0 & 0 & 0 & 0 & a_{f_0}-1\\ %i=0,j=2
+        0 & 1-a_{g_0} & 0 & a_{f_1}-1 & 0 & 0\\ %i=1,j=0
+        0 & 1-a_{g_1} & 0 & 0 & a_{f_1}-1 & 0\\ %i=1,j=1
+        0 & 1-a_{g_2} & 0 & 0 & 0 & a_{f_1}-1\\ %i=1,j=2
+        0 & 0 & 1-a_{g_0} & a_{f_2}-1 & 0 & 0\\ %i=2,j=0
+        0 & 0 & 1-a_{g_1} & 0 & a_{f_2}-1 & 0\\ %i=2,j=1
+        0 & 0 & 1-a_{g_2} & 0 & 0 & a_{f_2}-1\\ %i=2,j=2
+  \end{bmatrix}\\
+  G_{b,f} &= \begin{bmatrix}
+        1-a_{f_1} & a_{f_0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
+        1-a_{f_2} & 0 & a_{f_0}-1 & 0 & 0 & 0\\ %i=0,j=2
+        0 & 1-a_{f_2} & a_{f_1}-1 & 0 & 0 & 0\\ %i=1,j=2
+  \end{bmatrix}\\
+  G_{b,g} &= \begin{bmatrix}
+        0 & 0 & 0 & 1-a_{g_1} & a_{g_0}-1 & 0\\ %i=0,j=1
+        0 & 0 & 0 & 1-a_{g_2} & 0 & a_{g_0}-1\\ %i=0,j=2
+        0 & 0 & 0 & 0 & 1-a_{g_2} & a_{g_1}-1\\ %i=1,j=2
+  \end{bmatrix}
+\end{align}
+
+\end{definition}
+
+これを用いると、条件\ref{condition:a}は以下で表される。
+\begin{align}\label{eq:cond_a_mat}
+  G_a\bU \equiv O \pmod P
+\end{align}
+これを用いると、条件\ref{condition:b}は以下で表される。
+\begin{align}
+  G_{b,f} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_f1}\\
+  G_{b,g} \bU \not\equiv \zeroU \pmod P\label{eq:cond_b_mat_g1}
+\end{align}
+
+まずは、$\aU$を定数として固定した状態で条件a,bを満たす$\bU$の解空間を特定することを考える。
+まずは簡単のため、$a_{f_i}\neq 0$、$a_{g,i}\neq 0$として考える。
+式\eqref{eq:cond_a_mat}を解くと、基底$\vU_0,\dots,\vU_5$及係数$\cU=[c_0,\dots,c_5]\tr$により、解空間として
+\begin{align}
+  \bU = \sum_{j=0}^5 c_j \vU_j = V\cU
+\end{align}
+が求められる。ただし、$V=[\vU_0,\dots,\vU_5^\top],c_i\in[P]$である。
+
+これにより、式\eqref{eq:cond_b_mat_f1}と\eqref{eq:cond_b_mat_g1}は
+\begin{align}
+  G_{b,f}V\cU &\not\equiv \zeroU\label{eq:cond_b_mat_f2}\\
+  \iff M_f\cU &\not\equiv \zeroU\label{eq:cond_b_mat_f3}
+  (M_f = G_{b,f}V)\\
+  G_{b,g}V\cU &\not\equiv \zeroU\label{eq:cond_b_mat_g2}\\
+  \iff M_g\cU &\not\equiv \zeroU\label{eq:cond_b_mat_g3}
+  (M_g = G_{b,g}V)\\
+\end{align}
+
+
+
+これを$\equiv \zeroU$として解くことで、条件\ref{condition:b}を満たさない係数$\cU$の空間が決定し、これを避けることで条件\ref{condition:a},\ref{condition:b}を満たす$\aU,\bU$が求まる。
+ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
+
+\subsection{条件\ref{condition:c}の分析}
+現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
+これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
+\subsubsection{長さ4のサイクル}
+例として、長さ4のサイクル$\mathcal{C}$に関する方程式を考える。
+\begin{align}
+  \mathcal{C} = f\rightarrow g\rightarrow h\rightarrow l\rightarrow f
+\end{align}
+とすると、
+\begin{align}
+  f_{\mathcal{C}}\inv(x) = 
+  f\inv g h\inv l(x)
+\end{align}
+であり、
+$f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$であるから、
+ \begin{align}
+    f_{\mathcal{C}}\inv(x) &= f\inv f h\inv l(x)\\
+    &= a_f\inv(a_g a_h\inv(a_l x + b_l - b_h) + b_g - b_f)\\
+    &= a_f\inv a_g a_h\inv a_l x + a_f\inv(b_g - b_f) + a_f\inv a_g a_h\inv (b_l - b_h)\\
+\end{align}
+とかける。
+
+\begin{definition}
+  ここで、サイクル$\mathcal{C}$の関数$f_(\mathcal{C})(x)$について、
+  \begin{align}
+    f_(\mathcal{C})(x) = A_(\mathcal{C})x+B_(\mathcal{C})
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+この表現を用いると、
+\begin{align}
+  \ABCfour{\mathcal{C}}{f}{g}{h}{l}\\
+\end{align}
+と書ける。
+
+\ref{ssec:is_cbc}節より、このブロックサイクルが閉となるのは
+\begin{align}
+  B_(\mathcal{C}) \equiv 0 \pmod{\gcd(A_(\mathcal{C})-1, P)}
+\end{align}
+が成り立つときである。
+
+\begin{definition}
+  ここで、$B_{\mathcal{C}}$は$\bU$の線形結合なので、
+  \begin{align}
+    B_{\mathcal{C}} = M_{\mathcal{C}}\bU
+  \end{align}
+  と表すこととする。
+\end{definition}
+
+式\eqref{eq:cbc}に当てはめると、
+\begin{align}
+  B_{\mathcal{C}} &\equiv 0\\
+  \iff M_{\mathcal{C}}\bU &\equiv 0\\
+  \iff M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}
+\end{align}
+現在、この式は$\bmod{gcd(A_{\mathcal{C}}-1, P)}$上の方程式であるが、これを$\bmod{P}$上の方程式に持ち上げる。
+\begin{align}
+  M_{\mathcal{C}}V\cU &\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}\\
+  \iff \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}M_{\mathcal{C}}V\cU &\equiv 0 \pmod{P}
+\end{align}
+
+実際のサイクルで考えてみる。
+まず、
+\begin{align}
+  \HHX
+  &= \left(
+    \begin{array}{ccc||ccc}
+    f_0 & f_1 & f_2 & g_0 & g_1 & g_2 \\\hline
+    f_2 & f_0 & f_1 & g_2 & g_0 & g_1
+\end{array}
+\right)
+\end{align}
+\begin{align}
+\HHZ 
+&= \left(
+  \begin{array}{ccc||ccc}
+  g_0\inv & g_{2}\inv & g_{1}\inv & f_0\inv & f_{2}\inv & f_{1}\inv \\\hline
+  g_1\inv & g_0\inv & g_{2}\inv & f_1\inv & f_0\inv & f_{2}\inv
+\end{array}
+\right)
+\end{align}
+である。
+\begin{example}
+  
+  列選択[0,1]について
+  \begin{align}
+  \cy{X}{[0,1]}{0}=f_0\rightarrow f_1\rightarrow f_0\rightarrow f_2\rightarrow f_0
+\end{align}
+  なので、
+  \begin{align}
+    \ABCfour{\cy{X}{[0,1]}{0}}{f_0}{f_1}{f_0}{f_2}\\
+  \end{align}
+
+  \begin{align}
+  B_{\cy{X}{[0,1]}{0}} &= 
+  \begin{bmatrix}
+    -a_{f_0}\inv(1+a_{f_1}a_{f_0}\inv) & a_{f_0}\inv & - a_{f_0}\inv a_{f_1}a_{f_0}\inv & 0 & 0 & 0
+  \end{bmatrix}
+  \bU
+\end{align}
+であるから、
+\begin{align}
+    M_{\cy{X}{[0,1]}{0}} =
+    \begin{bmatrix}
+      -a_{f_0}\inv(1+a_{f_1}a_{f_0}\inv) & a_{f_0}\inv & - a_{f_0}\inv a_{f_1}a_{f_0}\inv & 0 & 0 & 0
+  \end{bmatrix}
+\end{align}
+である。
+\end{example}
+        
+\begin{comment}
+  列選択[2,3]について
+  \begin{align}
+  \cy{X}{[2,3]}{0}=f_2\rightarrow g_0\rightarrow g_2\rightarrow f_1\rightarrow f_2
+\end{align}
+なので、
+\begin{align}
+\ABCfour{\cy{X}{[2,3]}{0}}{f_2}{g_0}{g_2}{f_1}\\
+\end{align}
+\end{comment}
+
+\begin{appendix}
+\section{定理\ref{th:numberOfSequence}の証明}\label{app:proof1}
+\begin{proof}
+  まず、円環状にする前の、長さ$n$の直線の列$x_1, x_2, \dots, x_n$を考える。隣り合う要素$x_i, x_{i+1}$は常に異なるとする。
+  この直線の列全体における色の塗り分けの総数は、先頭$x_1$が$k$通り、それ以降の$x_2, \dots, x_n$がそれぞれ直前の要素と異なるため$k-1$通りであることから、
+  \begin{align}
+    W_n = k(k-1)^{n-1}
+  \end{align}
+  である。
+
+  ここで、$W_n$を以下の2つのケースに分割する。
+  \begin{itemize}
+    \item $a_n$：始点と終点が同じ色である場合の数 ($x_1 = x_n$)
+    \item $b_n$：始点と終点が異なる色である場合の数 ($x_1 \neq x_n$)
+  \end{itemize}
+  すなわち、
+  \begin{align}
+    a_n + b_n = k(k-1)^{n-1} \label{eq:total}
+  \end{align}
+  である。円環状に接続した際に条件を満たすのは、$x_1 \neq x_n$ の場合であるため、求める値は$b_L$となる。
+
+  次に、$n$から$n+1$への漸化式を考える。長さ$n$の列に、条件を満たすように新たな要素$x_{n+1}$を追加する。
+  \begin{enumerate}
+    \item $x_1 = x_{n+1}$ となる場合（$a_{n+1}$を構成する場合）：
+    $x_{n+1}$は$x_n$と異なる必要がある。また、$x_{n+1}$は$x_1$と同じ色になるため、必然的に$x_n \neq x_1$でなければならない。
+    つまり、$x_1 \neq x_n$である状態（$b_n$通り）の末尾に、$x_1$と同じ色（1通り）を追加する場合のみ発生する。
+    \begin{align}
+      a_{n+1} = b_n \times 1 = b_n \label{eq:rec_a}
+    \end{align}
+    
+    \item $x_1 \neq x_{n+1}$ となる場合（$b_{n+1}$を構成する場合）：
+    これは全事象から$a_{n+1}$を引いたものである。式(\eqref{eq:total})より、
+    \begin{align}
+      b_{n+1} = k(k-1)^n - a_{n+1}
+    \end{align}
+  \end{enumerate}
+
+  式(\eqref{eq:rec_a})を代入すると、以下の$b_n$に関する漸化式が得られる。
+  \begin{align}
+    b_{n+1} = k(k-1)^n - b_n
+  \end{align}
+  この漸化式を解く。
+  \begin{align}
+    b_{n+1} - (k-1)^{n+1} &= -(b_n - (k-1)^n) \\
+    b_n - (k-1)^n &= (-1)^{n-2} (b_2 - (k-1)^2)
+  \end{align}
+  ここで、$n=2$の場合、隣り合う要素は異なるため必ず$x_1 \neq x_2$となる。よって$a_2 = 0, b_2 = k(k-1)$である。
+  \begin{align}
+    b_2 - (k-1)^2 &= k(k-1) - (k-1)^2 \\
+    &= (k-1)(k - (k-1)) \\
+    &= k-1
+  \end{align}
+  したがって、
+  \begin{align}
+    b_n - (k-1)^n &= (-1)^{n-2}(k-1) \\
+    b_n &= (k-1)^n + (-1)^n(k-1)
+  \end{align}
+  以上より、長さ$L$の円環状の列シーケンスの総数は $(k-1)^L + (-1)^L(k-1)$ となる。
+\end{proof}
+
+\section{\ref{ssec:analyzeCondA}の解の導出}
+
+\paragraph{$a_f\neq1$かつ$a_g \neq1$のとき\\}
+  $\gcd(a_f-1, P)=1$のとき、$(a_f-1)\inv$が存在するので、$b_g =(a_f-1)\inv(a_g -1)b_f$により解が一意に決まる。
+
+  $\gcd(a_f-1, P)=d>1$のとき、
+  \begin{align}
+      A &= a_f - 1 \\
+      C &= (a_g  - 1)b_f \\
+      x &= b_g 
   \end{align}とする。
-  これにより、式(\ref{eq:original})は以下の1次合同方程式となる。
+  これにより、式(\eqref{eq:original})は以下の1次合同方程式となる。
   \begin{equation}
       Ax \equiv C \pmod P \label{eq:simplified}
   \end{equation}
@@ -400,7 +683,7 @@ $f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
   \begin{equation}
       A = d A', \quad P = d P'
   \end{equation}
-  これらを式(\ref{eq:diophantine})に代入すると、
+  これらを式(\eqref{eq:diophantine})に代入すると、
   \begin{align}
       d A' x - d P' k &= C \\
       d(A' x - P' k) &= C \label{eq:factorized}
@@ -413,7 +696,7 @@ $f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
       したがって、この場合、元の合同方程式の解は存在しない。
     \item[$C \equiv 0 \pmod d$\\]
     $C = d C'$ となる整数 $C'$ が存在する。
-    式(\ref{eq:factorized})の両辺を $d$ で割ると、
+    式(\eqref{eq:factorized})の両辺を $d$ で割ると、
     \begin{equation}
       A' x - P' k = C' \label{eq:reduced}
     \end{equation}
@@ -422,7 +705,7 @@ $f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
       A' x \equiv C' \pmod{P'} \label{eq:reduced_mod}
     \end{equation}
     ここで $\gcd(A', P') = 1$ であるため、法 $P'$ において $A'$ の逆元 $(A')^{-1}$ が一意に存在する。
-    よって、式(\ref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
+    よって、式(\eqref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
     \begin{equation*}
       x \equiv x_0 \pmod{P'} \implies x = x_0 + m P' \quad (m \in \mathbb{Z})
     \end{equation*}
@@ -432,166 +715,24 @@ $f=a_1x+b_1,g=a_2x+b_2$とする。$(a_1,b_1,a_2,b_2\in[P], a_1, a_2\neq 0)$
         0 &\le \frac{x_0}{P'} + m < d
     \end{align*}
     $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
-    したがって、解は$b_2 = x_0+nP'(n=0,1,\dots,d-1)$
+    したがって、解は$b_g  = x_0+nP'(n=0,1,\dots,d-1)$
   \end{description}
 
-\paragraph{$a_1=1$かつ$a_2\neq1$のとき}
-$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_2$が解となり、そうでない場合は解なしとなる。
+\paragraph{$a_f=1$かつ$a_g \neq1$のとき}
+$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_g $が解となり、そうでない場合は解なしとなる。
 
-\paragraph{$a_2=1$のとき\\}
-このとき、$a_2-1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
-$a_1=1$の時、$A=0$より$Ax=0$となるため、任意の$b_2$で式\ref{eq:original}は成り立つ。\\
-$a_1\neq 1$のとき、以下の2つの場合に分けて考える。
+\paragraph{$a_g =1$のとき\\}
+このとき、$a_g -1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
+$a_f=1$の時、$A=0$より$Ax=0$となるため、任意の$b_g $で式\eqref{eq:original}は成り立つ。\\
+$a_f\neq 1$のとき、以下の2つの場合に分けて考える。
 \begin{description}
   \item[$\gcd(A, P)=1$]
-    解は$b_2=0$のみ
+    解は$b_g =0$のみ
   \item[$\gcd(A, P)=d>1$]
     $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
     $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
-    よって、解は$b_2=nP'(n=0,1,\dots,d-1)$となる。
+    よって、解は$b_g =nP'(n=0,1,\dots,d-1)$となる。
 \end{description}
+\end{appendix}
 
-\subsection{ブロックサイクルが閉かどうかの判定}
-サイクルの関数が$f(x)=ax+b$であるとする。
-このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
-よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
-
-$a=1$のとき、$b=0$ならばすべての$x$が解である。
-
-$a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
-
-\subsection{AIに相談}
-\subsubsection{問題の定式化}
-
-$\mathbb{Z}_P$ 上のアフィン置換行列（APM）の構成を考える。行重みを $L$ とし、左右それぞれのブロック数を $L/2$ とする。アフィン置換の列を以下のように定義する。
-\[
-\underline{f} = (f_0, \dots, f_{L/2-1}), \quad \underline{g} = (g_0, \dots, g_{L/2-1})
-\]
-ここで、各置換は $f_i(x) = a_{f,i}x + b_{f,i} \pmod P$ および $g_i(x) = a_{g,i}x + b_{g,i} \pmod P$ で定義される。
-
-本手法の目的は、乗法成分（傾き）$\mathbf{a}$ を固定した状態で、可換性条件およびサイクル回避条件を満たす加法成分（シフト項）$\mathbf{b}$ を決定することである。
-すべてのシフト変数をまとめたベクトルを次のように定義する。
-\begin{equation}
-\mathbf{b} = [b_{f,0}, \dots, b_{f, L/2-1}, b_{g,0}, \dots, b_{g, L/2-1}]^\top \in \mathbb{Z}_P^{L}.
-\end{equation}
-
-\subsubsection{線形部分空間としての可換性}
-
-パリティ検査行列の直交性のために要求される可換性条件は $f_i \circ g_i = g_i \circ f_i$ で与えられる。アフィン置換において、これは以下と等価である。
-\[
-a_{f,i}(a_{g,i}x + b_{g,i}) + b_{f,i} \equiv a_{g,i}(a_{f,i}x + b_{f,i}) + b_{g,i} \pmod P
-\]
-$x$ を含む項を整理すると、シフトパラメータに関する以下の線形制約が得られる。
-\begin{equation}
-(a_{f,i} - 1)b_{g,i} - (a_{g,i} - 1)b_{f,i} \equiv 0 \pmod P.
-\end{equation}
-この式はすべての $i \in \{0, \dots, L/2-1\}$ に対して成立する。これらの方程式を行列形式でまとめると次のようになる。
-\begin{equation}
-M_{\text{comm}} \mathbf{b} \equiv \mathbf{0} \pmod P,
-\end{equation}
-ここで、$M_{\text{comm}}$ は $(L/2) \times L$ 行列である。可換性条件の解空間は $M_{\text{comm}}$ の\textbf{核}（カーネル、零空間）に対応する。この核の基底を $\{\mathbf{v}_1, \dots, \mathbf{v}_k\}$ とすると、条件を満たす任意の $\mathbf{b}$ は次のように表現できる。
-\begin{equation}
-\mathbf{b} = \sum_{j=1}^k c_j \mathbf{v}_j \pmod P, \quad c_j \in \mathbb{Z}_P.
-\label{eq:kernel_expansion}
-\end{equation}
-
-\subsubsection{禁止超平面としてのサイクル回避}
-
-タナーグラフ上のサイクルは、列遷移の系列によって形成される合成アフィン写像 $\Phi(x)$ に対応する。長さ $2\ell$ のサイクル $\mathcal{C}$ が $\ell$ 個の写像 $T_1, \dots, T_\ell$ の合成で表されるとする。
-\[
-\Phi_{\mathcal{C}}(x) = T_\ell \circ \dots \circ T_1(x) = A_{\mathcal{C}} x + B_{\mathcal{C}} \pmod P.
-\]
-ここで、$A_{\mathcal{C}}$ は傾き係数の積であり、$B_{\mathcal{C}}$ は累積されたシフト量である。
-重要な点は、$B_{\mathcal{C}}$ が元のシフトパラメータ $\mathbf{b}$ の\textbf{線形結合}であることである。したがって、ある係数ベクトル $\mathbf{w}_{\mathcal{C}} \in \mathbb{Z}^{L}$ が存在し、次式が成り立つ。
-\begin{equation}
-B_{\mathcal{C}}(\mathbf{b}) = \mathbf{w}_{\mathcal{C}}^\top \mathbf{b} \pmod P.
-\end{equation}
-
-サイクル（不動点 $x$）が存在するための条件は、合同式 $(A_{\mathcal{C}} - 1)x \equiv -B_{\mathcal{C}} \pmod P$ が解を持つことである。
-逆に、このサイクルの形成を\textbf{回避}するためには、この合同式が解を\textit{持たない}ようにすればよい。すなわち、以下の条件が必要となる。
-\begin{equation}
-B_{\mathcal{C}}(\mathbf{b}) \not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}.
-\end{equation}
-ここで $G_{\mathcal{C}} = \gcd(A_{\mathcal{C}}-1, P)$ とおく。式 \eqref{eq:kernel_expansion} をこの不等式に代入すると、自由パラメータ $c_j$ に対する制約が得られる。
-\begin{equation}
-\mathbf{w}_{\mathcal{C}}^\top \left( \sum_{j=1}^k c_j \mathbf{v}_j \right) \not\equiv 0 \pmod{G_{\mathcal{C}}}.
-\end{equation}
-これはパラメータ空間 $\{c_j\}$ における\textbf{禁止超平面}を定義する。
-
-\subsubsection{提案する構成的アルゴリズム（ふるい法）}
-
-ランダムサンプリングに代わり、以下の構成的アルゴリズムを提案する。
-
-\begin{algorithm}[H]
-\caption{サイクルフリー符号構成のための代数的ふるい法}
-\begin{algorithmic}[1]
-\STATE \textbf{入力:} 行重み $L$, 法 $P$.
-\STATE 合成写像において $\gcd(a-1, P)$ が大きくなるよう、傾きベクトル $\mathbf{a}_f, \mathbf{a}_g$ を選択する.
-\STATE $M_{\text{comm}}$ を構築し、その核の基底 $\{\mathbf{v}_1, \dots, \mathbf{v}_k\}$ を計算する.
-\STATE 禁止制約の集合を $\mathcal{F} \leftarrow \emptyset$ で初期化する.
-\FOR{長さ 4, 8 の各サイクル候補トポロジー $\mathcal{T}$}
-    \STATE 記号的な合成写像 $\Phi_{\mathcal{T}}$ を構築する.
-    \STATE 線形依存ベクトル $\mathbf{w}_{\mathcal{T}}$ と法 $G_{\mathcal{T}}$ を抽出する.
-    \STATE 制約 $(\mathbf{w}_{\mathcal{T}}^\top V \mathbf{c} \not\equiv 0 \mod G_{\mathcal{T}})$ を $\mathcal{F}$ に追加する.
-\ENDFOR
-\STATE \textbf{求解:} $\mathcal{F}$ 内のすべての制約を満たすパラメータベクトル $\mathbf{c} = (c_1, \dots, c_k)$ を探索する.
-\STATE \textbf{出力:} $\mathbf{b} = V \mathbf{c}$.
-\end{algorithmic}
-\end{algorithm}
-
-本手法は、探索問題を線形合同式上の制約充足問題（CSP）に変換するものであり、解空間の体積を直接計算し、短いサイクルを決定論的に回避することを可能にする。
-
-\subsection{行列を用いた条件a,bを満たす解空間の特定}
-条件a,bを式に表すと以下である。
-\begin{itemize}
-  \item 条件a:
-  \begin{align}
-    (a_{f,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{f,i} \equiv 0 \pmod P \quad\text{ for all }i,j\in[P]
-  \end{align}
-  \item 条件b:
-  \begin{align}
-    (a_{f,i} - 1)b_{f,j} - (a_{f,j} - 1)b_{f,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]\\
-    (a_{g,i} - 1)b_{g,j} - (a_{g,j} - 1)b_{g,i} \not\equiv 0 \pmod P \quad\text{ for any }i\neq j\in[P]
-  \end{align}
-\end{itemize}
-$\aU=[\aU_f, \aU_g]=[a_{f,0},a_{f,1},a_{f,2},a_{g,0},a_{g,1},a_{g,2}],\bU=[\bU_f, \bU_g]=[b_{f,0},b_{f,1},b_{f,2},b_{g,0},b_{g,1},b_{g,2}]$とする。
-
-条件aを行列を用いて表すと、
-\begin{align}\label{eq:cond_a_mat}
-  \begin{bmatrix}
-        1-a_{g,0} & 0 & 0 & a_{f,0}-1 & 0 & 0\\ %i=0,j=0
-        1-a_{g,1} & 0 & 0 & 0 & a_{f,0}-1 & 0\\ %i=0,j=1
-        1-a_{g,2} & 0 & 0 & 0 & 0 & a_{f,0}-1\\ %i=0,j=2
-        0 & 1-a_{g,0} & 0 & a_{f,1}-1 & 0 & 0\\ %i=1,j=0
-        0 & 1-a_{g,1} & 0 & 0 & a_{f,1}-1 & 0\\ %i=1,j=1
-        0 & 1-a_{g,2} & 0 & 0 & 0 & a_{f,1}-1\\ %i=1,j=2
-        0 & 0 & 1-a_{g,0} & a_{f,2}-1 & 0 & 0\\ %i=2,j=0
-        0 & 0 & 1-a_{g,1} & 0 & a_{f,2}-1 & 0\\ %i=2,j=1
-        0 & 0 & 1-a_{g,2} & 0 & 0 & a_{f,2}-1\\ %i=2,j=2
-  \end{bmatrix}
-  \bU \equiv O \pmod P
-\end{align}
-
-条件bを行列を用いて表すと、
-\begin{align}
-  \begin{bmatrix}
-        1-a_{f,1} & a_{f,0}-1 & 0 & 0 & 0 & 0\\ %i=0,j=1
-        1-a_{f,2} & 0 & a_{f,0}-1 & 0 & 0 & 0\\ %i=0,j=2
-        0 & 1-a_{f,2} & a_{f,1}-1 & 0 & 0 & 0\\ %i=1,j=2
-  \end{bmatrix}
-  \bU \equiv \cU_f \pmod P\label{eq:cond_b_mat_f}\\
-  \begin{bmatrix}
-        0 & 0 & 0 & 1-a_{g,1} & a_{g,0}-1 & 0\\ %i=0,j=1
-        0 & 0 & 0 & 1-a_{g,2} & 0 & a_{g,0}-1\\ %i=0,j=2
-        0 & 0 & 0 & 0 & 1-a_{g,2} & a_{g,1}-1\\ %i=1,j=2
-  \end{bmatrix}
-  \bU \equiv \cU_g \pmod P\label{eq:cond_b_mat_g}
-\end{align}
-この時、$\cU_f\neq\zeroU$かつ$\cU_g\neq\zeroU$である。
-
-まずは、$\aU$を定数として固定した状態で条件a,bを満たす$\bU$の解空間を特定することを考える。
-まずは簡単のため、$a_{f,i}\neq 0$、$a_{g,i}\neq 0$として考える。
-式\ref{eq:cond_a_mat}の解空間を求め、そこからランダムに選んだものが式\ref{eq:cond_b_mat_f},\ref{eq:cond_b_mat_g}を満たすか確かめる。
-
-\subsection{条件cの分析}
 \end{document}

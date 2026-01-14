@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {1}$\underline {\bm {f}}, \underline {\bm {g}}$の条件を満たす解空間の特定}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}$\underline {\bm {f}}, \underline {\bm {g}}$の満たすべき条件}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}可換性条件の分析}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}サイクル}{3}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}同一とみなせるサイクル}{4}{subsubsection.1.3.1}%
+\contentsline {paragraph}{シフト}{4}{section*.5}%
+\contentsline {subsubsection}{\numberline {1.3.2}同じ列の選択}{4}{subsubsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.4}UTCBC}{5}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}条件\ref {condition:c}で検査する列シーケンスの個数}{5}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}ブロックサイクルが閉かどうかの判定}{6}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}$\hat {H}_X$におけるチェックと$\hat {H}_Z$におけるチェックの等価性}{6}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}行列を用いた条件\ref {condition:a},\ref {condition:b}を満たす解空間の特定}{7}{subsection.1.8}%
+\contentsline {subsection}{\numberline {1.9}条件\ref {condition:c}の分析}{8}{subsection.1.9}%
+\contentsline {subsubsection}{\numberline {1.9.1}長さ4のサイクル}{8}{subsubsection.1.9.1}%
+\contentsline {section}{\numberline {付録A}定理\ref {th:numberOfSequence}の証明}{10}{appendix.A}%
+\contentsline {section}{\numberline {付録B}\ref {ssec:analyzeCondA}の解の導出}{11}{appendix.B}%
+\contentsline {paragraph}{$a_f\neq 1$かつ$a_g \neq 1$のとき\\}{11}{section*.6}%
+\contentsline {paragraph}{$a_f=1$かつ$a_g \neq 1$のとき}{12}{section*.7}%
+\contentsline {paragraph}{$a_g =1$のとき\\}{13}{section*.8}%
