@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  14 JAN 2026 14:11
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  16 JAN 2026 16:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -519,13 +519,13 @@ Overfull \hbox (7.703pt too wide) in paragraph at lines 415--416
 
 [9] Excluding 'comment' comment.
 LaTeX Font Info:    Font shape `JT1/mc/m/it' in size <10> not available
-(Font)              Font shape `JT1/mc/m/n' tried instead on input line 618.
+(Font)              Font shape `JT1/mc/m/n' tried instead on input line 623.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 618.
+(Font)              scaled to size 9.60999pt on input line 623.
 LaTeX Font Info:    Font shape `JY1/mc/m/it' in size <10> not available
-(Font)              Font shape `JY1/mc/m/n' tried instead on input line 618.
+(Font)              Font shape `JY1/mc/m/n' tried instead on input line 623.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 618.
+(Font)              scaled to size 9.60999pt on input line 623.
 
 
 [10]
@@ -544,15 +544,15 @@ L3 programming layer <2025-04-29>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Research_note.out' has not changed.
-(rerunfilecheck)             Checksum: 477FDB6369F9597CDDB3646FAC2494F6;1817.
+(rerunfilecheck)             Checksum: 0F6202330972EA984ED09E5F30213F78;1950.
  ) 
 Here is how much of TeX's memory you used:
- 12017 strings out of 470235
- 184107 string characters out of 5489043
- 593349 words of memory out of 5000000
- 38684 multiletter control sequences out of 15000+600000
+ 12022 strings out of 470235
+ 184186 string characters out of 5489043
+ 593548 words of memory out of 5000000
+ 38689 multiletter control sequences out of 15000+600000
  705239 words of font info for 147 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 72i,15n,79p,580b,697s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,14n,79p,580b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on out/Research_note.dvi (13 pages, 64960 bytes).
+Output written on out/Research_note.dvi (13 pages, 67328 bytes).

@@ -473,12 +473,12 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
 
 
 
-これを$\equiv \zeroU$として解くことで、条件\ref{condition:b}を満たさない係数$\cU$の空間が決定し、これを避けることで条件\ref{condition:a},\ref{condition:b}を満たす$\aU,\bU$が求まる。
-ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
+% これを$\equiv \zeroU$として解くことで、条件\ref{condition:b}を満たさない係数$\cU$の空間が決定し、これを避けることで条件\ref{condition:a},\ref{condition:b}を満たす$\aU,\bU$が求まる。
+% ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
 
 \subsection{条件\ref{condition:c}の分析}
-現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
-これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
+% 現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
+% これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
 \begin{definition}
   サイクル$\mathcal{C}$の関数$f_{\mathcal{C}}(x)$について、
   \begin{align}
@@ -486,7 +486,6 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
   \end{align}
   と表すこととする。
 \end{definition}
-
 
 \ref{ssec:is_cbc}節より、このブロックサイクルが閉とならないための条件は
 \begin{align}
@@ -513,21 +512,8 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
   V_{\mathcal{C}}V\cU &\not\equiv 0 \pmod{\gcd(A_{\mathcal{C}}-1, P)}\\
   \iff \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}V_{\mathcal{C}}V\cU &\not\equiv 0 \pmod{P}\\
   \iff V'_{\mathcal{C}}\cU &\not\equiv 0 \pmod{P}\left(V'_{\mathcal{C}} = \frac{P}{\gcd(A_{\mathcal{C}}-1, P)}V_{\mathcal{C}}\right)
+  \label{eq:cond_c:mat}
 \end{align}
-この式を複数のサイクルに関して考えた結果、$V'_{\mathcal{C}_1},V'_{\mathcal{C}_2},\dots$が生成されたとする。
-これを用いて、
-\begin{align}
-  M = \begin{bmatrix}
-    V'_{\mathcal{C}_1}\\
-    V'_{\mathcal{C}_2}\\
-    \vdots
-  \end{bmatrix}
-\end{align}
-とすると、条件\ref{condition:c}を満たすための必要条件は
-\begin{align}
-  M\cU \equiv \dU\pmod{P}
-\end{align}
-において、$\dU$の要素がすべて非ゼロであることである。
 
 \subsubsection{長さ4のサイクル}
 例として、長さ4のサイクル$\mathcal{C}$に関する方程式を考える。
@@ -601,6 +587,25 @@ $f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$で
 である。
 \end{example}
         
+条件\ref{condition:c}では、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
+
+以上まとめると、\eqref{eq:cond_a_mat}を解いて求めた基底$\vU_0,\dots$について、\eqref{eq:cond_b_mat_f3}と\eqref{eq:cond_b_mat_g3}および、11260個のサイクルに対応する\eqref{eq:cond_c:mat}の計11262個の合同不等式を満たすような係数$c_0,\dots$を求めればよいことが分かった。
+
+\subsection{2026/01/16のゼミ}
+\subsubsection{ここまでの進捗}
+\begin{itemize}
+  \item $\aU$を固定したときの条件\ref{condition:a},\ref{condition:b}を満たす$\bU$を見つけるための方法を考えた。
+  \item 条件\ref{condition:c}について、すべてのサイクルを網羅でする方法を明確にした。
+  \item 最終的に解となる$\aU,\bU$が満たすべき数式を出した。
+\end{itemize}
+
+\subsubsection{これからのタスク}
+\begin{itemize}
+  \item 11262個の不等式をそれぞれ解くことで$\equiv 0$になってしまう$c_i$は出し、これらを除外して残ったものを解とする、というのは現実的ではない？
+  \item サイクル同士で依存関係(サイクル$\calC_1$がCBCならサイクル$\calC_2$もCBC)が見つけられれば式の数を削減できる。
+  \item $\bU$に関する条件式ならば一次だが、$\aU$に関する条件式とみなすと次数が上がるので$\aU,\bU$すべてを変数とみなすときにこの方式を使うのは難しそう。
+\end{itemize}
+
 \begin{comment}
   列選択[2,3]について
   \begin{align}
