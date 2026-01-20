@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  16 JAN 2026 16:33
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  20 JAN 2026 09:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -547,10 +547,10 @@ Package rerunfilecheck Info: File `Research_note.out' has not changed.
 (rerunfilecheck)             Checksum: 0F6202330972EA984ED09E5F30213F78;1950.
  ) 
 Here is how much of TeX's memory you used:
- 12022 strings out of 470235
- 184186 string characters out of 5489043
- 593548 words of memory out of 5000000
- 38689 multiletter control sequences out of 15000+600000
+ 12027 strings out of 470235
+ 184199 string characters out of 5489043
+ 593582 words of memory out of 5000000
+ 38694 multiletter control sequences out of 15000+600000
  705239 words of font info for 147 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  72i,14n,79p,580b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s

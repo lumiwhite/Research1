@@ -1,12 +1,12 @@
 # Fdb version 4
-["dvipdf"] 1768548793.62112 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1768548794.21656 0
-  "out/Research_note.dvi" 1768548793 67328 a274ea7fc81b8820e56943e767eabaa9 "latex"
+["dvipdf"] 1768870585.9287 "out/Research_note.dvi" "out/Research_note.pdf" "out/Research_note" 1768870586.59332 0
+  "out/Research_note.dvi" 1768870585 67328 b03c2fb7a3a1a72f2fd6b149c4c1d1eb "latex"
   (generated)
   "out/Research_note.pdf"
   (rewritten before read)
-["latex"] 1768548792.8863 "c:/Users/black/Research/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1768548794.21411 0
-  "Research_note.tex" 1768548792 31978 d55f4d2d41f39833dec01d5577298be5 ""
-  "c:/Users/black/Research/notes/Research_note.tex" 1768548792 31978 d55f4d2d41f39833dec01d5577298be5 ""
+["latex"] 1768870585.12359 "c:/Users/black/Research/notes/Research_note.tex" "out/Research_note.dvi" "Research_note" 1768870586.58843 0
+  "Research_note.tex" 1768549108 31978 d55f4d2d41f39833dec01d5577298be5 ""
+  "c:/Users/black/Research/notes/Research_note.tex" 1768549108 31978 d55f4d2d41f39833dec01d5577298be5 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1767945889 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1747642494 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -122,10 +122,10 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1747642045 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1767948312 3567191 f5eef60ea3d5704d4df2cd0d99cba114 ""
   "c:/texlive/2025/texmf.cnf" 1747644115 713 e69b156964470283e0530f5060668171 ""
-  "command.tex" 1768548551 1529 a15dc61484ea28e5eca3d1a19f83a239 ""
-  "out/Research_note.aux" 1768548793 6687 f00afb6812899a3226e04cac6a6dfc78 "latex"
-  "out/Research_note.out" 1768548793 1950 0f6202330972ea984ed09e5f30213f78 "latex"
-  "out/Research_note.toc" 1768548793 2251 cec1e1968fc0fe4d333ec76234118bc3 "latex"
+  "command.tex" 1768870584 1672 4b3e49ae6869b61e435835b43dc6586b ""
+  "out/Research_note.aux" 1768870585 6687 f00afb6812899a3226e04cac6a6dfc78 "latex"
+  "out/Research_note.out" 1768870585 1950 0f6202330972ea984ed09e5f30213f78 "latex"
+  "out/Research_note.toc" 1768870585 2251 cec1e1968fc0fe4d333ec76234118bc3 "latex"
   (generated)
   "out/Research_note.aux"
   "out/Research_note.dvi"

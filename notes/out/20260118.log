@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  18 JAN 2026 20:57
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  20 JAN 2026 10:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -335,8 +335,7 @@ File: l3backend-dvipdfmx.def 2025-04-14 L3 backend support: dvipdfmx
 \g__graphics_track_int=\count320
 \g__pdfannot_backend_int=\count321
 \g__pdfannot_backend_link_int=\count322
-)
-No file 20260118.aux.
+) (out/20260118.aux)
 \openout1 = `20260118.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
@@ -386,11 +385,9 @@ Package color Info: Driver file: dvipdfmx.def on input line 149.
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ) (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
 Package hyperref Info: Link coloring ON on input line 25.
+(out/20260118.out) (out/20260118.out)
 \@outlinefile=\write4
 \openout4 = `20260118.out'.
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
 (Font)              scaled to size 16.60605pt on input line 31.
@@ -428,25 +425,49 @@ LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 31.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 13.83836pt on input line 31.
-No file 20260118.toc.
+(out/20260118.toc)
 \tf@toc=\write5
 \openout5 = `20260118.toc'.
 
-c:/Users/black/Research/notes/20260118.tex:36: Missing $ inserted.
-<inserted text> 
-                $
-l.36 ...、ガース8、(3,12)正則な [[9216, 4612, \le
-                                                  48]] 量子LDPC符号を構成した。
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 36.
+LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 36.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 36.
+LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
+(Font)              scaled to size 4.805pt on input line 36.
 
- 
+
+[1
+
+]
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 6.72699pt on input line 48.
+LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
+(Font)              scaled to size 4.805pt on input line 48.
+
+
+[2]
+
+[3]
+
+[4] (out/20260118.aux)
+ ***********
+pLaTeX2e <2023-02-14>+1, based on
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-04-29>
+ ***********
+Package rerunfilecheck Info: File `20260118.out' has not changed.
+(rerunfilecheck)             Checksum: D666E8B82EC10CBF05081811772D08A9;188.
+ ) 
 Here is how much of TeX's memory you used:
- 11862 strings out of 470235
- 180971 string characters out of 5489043
- 565899 words of memory out of 5000000
- 38551 multiletter control sequences out of 15000+600000
- 696105 words of font info for 109 fonts, out of 8000000 for 9000
+ 11915 strings out of 470235
+ 181686 string characters out of 5489043
+ 576185 words of memory out of 5000000
+ 38584 multiletter control sequences out of 15000+600000
+ 701307 words of font info for 132 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 72i,4n,79p,657b,473s stack positions out of 10000i,1000n,20000p,200000b,200000s
-No pages of output.
+ 72i,15n,79p,890b,513s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on out/20260118.dvi (4 pages, 19696 bytes).
