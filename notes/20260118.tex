@@ -145,6 +145,99 @@ $r\in[L/2]$に対し、すべての$u\in[L/2]$に対し$F_u$と$G_{r-u}$が可�
   仮定より$\Psi_r=0$なので、すべての$i,k\in[J]$に対し$(\HHX(\HHZ)^\top)_{i,k}=\Psi_{(k-i)\mod L/2}=0$であり、$\HX\HZ^\top=0$である。
 \end{proof}
 
+\subsection{潜在部の非直交性の必要条件}
+可換性が必要な$(F_i,G_j)$のインデックスペアを以下で定義する。
+\begin{align}
+  \Gamma := \bigcup_{r\in\Delta} \Gamma_r,\quad \Gamma_r := \{(i,j)\mid(i,j)=(u,r-u), u\in[L/2]\}
+\end{align}
+ここで、添え字は$\bmod L/2$で計算する。
+ここで、$\Gamma_r$は$\Psi_r$に寄与するインデックスの集合であり、$r\neq s$に対し$\Gamma_r\hat\Gamma_s = \emptyset$である。
 
+もし$J\geq L/2$であればレートは0なので、$J<L/2$を仮定する。
+まず、基本的で実現可能な制約を述べる：十分なブロックなしでは、潜在部の非直交性は強制できない。
+\begin{theorem}
+  アクティブ部の直交性$\HX\HZ^\top=0$を仮定する、
+  一般できなアクティブ部の選択(上$J$ブロック行)に対し、$\HX(\tHZ)^\top \neq 0$および$\HZ(\tHX)^\top \neq 0$を満たすために、$L\geq 4J$が必要である。
+\end{theorem}
+\begin{proof}
+  $L<4J$を仮定する。このアクティブ部の選択に対して、$\Delta = [L/2]$である。
+  アクティブ部の直交性$\HX\HZ^\top=0$はすべての$r\in\Delta$に対して$\Psi_r=0$を意味し、したがってすべての$r\in[L/2]$に対して$\Psi_r=0$を意味する。
+  ゆえに、$\HHX(\HHZ)^\top$のすべてのブロックが消滅し、特にアクティブ部と潜在部の行の混合ブロックについて、$\HX(\tHZ)^\top=0$と$\HZ(\tHX)^\top=0$が成り立ち、前提と矛盾する。
+\end{proof}
+次に、潜在部の非直交性に対する最小の代数的障害を分離する。
 
+\begin{theorem}
+  $\HX(\tHZ)^\top \neq 0,\quad\HZ(\tHX)^\top \neq 0$を満たすために、$\Psi_r \neq 0$が成り立つ$r\in[L/2]\backslash\Delta$が存在する必要がある。
+\end{theorem}
+\begin{proof}
+  すべての$r\in[L/2]\backslash\Delta$に対し$\Psi_r=0$を仮定する。
+  任意の$i\in[L/2]\backslash[J]$と$k\in[J]$に対し、$r=(k-i)\mod L/2$が$\Delta$に含まれない。
+  $\Psi_r=0$の仮定により、このようなすべての$i,k$に対し、$(\tHX(\tHZ)^\top)_{i,k}=\Psi_{(k-i)\mod L/2}=0$である。
+  したがって、$\HX(\tHZ)^\top = 0$であり、同様に$\HZ(\tHX)^\top = 0$であり、矛盾する。
+  すべてのペア$(i,j)\in[L/2]^2\backslash\Delta$が可換ならば、各部分$F_uG_{r-u}+G_{r-u}F_u$は$\mathbb{F}_2$上で消滅し、すべての$r\not\in \Delta$に対して$\Psi_r=0$である。
+\end{proof}
+
+\subsection{ガースの上界}
+最後に、必要なすべての差分において可換性が成立する場合に適用される構造的制約を想起する。
+\begin{theorem}
+  $L$を偶数とし、$2\leq J\leq L/2$を仮定する。
+  もしすべての$r\in\Delta$と$u\in[L/2]$に対し$F_u$と$G_{r-u}$が可換ならば、$\HX,\HZ$のターナーグラフはそれぞれ8-サイクルを有する。
+\end{theorem}
+\begin{proof}
+  $J\geq 2$より、$0,1\in\Delta$である。
+  また$L/2\geq 2$なので、$[L/2]$の中に$i\neq i'$が存在する。
+  $r=0,s=1$および$j=r-i,j'=s-i$(インデックスは$\bmod L/2$)とする。
+  定義より、$(i,j),(i,j')\in\Gamma_r\cup\Gamma_s$であり、同様に$(i',j),(i',j')\in\Gamma_r\cup\Gamma_s$である。
+  対応する$F,G$の可換性の仮定より、2つのF列と2つのG列から構成される8サイクル語は以下である。
+  \begin{align}
+    W=F_{i}G_j\inv G_{j'}F_i\inv F_{i'}G_{j'}\inv G_jF_{i'}\inv\label{eq:01201453}
+  \end{align}
+  可換性を用いて並び替えると、$W=(F_iF_i\inv)(F_{i'}F_{i'}\inv)(G_jG_j\inv)(G_{j'}G_{j'}\inv)=I$となり、$\HX,\HZ$のタナーグラフには必ず8-サイクルが存在する。
+
+\end{proof}
+
+\section{行列構成の方法}
+以前の章で導いた可換性条件とアクティブ部の直交性に基づき、短サイクルを回避しつつこれらの制約を満たす置換ブロックを構築する具体的な逐次手順を提示する。
+与えられた$(L/2,P,J)$に対して、以下を同時に満たす$\{F_i\},\{G_i\}$を構築する。
+\begin{enumerate}
+  \item $f_i,G_j$は$(i,j)\in\Delta$に対して可換である
+  \item 少なくとも一つの$(i,j)\in[L/2]^2\backslash\Delta$に対して非可換である
+  \item アクティブ行列$\HX,\HZ$内の短いサイクルを避ける(長さ8以下のUTCBC以外のサイクル)
+\end{enumerate}
+
+循環置換行列（CPM）から準循環LDPCブロックを構築する枠組みは、Fossorierによって体系化された。
+我々はアフィン置換行列（APM）を採用する：APM-LDPCの枠組みはCPMを拡張し、その代数的形態により合同条件を通じて可換性の制御が容易となる。
+古典的な設定において、吉田と笠井は線形置換多項式（APMベース）符号がプロトグラフLDPC符号に匹敵する性能を達成すると報告した。
+一方、ワンステップCPMリフティングとは異なり、APMベースの構成法については固定ガース上限が報告されていない。長さ及びガースを拡張するためにAPM-LDPC符号を組み合わせる手法も提案されている。
+群論的観点から、整数体上のAPMはアフィン群$\text{AGL}(1, \mathbb{Z}_P) = \mathbb{Z}_P\rtimes \mathbb{Z}_P^\times $を形成する。
+これは単位群による平行移動の半直積であり、可換性は線形部分と平行移動部分の相互作用によって規定される。
+
+$\mathbb{Z}_P$上のアフィン置換を考える。
+\begin{align}
+  f(x) = ax+b,\quad a\in\mathbb{Z}_P^\times, b\in\mathbb{Z}_P
+\end{align}
+$f_i(x)=a_ix+b_i$および$g_j(x)=c_jx+d_j$とし、対応する置換行列を$F_i:=P(f_i),G_j:=P(g_j)$で表す。
+
+この表現の下で、APの可換性は二次合同式によって検証される：
+\begin{align}
+  f_ig_j = g_jf_i\iff d_j(a_i-1) - b_i(c_j-1) \equiv 0 \mod P
+\end{align}
+この条件は$a_i, c_j$と$b_i, d_j$の積を含む。
+したがって交換表は合同式系として表現可能であり、特に$a_i, c_j$を先に選択した場合、交換制約は$b_i, d_j$における線形合同式に還元され、一貫性のある探索を可能とする。
+
+我々は、交換表と短サイクル条件の両方を満たす候補を順次選択し、候補が失敗した場合にはバックトラッキングを用いる。
+試行回数は直近の成功率に基づいて動的に調整される。
+各候補生成器を多腕バンディットの腕として解釈し、それに応じて試行を割り当てる。
+
+短サイクル検出は、複合写像$\Sigma$の固定点をブロックサイクルパターンに沿って調べることに帰着する。
+APの合成関数は再びAPであり、$\Sigma(x) = Ax + B$となるため、
+\begin{align}
+  \Sigma(x) = x\iff \gcd(A-1,P)\mid B
+\end{align}
+はタナーグラフを列挙せずにテストを提供する。
+\section{復号方式}
+\section{結果}
+第3節の一般理論と第4節の逐次構築法を、構築可能な最小ケースである$J = 3, L = 12, P = 768$に対して具体化する。
+まず明示的な$\Delta, \Gamma, \Psi_r$を与え、アクティブ行列$\HX,\HZ$のアクティブ直交条件を明確化した後、
+交換表とAPMパラメータを設計し、最後に距離境界とFERを評価する。
 \end{document}
