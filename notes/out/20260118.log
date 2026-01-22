@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  20 JAN 2026 16:40
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  22 JAN 2026 00:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -484,22 +484,24 @@ LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
 
 [7]
 
-[8] (out/20260118.aux)
+[8]
+
+[9] (out/20260118.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-29>
  ***********
 Package rerunfilecheck Info: File `20260118.out' has not changed.
-(rerunfilecheck)             Checksum: D10B984884268026E02392FB7E4A9D38;947.
+(rerunfilecheck)             Checksum: D0E0518B4D66EF9165BF6DEB070879A8;1109.
  ) 
 Here is how much of TeX's memory you used:
- 11945 strings out of 470235
- 182393 string characters out of 5489043
- 581113 words of memory out of 5000000
- 38613 multiletter control sequences out of 15000+600000
+ 11948 strings out of 470235
+ 182458 string characters out of 5489043
+ 595291 words of memory out of 5000000
+ 38616 multiletter control sequences out of 15000+600000
  702149 words of font info for 135 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
  72i,15n,79p,890b,618s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on out/20260118.dvi (8 pages, 43836 bytes).
+Output written on out/20260118.dvi (9 pages, 52288 bytes).

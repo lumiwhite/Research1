@@ -1,12 +1,12 @@
 # Fdb version 4
-["dvipdf"] 1768894826.09722 "out/20260118.dvi" "out/20260118.pdf" "out/20260118" 1768894826.75185 0
-  "out/20260118.dvi" 1768894826 43836 17dd4f5ee8d2c19fda649f45ad8dedd0 "latex"
+["dvipdf"] 1769007837.89288 "out/20260118.dvi" "out/20260118.pdf" "out/20260118" 1769007838.50488 0
+  "out/20260118.dvi" 1769007837 52288 bee3ddf7246f28dea2d2d4ae5a4358d7 "latex"
   (generated)
   "out/20260118.pdf"
   (rewritten before read)
-["latex"] 1768894825.34011 "c:/Users/black/Research/notes/20260118.tex" "out/20260118.dvi" "20260118" 1768894826.74549 0
-  "20260118.tex" 1768894823 23035 75e230b70f3c882ea423f325e07cbe15 ""
-  "c:/Users/black/Research/notes/20260118.tex" 1768894823 23035 75e230b70f3c882ea423f325e07cbe15 ""
+["latex"] 1769007837.17208 "c:/Users/black/Research/notes/20260118.tex" "out/20260118.dvi" "20260118" 1769007838.50216 0
+  "20260118.tex" 1769007836 25948 3f9a5670ba3ddc64165e40888f677052 ""
+  "c:/Users/black/Research/notes/20260118.tex" 1769007836 25948 3f9a5670ba3ddc64165e40888f677052 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1767945889 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -122,9 +122,9 @@
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1767948312 3567191 f5eef60ea3d5704d4df2cd0d99cba114 ""
   "c:/texlive/2025/texmf.cnf" 1747644115 713 e69b156964470283e0530f5060668171 ""
   "command.tex" 1768883456 1825 1b1fd12ec95ea2a81dd8d7b03dcbd9cc ""
-  "out/20260118.aux" 1768894826 1276 a8e970812bf010cf8f7003cfe32f3dd1 "latex"
-  "out/20260118.out" 1768894826 947 d10b984884268026e02392fb7e4a9d38 "latex"
-  "out/20260118.toc" 1768894826 708 6cf2ccf7d782d6e94102c4e4e204a5a6 "latex"
+  "out/20260118.aux" 1769007837 1422 5967867e12cfa00af01f47b07140b73d "latex"
+  "out/20260118.out" 1769007837 1109 d0e0518b4d66ef9165bf6deb070879a8 "latex"
+  "out/20260118.toc" 1769007837 813 a360b3b537ebf2aac6ea0bccecfc91b0 "latex"
   (generated)
   "out/20260118.aux"
   "out/20260118.dvi"

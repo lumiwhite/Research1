@@ -7,3 +7,4 @@
 \contentsline {section}{\numberline {4}行列構成の方法}{7}{section.4}%
 \contentsline {section}{\numberline {5}復号方式}{8}{section.5}%
 \contentsline {section}{\numberline {6}結果}{8}{section.6}%
+\contentsline {subsection}{\numberline {6.1}構造とアクティブ部の直交性}{8}{subsection.6.1}%
