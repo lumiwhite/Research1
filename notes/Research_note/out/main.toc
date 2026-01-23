@@ -1,0 +1,35 @@
+\contentsline {section}{\numberline {1}$\underline {\bm {f}}, \underline {\bm {g}}$の満たすべき条件}{3}{section.1}%
+\contentsline {section}{\numberline {2}可換性条件の分析}{3}{section.2}%
+\contentsline {section}{\numberline {3}サイクル}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}同一とみなせるサイクル}{5}{subsection.3.1}%
+\contentsline {paragraph}{シフト}{5}{section*.5}%
+\contentsline {subsection}{\numberline {3.2}同じ列の選択}{5}{subsection.3.2}%
+\contentsline {section}{\numberline {4}UTCBC}{6}{section.4}%
+\contentsline {section}{\numberline {5}条件\ref {condition:c}で検査する列シーケンスの個数}{6}{section.5}%
+\contentsline {section}{\numberline {6}ブロックサイクルが閉かどうかの判定}{7}{section.6}%
+\contentsline {section}{\numberline {7}$\hat {H}_X$におけるチェックと$\hat {H}_Z$におけるチェックの等価性}{7}{section.7}%
+\contentsline {section}{\numberline {8}行列を用いた条件\ref {condition:a},\ref {condition:b}を満たす解空間の特定}{8}{section.8}%
+\contentsline {section}{\numberline {9}条件\ref {condition:c}の分析}{9}{section.9}%
+\contentsline {subsection}{\numberline {9.1}長さ4のサイクル}{10}{subsection.9.1}%
+\contentsline {section}{\numberline {10}2026/01/16のゼミ}{11}{section.10}%
+\contentsline {subsection}{\numberline {10.1}ここまでの進捗}{11}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}これからのタスク}{11}{subsection.10.2}%
+\contentsline {section}{\numberline {11}笠井先生の論文Breaking the Orthogonality Barrier in Quantum LDPC Codesについて}{12}{section.11}%
+\contentsline {subsection}{\numberline {11.1}従来の行列の構成方法}{12}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}新しい行列の構成方法}{12}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}アクティブ部の直交性の十分条件}{13}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}潜在部の非直交性の必要条件}{14}{subsection.11.4}%
+\contentsline {subsection}{\numberline {11.5}ガーズの上界}{14}{subsection.11.5}%
+\contentsline {subsection}{\numberline {11.6}行列構築の方法}{14}{subsection.11.6}%
+\contentsline {section}{\numberline {12}この論文での条件を満たす$F_i,G_i$の構成}{14}{section.12}%
+\contentsline {subsection}{\numberline {12.1}条件A'}{15}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}条件B'}{15}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}条件C'}{15}{subsection.12.3}%
+\contentsline {subsubsection}{\numberline {12.3.1}長さ4のサイクル}{16}{subsubsection.12.3.1}%
+\contentsline {paragraph}{同一とみなせるサイクル}{16}{section*.6}%
+\contentsline {subsubsection}{\numberline {12.3.2}長さ8のサイクル}{16}{subsubsection.12.3.2}%
+\contentsline {section}{\numberline {付録A}定理\ref {th:numberOfSequence}の証明}{16}{appendix.A}%
+\contentsline {section}{\numberline {付録B}\ref {ssec:analyzeCondA}の解の導出}{18}{appendix.B}%
+\contentsline {paragraph}{$a_f\neq 1$かつ$a_g \neq 1$のとき\\}{18}{section*.7}%
+\contentsline {paragraph}{$a_f=1$かつ$a_g \neq 1$のとき}{19}{section*.8}%
+\contentsline {paragraph}{$a_g =1$のとき\\}{19}{section*.9}%

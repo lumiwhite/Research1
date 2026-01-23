@@ -20,19 +20,18 @@
 \newtheorem{proposition}[definition]{命題}
 \newtheorem{requirement}[definition]{要請}
 \newtheorem{example}[definition]{例}
-\input{command.tex}
+\input{../command.tex}
 % =========================================
 \begin{document}
 
-\title{\textbf{研究ノート}}
+\title{$\fU, \gU$の条件を満たす解空間の特定}
 \author{黒澤雅治}
 \date{2025/12/21}
 \maketitle
 \tableofcontents
 \clearpage
-\section{\texorpdfstring{$\fU, \gU$}{fU, gU}の条件を満たす解空間の特定}
 
-\subsection{\texorpdfstring{$\fU, \gU$}{fU, gU}の満たすべき条件}
+\section{\texorpdfstring{$\fU, \gU$}{fU, gU}の満たすべき条件}
 \begin{enumerate}[label=\Alph*., ref=\Alph*]
   \item 要請\ref{req:1}を満たす。
     つまり、$f_iとg_j$は可換である。($L=6$のときはすべての$i,j$で可換)\label{condition:a}
@@ -54,7 +53,7 @@
 \end{align}
 \end{requirement}
 
-\subsection{可換性条件の分析}\label{ssec:analyzeCondA}
+\section{可換性条件の分析}\label{ssec:analyzeCondA}
 \begin{definition}
   関数$f$の係数を
   \begin{align}
@@ -78,7 +77,7 @@ $A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加�
 \end{align}
 の解は以下の通りである。
 
-\subsubsection*{ケース1：$a_f \neq 1$ かつ $a_g \neq 1$ の場合}
+\subsection*{ケース1：$a_f \neq 1$ かつ $a_g \neq 1$ の場合}
 \begin{itemize}
     \item \textbf{$\gcd(A, P) = 1$ のとき} \\
     解は法 $P$ において一意に定まる。
@@ -96,7 +95,7 @@ $A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加�
     \end{itemize}
 \end{itemize}
 
-\subsubsection*{ケース2：$a_f = 1$ かつ $a_g \neq 1$ の場合}
+\subsection*{ケース2：$a_f = 1$ かつ $a_g \neq 1$ の場合}
 \begin{itemize}
     \item \textbf{$C \equiv 0 \pmod P$ のとき} \\
     任意の $b_g \in [P]$ が解となる（全解）。
@@ -104,7 +103,7 @@ $A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加�
     \textbf{解なし}。
 \end{itemize}
 
-\subsubsection*{ケース3：$a_g = 1$ の場合（$C = 0$）}
+\subsection*{ケース3：$a_g = 1$ の場合（$C = 0$）}
 \begin{itemize}
     \item \textbf{$a_f = 1$ のとき} \\
     任意の $b_g \in [P]$ が解となる。
@@ -119,11 +118,11 @@ $A = a_f - 1$ および $C = (a_g - 1)b_f$ と定義する。このとき、加�
 \end{itemize}
 詳細な導出は付録\ref{app:proof2}を参照。
 
-\subsection{サイクル}\label{ssec:cycle}
+\section{サイクル}\label{ssec:cycle}
 サイクルは、$L$列から偶数個の列を選び、開始行を指定することで一意に特定される。
 以下、$L=6, J=2$に固定して考える。
 
-\subsubsection{同一とみなせるサイクル}\label{ssec:samecycle}
+\subsection{同一とみなせるサイクル}\label{ssec:samecycle}
 \paragraph{シフト}\label{para:shift}
 $\ell$のサイクルは、$\ell / 2$個の列から構成される。
 よって、長さ$2L$以下のサイクルを考慮するには、$2,4,\dots,L$個の列からなるサイクルを考えればよい。
@@ -164,7 +163,7 @@ $\ell=[a,b,c,d]$を2つシフトした$S^2(\ell)=[c,d,a,b]$について、
 \end{theorem}
 よって、ある列シーケンス$\ell$について、開始行が0,1行目である2つのサイクルを考えれば、列シーケンスをシフトしたものから構成されるサイクルすべてを網羅できる。
 
-\subsubsection{同じ列の選択}\label{para:samecol}
+\subsection{同じ列の選択}\label{para:samecol}
 同じ列を連続で含むときを考える。この列に含まれる2つの関数を$f,g$とする。
 この時、サイクルの関数の中でこの列に関与する部分は、$f\inv gg\inv f=\text{id}$となる。
 よって、この部分はサイクルが閉であるかには影響しないことが分かる。
@@ -172,7 +171,7 @@ $\ell=[a,b,c,d]$を2つシフトした$S^2(\ell)=[c,d,a,b]$について、
 ここで、$[1,2,3,3,2,5]$のような形の場合、同じ列を取り除いた結果、$[1,2,2,5]$のように同じ列の連続が生じることもあることに注意する。
 また、今回サイクルを形成する列選択なので、$[1,2,3,4,3,1]$のように先頭と最後の要素が等しいときも、$[2,3,4,3]$と同一視することができる。
 
-\subsection{UTCBC}
+\section{UTCBC}
 ここでサイクルの表記を定義する。
 \begin{definition}
   行列$\HHX(\HHZ)$における、列選択$\ell$、開始行0(1)行目のサイクルを
@@ -240,7 +239,7 @@ $\ell = [0,3+j\%3,1,3+(j-1)\%3,2,3+(j-2)\%3]$
 \end{align}
 よって、開始行に関わらず、この列選択から構成されるサイクルはUTCBCである。
 
-\subsection{条件\ref{condition:c}で検査する列シーケンスの個数}
+\section{条件\ref{condition:c}で検査する列シーケンスの個数}
 \ref{ssec:samecycle}節に基づき、検査する必要のある列シーケンスの個数を考える。
 ここでは、隣り合う要素が異なり、かつ始点と終点が異なる（円環状に接続された）長さ$L$の列シーケンスを考える。使用できる列の総数を$k=6$とする。
 
@@ -290,7 +289,7 @@ $k=6, L=6$を代入すると、
 
 以上より、検査する列シーケンスの総数は$2635+165+15=2815$通り。
 
-\subsection{ブロックサイクルが閉かどうかの判定}\label{ssec:is_cbc}
+\section{ブロックサイクルが閉かどうかの判定}\label{ssec:is_cbc}
 サイクルの関数が$f(x)=ax+b$であるとする。
 このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
 よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
@@ -301,7 +300,7 @@ $k=6, L=6$を代入すると、
 と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
 $a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
 
-\subsection{$\HHX$におけるチェックと$\HHZ$におけるチェックの等価性}
+\section{$\HHX$におけるチェックと$\HHZ$におけるチェックの等価性}
 これは証明ができていない(そもそも等価かわからない)ので現時点では両方をチェック。
 \begin{comment}
   \begin{align}
@@ -396,7 +395,7 @@ f_2\inv(x)
 \end{align}
 \end{comment}
 
-\subsection{行列を用いた条件\ref{condition:a},\ref{condition:b}を満たす解空間の特定}
+\section{行列を用いた条件\ref{condition:a},\ref{condition:b}を満たす解空間の特定}
 
 条件\ref{condition:a},\ref{condition:b}を式に表すと以下である。
 \begin{itemize}
@@ -476,7 +475,7 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
 % これを$\equiv \zeroU$として解くことで、条件\ref{condition:b}を満たさない係数$\cU$の空間が決定し、これを避けることで条件\ref{condition:a},\ref{condition:b}を満たす$\aU,\bU$が求まる。
 % ここまでをP=384で実験したところ、ランダムに生成した $\aU$に対し、解となりうる$\cU$の数は 個。
 
-\subsection{条件\ref{condition:c}の分析}
+\section{条件\ref{condition:c}の分析}
 % 現状、確認すべき列選択が2815個あり、これを開始行0,1行目、行列$\HHX,\HHZ$について確認する必要があるので、総計で$2815\times4 = 11260$個のサイクルに関して方程式を立てる必要がある。
 % これは、現実的ではない。一部のサイクルについて方程式を立て、これが解くことで、候補を絞ることができる。
 \begin{definition}
@@ -515,7 +514,7 @@ $\aU=[\aU_f, \aU_g]\tr=[a_{f_0},a_{f_1},a_{f_2},a_{g_0},a_{g_1},a_{g_2}]\tr,\bU=
   \label{eq:cond_c:mat}
 \end{align}
 
-\subsubsection{長さ4のサイクル}
+\subsection{長さ4のサイクル}
 例として、長さ4のサイクル$\mathcal{C}$に関する方程式を考える。
 \begin{align}
   \mathcal{C} = f\rightarrow g\rightarrow h\rightarrow l\rightarrow f
@@ -591,167 +590,251 @@ $f_i(x) = a_{f_i}x + b_{f_i}$および$f_i\inv(x) = a_{f_i}\inv(x - b_{f_i})$で
 
 以上まとめると、\eqref{eq:cond_a_mat}を解いて求めた基底$\vU_0,\dots$について、\eqref{eq:cond_b_mat_f3}と\eqref{eq:cond_b_mat_g3}および、11260個のサイクルに対応する\eqref{eq:cond_c:mat}の計11262個の合同不等式を満たすような係数$c_0,\dots$を求めればよいことが分かった。
 
-\subsection{2026/01/16のゼミ}
-\subsubsection{ここまでの進捗}
+\section{2026/01/16のゼミ}
+\subsection{ここまでの進捗}
 \begin{itemize}
   \item $\aU$を固定したときの条件\ref{condition:a},\ref{condition:b}を満たす$\bU$を見つけるための方法を考えた。
   \item 条件\ref{condition:c}について、すべてのサイクルを網羅でする方法を明確にした。
   \item 最終的に解となる$\aU,\bU$が満たすべき数式を出した。
 \end{itemize}
 
-\subsubsection{これからのタスク}
+\subsection{これからのタスク}
 \begin{itemize}
   \item 11262個の不等式をそれぞれ解くことで$\equiv 0$になってしまう$c_i$は出し、これらを除外して残ったものを解とする、というのは現実的ではない？
   \item サイクル同士で依存関係(サイクル$\calC_1$がCBCならサイクル$\calC_2$もCBC)が見つけられれば式の数を削減できる。
   \item $\bU$に関する条件式ならば一次だが、$\aU$に関する条件式とみなすと次数が上がるので$\aU,\bU$すべてを変数とみなすときにこの方式を使うのは難しそう。
 \end{itemize}
 
-\begin{comment}
-  列選択[2,3]について
+\section{笠井先生の論文Breaking the Orthogonality Barrier in Quantum LDPC Codesについて}
+\subsection{従来の行列の構成方法}
+\begin{definition}\label{def:01231}
+  $\HHX,\HHZ$を母行列、$\HX,\HZ$をアクティブ行列、$\tHX,\tHZ$を潜在部と呼ぶ。
+  以下が成り立つ。
+  \begin{align}\label{eq:01232}
+  \HHX = \begin{bmatrix}
+  \HX\\
+  \tHX
+  \end{bmatrix},\qquad
+  \HHZ = \begin{bmatrix}
+  \HZ\\
+  \tHZ
+  \end{bmatrix}
+  \end{align}
+\end{definition}
+$\HHX,\HHZ$は2つの直交する正方(ブロック巡回)母行列である。
+これらにより構成される母行列のレートは0である。
+よってレートを調整するのに内部行を消去する。
+
+ここで、母行列の直交性は潜在部の行に強い制約を課し、最小距離を劣化させる。
+\begin{definition}\label{def:01233}
+最小距離を以下で定義する。
+\begin{align}\label{eq:01234}
+  \dz := \min\{\wt(z):z\in C_X\backslash C_Z^\top\},\qquad
+  \dx := \min\{\wt(x):x\in C_Z\backslash C_X^\top\}
+\end{align}  
+\end{definition}
+\begin{theorem}\label{th:01235}
+  母行列の直交性$\HHX(\HHZ)^\top=0$は、アクティブ部の直交性$\HX(\HZ)^\top=0$だけでなく、
+  \begin{align}\label{eq:01236}
+    \HX(\tHZ)^\top=0,\qquad
+    \tHX(\HZ)^\top=0
+  \end{align}
+  も強要する。  
+\end{theorem}
+これは、$\Row(\HHX)\subset C_Z$および$\Row(\HHZ)\subset C_X$であることを暗示している。
+したがって、$\tHX$の各行$\bm{x}$について$\bm{x}\in C_Z$、$\tHZ$の各行$\bm{z}$について$\bm{z}\in C_X$が成り立つ。
+一般的には$\bm{x}$は$C_X^\top$に属する必要はなく、$\bm{z}$も$C_Z^\perp$に属する必要はなく、このときこれらは論理演算子となる。最小行重み(我々の構成では$L$)が$d_X$および$d_Z$の上界となる。
+
+\subsection{新しい行列の構成方法}
+母行列から行を削除することでアクティブ行列$\HX,\HZ$を得るが、潜在行列の低重み行が、$\HX,\HZ$と直交しないようにこれらを設計する。
+つまり、低重みの$\bm{x}\in\Row(\tHX)$に対し$\HZ\bm{x}^\top \neq 0$を、$\bm{z}\in\Row(\tHZ)$に対し$\HX\bm{z}^\top \neq 0$を強制し、つまり$\Row(\tHX)\not\subset C_Z$および$\Row(\tHZ)\not\subset C_X$を強制する。
+同じ議論は、個々の潜在行だけでなく、低重みの線形結合にも適用される。
+
+\begin{definition}\label{def:01237}
+  潜在ベースの$X,Z$距離の上界を以下で定義する。
   \begin{align}
-  \cy{X}{[2,3]}{0}=f_2\rightarrow g_0\rightarrow g_2\rightarrow f_1\rightarrow f_2
+  d_X^{\text{(lat)}} &:= \min\left\{\wt(\bm{x}):\bm{x}\in \Row(\tHX)\cap C_Z\backslash C_X^\perp\right\}\\
+  &=\min\left\{\wt(\bm{x}):\bm{x}\in C_Z, \bm{x}=(\tHX)^\top\bm{u}\text{ for some }\bm{u}, \bm{x}\not\in C_X^\top\right\}\\
+  d_Z^{\text{(lat)}} &:= \min\left\{\wt(\bm{z}):\bm{z}\in \Row(\tHZ)\cap C_X\backslash C_Z^\perp\right\} \\
+  &=\min\left\{\wt(\bm{z}):\bm{z}\in C_X, \bm{z}=(\tHZ)^\top\bm{u}\text{ for some }\bm{u}, \bm{z}\not\in C_Z^\top\right\}\\
 \end{align}
-なので、
+\end{definition}
+
+まとめると、
 \begin{align}
-\ABCfour{\cy{X}{[2,3]}{0}}{f_2}{g_0}{g_2}{f_1}\\
+\HX\HZ^\top = 0,\quad\HX(\tHZ)^\top \neq 0, \quad\HZ(\tHX)^\top \neq 0 
 \end{align}
-\end{comment}
+かつ$\dxl,\dzl$が大きい、を満たすような潜在行列$\tHX,\tHZ$を構成したい。
+一般化した萩原・今井符号、つまりブロック巡回構造の母行列のペアを定義し、アクティブ部の直交性$\HX(\HZ)^\top = 0$のみを課す。
+行重み$J$、列重み$L$のプロトグラフLDPC符号はサイズ$P$の$J\times L$の置換行列により定義される。
 
-\begin{appendix}
-\section{定理\ref{th:numberOfSequence}の証明}\label{app:proof1}
-\begin{proof}
-  まず、円環状にする前の、長さ$n$の直線の列$x_1, x_2, \dots, x_n$を考える。隣り合う要素$x_i, x_{i+1}$は常に異なるとする。
-  この直線の列全体における色の塗り分けの総数は、先頭$x_1$が$k$通り、それ以降の$x_2, \dots, x_n$がそれぞれ直前の要素と異なるため$k-1$通りであることから、
+\begin{definition}\label{def:01238}
+  サイズ$LP/2\times LP$の母行列を以下で定義する。
   \begin{align}
-    W_n = k(k-1)^{n-1}
+    (\HHX)_{i,j} &= F_{j-i},\quad (\HHX)_{i,L_2+j}=G_{j-i},\\
+    (\HHZ)_{i,j} &= G_{i-j}^\top,\quad (\HHZ)_{i,L_2+j}=F_{i-j}^\top,
   \end{align}
-  である。
+\end{definition}
+アクティブ行列は母行列の上$J$ブロック行を取ることで得られる。
 
-  ここで、$W_n$を以下の2つのケースに分割する。
-  \begin{itemize}
-    \item $a_n$：始点と終点が同じ色である場合の数 ($x_1 = x_n$)
-    \item $b_n$：始点と終点が異なる色である場合の数 ($x_1 \neq x_n$)
-  \end{itemize}
-  すなわち、
+潜在部がアクティブ部と可換でないようにすることで、低重みの潜在部の組は自動的に論理演算子にならない。
+
+ブロック巡回構造は$\HX(\HZ)^\top$が差分のみに依存するようにし、結果である
+Interaction Matrix$\Psi_r$により、可換性制約を小さな差分集合に位置づけられる。
+
+
+$\HHX$の各ブロック行は、左側は$(F_0,F_1,\dots,F_{L/2-1})$の巡回シフトであり、右側は$(G_0,G_1,\dots,G_{L/2-1})$の巡回シフトである。
+したがってブロックは差分$(j-i)$のみに依存し、母行列の積も差分のみに依存する。
+任意の$i,k\in[L/2]$に対して、$(i,k)$ブロックは
+\begin{align}
+  (\HHX(\HHZ)^\top)_{i,k} = \sum_{u=0}^{L_2-1}\left(F_uG_{k-u} + G_{k-u}F_u\right) =: \Psi_r
+\end{align}
+で与えられ、これは$r=(k-i)\mod L_2$のみに依存する。
+$r\in[L/2]$に対し、すべての$u\in[L/2]$に対し$F_u$と$G_{r-u}$が可換ならば、$\Psi_r=0$である。
+
+\subsection{アクティブ部の直交性の十分条件}
+\begin{definition}\label{def:01239}
   \begin{align}
-    a_n + b_n = k(k-1)^{n-1} \label{eq:total}
+    \Delta := \left\{(k-i)\mod L/2\mid 0\leq i,k\leq J-1\right\}\subseteq[L/2]
   \end{align}
-  である。円環状に接続した際に条件を満たすのは、$x_1 \neq x_n$ の場合であるため、求める値は$b_L$となる。
+\end{definition}
+\begin{theorem}\label{th:012310}
+  もし$F_u$と$G_{r-u}$がすべての$r\in\Delta,u\in[L/2]$に対し可換ならば、$\HX\HZ^\top=0$である。
+\end{theorem}
 
-  次に、$n$から$n+1$への漸化式を考える。長さ$n$の列に、条件を満たすように新たな要素$x_{n+1}$を追加する。
-  \begin{enumerate}
-    \item $x_1 = x_{n+1}$ となる場合（$a_{n+1}$を構成する場合）：
-    $x_{n+1}$は$x_n$と異なる必要がある。また、$x_{n+1}$は$x_1$と同じ色になるため、必然的に$x_n \neq x_1$でなければならない。
-    つまり、$x_1 \neq x_n$である状態（$b_n$通り）の末尾に、$x_1$と同じ色（1通り）を追加する場合のみ発生する。
-    \begin{align}
-      a_{n+1} = b_n \times 1 = b_n \label{eq:rec_a}
-    \end{align}
-    
-    \item $x_1 \neq x_{n+1}$ となる場合（$b_{n+1}$を構成する場合）：
-    これは全事象から$a_{n+1}$を引いたものである。式(\eqref{eq:total})より、
-    \begin{align}
-      b_{n+1} = k(k-1)^n - a_{n+1}
-    \end{align}
-  \end{enumerate}
-
-  式(\eqref{eq:rec_a})を代入すると、以下の$b_n$に関する漸化式が得られる。
+\subsection{潜在部の非直交性の必要条件}
+\begin{definition}\label{def:012311}
+  可換性が必要な$(F_i,G_j)$のインデックスペアを以下で定義する。
   \begin{align}
-    b_{n+1} = k(k-1)^n - b_n
+    \Gamma := \bigcup_{r\in\Delta} \Gamma_r,\quad \Gamma_r := \{(i,j)\mid(i,j)=(u,r-u), u\in[L/2]\}
   \end{align}
-  この漸化式を解く。
-  \begin{align}
-    b_{n+1} - (k-1)^{n+1} &= -(b_n - (k-1)^n) \\
-    b_n - (k-1)^n &= (-1)^{n-2} (b_2 - (k-1)^2)
-  \end{align}
-  ここで、$n=2$の場合、隣り合う要素は異なるため必ず$x_1 \neq x_2$となる。よって$a_2 = 0, b_2 = k(k-1)$である。
-  \begin{align}
-    b_2 - (k-1)^2 &= k(k-1) - (k-1)^2 \\
-    &= (k-1)(k - (k-1)) \\
-    &= k-1
-  \end{align}
-  したがって、
-  \begin{align}
-    b_n - (k-1)^n &= (-1)^{n-2}(k-1) \\
-    b_n &= (k-1)^n + (-1)^n(k-1)
-  \end{align}
-  以上より、長さ$L$の円環状の列シーケンスの総数は $(k-1)^L + (-1)^L(k-1)$ となる。
-\end{proof}
+\end{definition}
+$L\geq 4J$および$\Psi_r\neq 0$を満たすような$r\in[L/2]\backslash \Delta$が存在することが、
+潜在部の非直交性の必要条件である。
 
-\section{\ref{ssec:analyzeCondA}の解の導出}
+\subsection{ガーズの上界}
+長さ8のサイクルは必ず存在する。
 
-\paragraph{$a_f\neq1$かつ$a_g \neq1$のとき\\}
-  $\gcd(a_f-1, P)=1$のとき、$(a_f-1)\inv$が存在するので、$b_g =(a_f-1)\inv(a_g -1)b_f$により解が一意に決まる。
+\subsection{行列構築の方法}
+与えられた$(L/2,P,J)$に対して、以下を同時に満たす$\{F_i\},\{G_i\}$を構築する。
+\begin{enumerate}
+  \item $f_i,G_j$は$(i,j)\in\Delta$に対して可換である\label{condition:a'}
+  \item 少なくとも一つの$(i,j)\in[L/2]^2\backslash\Delta$に対して非可換である\label{condition:b'}
+  \item アクティブ行列$\HX,\HZ$内の短いサイクルを避ける(長さ8以下のUTCBC以外のサイクル)\label{condition:c'}
+\end{enumerate}
+可換表テーブル：
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cccccc}
+      & $G_0$ & $G_1$ & $G_2$ & $G_3$ & $G_4$ & $G_5$ \\ \hline
+$F_0$ & 1     & 1     & 1     & 0     & 1     & 1     \\
+$F_1$ & 1     & 1     & 0     & 1     & 1     & 1     \\
+$F_2$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_3$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_4$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_5$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+\end{tabular}
+\end{table}
 
-  $\gcd(a_f-1, P)=d>1$のとき、
-  \begin{align}
-      A &= a_f - 1 \\
-      C &= (a_g  - 1)b_f \\
-      x &= b_g 
-  \end{align}とする。
-  これにより、式(\eqref{eq:original})は以下の1次合同方程式となる。
-  \begin{equation}
-      Ax \equiv C \pmod P \label{eq:simplified}
-  \end{equation}
+\section{この論文での条件を満たす$F_i,G_i$の構成}
+目標は、$f_0$と$g_3$、$f_1$と$g_2$が非可換であり、他がすべて可換であるような$F_i,G_i$を見つけることである。(他が厳密に可換である必要があるのかはわからないが、今は条件から解空間を特定することに集中する。)
 
-  合同式の定義より、ある整数 $k$ が存在して $Ax - C = Pk$ が成り立つ。
-  これを変形すると、以下の1次不定方程式が得られる。
-  \begin{equation}
-      Ax - Pk = C \label{eq:diophantine}
-  \end{equation}
-  $A$ と $P$ はともに $d$ の倍数であるため、互いに素な整数 $A', P'$を用いて以下のように表せる。
-  \begin{equation}
-      A = d A', \quad P = d P'
-  \end{equation}
-  これらを式(\eqref{eq:diophantine})に代入すると、
-  \begin{align}
-      d A' x - d P' k &= C \\
-      d(A' x - P' k) &= C \label{eq:factorized}
-  \end{align}
-  左辺は整数 $d$ と整数の積であるため $d$ の倍数である。したがって、等式が成立するためには、右辺 $C$ も $d$ で割り切れなければならない。
-  これより、以下の2つのケースに分類される。
-  \begin{description}
-    \item[$C \not\equiv 0 \pmod d$\\]
-      等式を満たす整数 $x, k$ は存在しない。
-      したがって、この場合、元の合同方程式の解は存在しない。
-    \item[$C \equiv 0 \pmod d$\\]
-    $C = d C'$ となる整数 $C'$ が存在する。
-    式(\eqref{eq:factorized})の両辺を $d$ で割ると、
-    \begin{equation}
-      A' x - P' k = C' \label{eq:reduced}
-    \end{equation}
-    となる。これを合同式に戻すと、法 $P'$ における方程式が得られる。
-    \begin{equation}
-      A' x \equiv C' \pmod{P'} \label{eq:reduced_mod}
-    \end{equation}
-    ここで $\gcd(A', P') = 1$ であるため、法 $P'$ において $A'$ の逆元 $(A')^{-1}$ が一意に存在する。
-    よって、式(\eqref{eq:reduced_mod})は法 $P'$ においてただ1つの解 $x_0$ を持つ。
-    \begin{equation*}
-      x \equiv x_0 \pmod{P'} \implies x = x_0 + m P' \quad (m \in \mathbb{Z})
-    \end{equation*}
-    元の法 $P$ ($= d P'$) における解 $x$ を求めるため、$0 \le x < P$ の範囲にある解を探す。
-    \begin{align*}
-        0 &\le x_0 + m P' < d P' \\
-        0 &\le \frac{x_0}{P'} + m < d
-    \end{align*}
-    $x_0$ を $0 \le x_0 < P'$ と選べば、これを満たす整数 $m$ は $0, 1, \dots, d-1$ の計 $d$ 個存在する。
-    したがって、解は$b_g  = x_0+nP'(n=0,1,\dots,d-1)$
-  \end{description}
+これまでと同様、$f_i(x) = a_{f_i}x+b_{f_i}$のようにあらわす。
+\subsection{条件A'}
+\begin{align}
+  (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \not\equiv 0 \pmod P\quad\text{ for }(i,j)\in[L/2]^2\backslash\{(0,3),(1,2)\}\label{eq:01231}
+\end{align}
 
-\paragraph{$a_f=1$かつ$a_g \neq1$のとき}
-$A=0$より左辺が0になるので、右辺が0、すなわち$C=0$であれば任意の$b_g $が解となり、そうでない場合は解なしとなる。
+\subsection{条件B'}
+\begin{align}
+  (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \not\equiv 0 \pmod P\quad\text{ for }(i,j)=(0,3),(1,2)\label{eq:012312}
+\end{align}
 
-\paragraph{$a_g =1$のとき\\}
-このとき、$a_g -1=0$より$C=0$である。よって、右辺の$Ax$が$P$の倍数であればよい。\\
-$a_f=1$の時、$A=0$より$Ax=0$となるため、任意の$b_g $で式\eqref{eq:original}は成り立つ。\\
-$a_f\neq 1$のとき、以下の2つの場合に分けて考える。
-\begin{description}
-  \item[$\gcd(A, P)=1$]
-    解は$b_g =0$のみ
-  \item[$\gcd(A, P)=d>1$]
-    $A = dA', P = dP'$とすると、$x$は$dA'x=mP=mdP'$を満たせばよい($m\in\mathbb{Z}$)。
-    $A'$と$P'$は互いに素なので、$x$は$P'$の倍数であればよい。
-    よって、解は$b_g =nP'(n=0,1,\dots,d-1)$となる。
-\end{description}
-\end{appendix}
 
+\subsection{条件C'}
+条件\ref{condition:c'}を考える前に、今回の$\HHX,\HHZ$におけるUTCBCを特定する。
+$\HHX,\HHZ$は以下である。
+\begin{align}
+  \HHX &= \left( \begin{array}{cccccc|cccccc}
+  F_0 & F_1 & F_2 & F_3 & F_4 & F_5 & G_0 & G_1 & G_2 & G_3 & G_4 & G_5 \\
+  F_5 & F_0 & F_1 & F_2 & F_3 & F_4 & G_5 & G_0 & G_1 & G_2 & G_3 & G_4 \\
+  F_4 & F_5 & F_0 & F_1 & F_2 & F_3 & G_4 & G_5 & G_0 & G_1 & G_2 & G_3 \\ \hline
+  F_3 & F_4 & F_5 & F_0 & F_1 & F_2 & G_3 & G_4 & G_5 & G_0 & G_1 & G_2 \\
+  F_2 & F_3 & F_4 & F_5 & F_0 & F_1 & G_2 & G_3 & G_4 & G_5 & G_0 & G_1 \\
+  F_1 & F_2 & F_3 & F_4 & F_5 & F_0 & G_1 & G_2 & G_3 & G_4 & G_5 & G_0
+  \end{array} \right).\\
+  \HHZ &= \left( \begin{array}{cccccc|cccccc}
+  G'_0 & G'_5 & G'_4 & G'_3 & G'_2 & G'_1 & F'_0 & F'_5 & F'_4 & F'_3 & F'_2 & F'_1 \\
+  G'_1 & G'_0 & G'_5 & G'_4 & G'_3 & G'_2 & F'_1 & F'_0 & F'_5 & F'_4 & F'_3 & F'_2 \\
+  G'_2 & G'_1 & G'_0 & G'_5 & G'_4 & G'_3 & F'_2 & F'_1 & F'_0 & F'_5 & F'_4 & F'_3 \\ \hline
+  G'_3 & G'_2 & G'_1 & G'_0 & G'_5 & G'_4 & F'_3 & F'_2 & F'_1 & F'_0 & F'_5 & F'_4 \\
+  G'_4 & G'_3 & G'_2 & G'_1 & G'_0 & G'_5 & F'_4 & F'_3 & F'_2 & F'_1 & F'_0 & F'_5 \\
+  G'_5 & G'_4 & G'_3 & G'_2 & G'_1 & G'_0 & F'_5 & F'_4 & F'_3 & F'_2 & F'_1 & F'_0
+  \end{array} \right).
+\end{align}
+
+論文の通り、
+\begin{align}
+    W=F_{i}G_j\inv G_{j'}F_i\inv F_{i'}G_{j'}\inv G_jF_{i'}\inv\label{eq:01232}
+\end{align}
+はUTCBCである。
+他にもUTCBCの形があるかもしれない。
+\begin{definition}
+  行インデックスシーケンス$c$、列インデックスシーケンス$r$により特定される$\HHX(\HHZ)$でのサイクルを$\cy{c}{r}{X(Z)}$と表す。
+\end{definition}
+
+\subsubsection{長さ4のサイクル}
+長さ4のサイクルは、長さ2の行インデックスシーケンス及び長さ2の列インデックスシーケンスを与えれば、一意に特定される。
+例えば、
+\begin{align}
+  \cy{[0,7]}{[0,1]}{X}&=
+  (\HHX)_{0,0}\rightarrow
+  (\HHX)_{0,7}\rightarrow
+  (\HHX)_{1,7}\rightarrow
+  (\HHX)_{1,0}\\
+  &=F_0\rightarrow
+  G_1\rightarrow
+  G_0\rightarrow
+  F_5
+\end{align}となる。
+
+行インデックスシーケンス$c=[c_1,c_2]$、列インデックスシーケンス$r=[r_1,r_2]$とする。ただし、$c_1,c_2\in[L]$、$r_1,r_2\in[L/2]$である。
+\paragraph{同一とみなせるサイクル}
+$c_1=c_2$または$r_1=r_2$のとき、このサイクルの関数は明らかに恒等関数となる。
+$\cy{[c_1, c_2]}{[r_1, r_2]}{X}$が閉ならば、$\cy{[c_1, c_2]}{[r_2, r_1]}{X},\cy{[c_2, c_1]}{[r_1, r_2]}{X},\cy{[c_2, c_1]}{[r_2, r_1]}{X}$も閉である。
+
+以上を踏まえると、$c_1<c_2, r_1<r_2$としてよく、列インデックスシーケンスは$(L^2-L)/2$通り、列インデックスシーケンスは$((L/2)^2-L/2)/2$通りあり、これらを$\HHX,\HHZ$で考えるので、長さ4のサイクルは$(L^2-L)/2\times ((L/2)^2-L/2)/2\times2$通りある。
+$L=12$で考えると、$12^4/2 = 10368$通りとなる。
+
+\subsubsection{長さ8のサイクル}
+長さ8のサイクルは、長さ4の行インデックスシーケンス及び長さ4の列インデックスシーケンスを与えれば、一意に特定される。
+例えば、
+\begin{align}
+  \cy{[0,7,1,5]}{[0,1,2,3]}{X}&=
+  (\HHX)_{0,0}\rightarrow
+  (\HHX)_{0,7}\rightarrow
+  (\HHX)_{1,7}\rightarrow
+  (\HHX)_{1,1}\\
+  &\rightarrow
+  (\HHX)_{2,1}\rightarrow
+  (\HHX)_{2,5}\rightarrow
+  (\HHX)_{3,5}\rightarrow
+  (\HHX)_{3,0}\\
+  &=F_0\rightarrow
+  G_1\rightarrow
+  G_0\rightarrow
+  F_0\rightarrow
+  F_5\rightarrow
+  F_3\rightarrow
+  F_2\rightarrow
+  F_3
+\end{align}となる。
+行インデックスシーケンスは$(L/2)^4$通り、列インデックスシーケンスは$L^4$通りあり、これらを$\HHX,\HHZ$で考えるので、長さ4のサイクルは$(L/2)^4\times L^4\times 2=L^8/8$通りある。
+$L=12$で考えると、$12^8/8 = 53747712$通りとなる。
+
+
+
+
+
+\input{appendix.tex}
 \end{document}
