@@ -25,9 +25,10 @@
 \contentsline {subsection}{\numberline {12.1}条件A'}{15}{subsection.12.1}%
 \contentsline {subsection}{\numberline {12.2}条件B'}{15}{subsection.12.2}%
 \contentsline {subsection}{\numberline {12.3}条件C'}{15}{subsection.12.3}%
-\contentsline {subsubsection}{\numberline {12.3.1}長さ4のサイクル}{16}{subsubsection.12.3.1}%
+\contentsline {subsection}{\numberline {12.4}サイクルの定義について}{15}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}長さ4のサイクル}{16}{subsubsection.12.4.1}%
 \contentsline {paragraph}{同一とみなせるサイクル}{16}{section*.6}%
-\contentsline {subsubsection}{\numberline {12.3.2}長さ8のサイクル}{16}{subsubsection.12.3.2}%
+\contentsline {subsubsection}{\numberline {12.4.2}長さ8のサイクル}{16}{subsubsection.12.4.2}%
 \contentsline {section}{\numberline {付録A}定理\ref {th:numberOfSequence}の証明}{16}{appendix.A}%
 \contentsline {section}{\numberline {付録B}\ref {ssec:analyzeCondA}の解の導出}{18}{appendix.B}%
 \contentsline {paragraph}{$a_f\neq 1$かつ$a_g \neq 1$のとき\\}{18}{section*.7}%
