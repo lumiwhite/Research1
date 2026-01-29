@@ -1,0 +1,342 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{../command.tex}
+% =========================================
+\begin{document}
+
+\title{$\fU, \gU$の条件を満たす解空間の特定}
+\author{黒澤雅治}
+\date{2025/12/21}
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{ブロックサイクルが閉かどうかの判定}\label{ssec:is_cbc}
+サイクルの関数が$f(x)=ax+b$であるとする。
+このとき、サイクルが閉であることはある$x\in[P]$について$ax+b = x$が成り立つことである。
+よって、$(a-1)x+b=0$を満たす$x$が存在するならブロックサイクルは閉である。
+この条件は、
+\begin{align}
+  b \equiv 0 \pmod{\gcd(a-1, P)}\label{eq:cbc}
+\end{align}
+と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
+$a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
+
+\section{笠井先生の論文Breaking the Orthogonality Barrier in Quantum LDPC Codesについて}
+\subsection{従来の行列の構成方法}
+\begin{definition}\label{def:01231}
+  $\HHX,\HHZ$を母行列、$\HX,\HZ$をアクティブ行列、$\tHX,\tHZ$を潜在部と呼ぶ。
+  以下が成り立つ。
+  \begin{align}\label{eq:012313}
+  \HHX = \begin{bmatrix}
+  \HX\\
+  \tHX
+  \end{bmatrix},\qquad
+  \HHZ = \begin{bmatrix}
+  \HZ\\
+  \tHZ
+  \end{bmatrix}
+  \end{align}
+\end{definition}
+$\HHX,\HHZ$は2つの直交する正方(ブロック巡回)母行列である。
+これらにより構成される母行列のレートは0である。
+よってレートを調整するのに内部行を消去する。
+
+ここで、母行列の直交性は潜在部の行に強い制約を課し、最小距離を劣化させる。
+\begin{definition}\label{def:01233}
+最小距離を以下で定義する。
+\begin{align}\label{eq:01234}
+  \dz := \min\{\wt(z):z\in C_X\backslash C_Z^\top\},\qquad
+  \dx := \min\{\wt(x):x\in C_Z\backslash C_X^\top\}
+\end{align}  
+\end{definition}
+\begin{theorem}\label{th:01235}
+  母行列の直交性$\HHX(\HHZ)^\top=0$は、アクティブ部の直交性$\HX(\HZ)^\top=0$だけでなく、
+  \begin{align}\label{eq:01236}
+    \HX(\tHZ)^\top=0,\qquad
+    \tHX(\HZ)^\top=0
+  \end{align}
+  も強要する。  
+\end{theorem}
+これは、$\Row(\HHX)\subset C_Z$および$\Row(\HHZ)\subset C_X$であることを暗示している。
+したがって、$\tHX$の各行$\bm{x}$について$\bm{x}\in C_Z$、$\tHZ$の各行$\bm{z}$について$\bm{z}\in C_X$が成り立つ。
+一般的には$\bm{x}$は$C_X^\top$に属する必要はなく、$\bm{z}$も$C_Z^\perp$に属する必要はなく、このときこれらは論理演算子となる。最小行重み(我々の構成では$L$)が$d_X$および$d_Z$の上界となる。
+
+\subsection{新しい行列の構成方法}
+母行列から行を削除することでアクティブ行列$\HX,\HZ$を得るが、潜在行列の低重み行が、$\HX,\HZ$と直交しないようにこれらを設計する。
+つまり、低重みの$\bm{x}\in\Row(\tHX)$に対し$\HZ\bm{x}^\top \neq 0$を、$\bm{z}\in\Row(\tHZ)$に対し$\HX\bm{z}^\top \neq 0$を強制し、つまり$\Row(\tHX)\not\subset C_Z$および$\Row(\tHZ)\not\subset C_X$を強制する。
+同じ議論は、個々の潜在行だけでなく、低重みの線形結合にも適用される。
+
+\begin{definition}\label{def:01237}
+  潜在ベースの$X,Z$距離の上界を以下で定義する。
+  \begin{align}
+  d_X^{\text{(lat)}} &:= \min\left\{\wt(\bm{x}):\bm{x}\in \Row(\tHX)\cap C_Z\backslash C_X^\perp\right\}\\
+  &=\min\left\{\wt(\bm{x}):\bm{x}\in C_Z, \bm{x}=(\tHX)^\top\bm{u}\text{ for some }\bm{u}, \bm{x}\not\in C_X^\top\right\}\\
+  d_Z^{\text{(lat)}} &:= \min\left\{\wt(\bm{z}):\bm{z}\in \Row(\tHZ)\cap C_X\backslash C_Z^\perp\right\} \\
+  &=\min\left\{\wt(\bm{z}):\bm{z}\in C_X, \bm{z}=(\tHZ)^\top\bm{u}\text{ for some }\bm{u}, \bm{z}\not\in C_Z^\top\right\}\\
+\end{align}
+\end{definition}
+
+まとめると、
+\begin{align}
+\HX\HZ^\top = 0,\quad\HX(\tHZ)^\top \neq 0, \quad\HZ(\tHX)^\top \neq 0 
+\end{align}
+かつ$\dxl,\dzl$が大きい、を満たすような潜在行列$\tHX,\tHZ$を構成したい。
+一般化した萩原・今井符号、つまりブロック巡回構造の母行列のペアを定義し、アクティブ部の直交性$\HX(\HZ)^\top = 0$のみを課す。
+行重み$J$、列重み$L$のプロトグラフLDPC符号はサイズ$P$の$J\times L$の置換行列により定義される。
+
+\begin{definition}\label{def:01238}
+  サイズ$LP/2\times LP$の母行列を以下で定義する。
+  \begin{align}
+    (\HHX)_{i,j} &= F_{j-i},\quad (\HHX)_{i,L_2+j}=G_{j-i},\\
+    (\HHZ)_{i,j} &= G_{i-j}^\top,\quad (\HHZ)_{i,L_2+j}=F_{i-j}^\top,
+  \end{align}
+\end{definition}
+アクティブ行列は母行列の上$J$ブロック行を取ることで得られる。
+
+潜在部がアクティブ部と可換でないようにすることで、低重みの潜在部の組は自動的に論理演算子にならない。
+
+ブロック巡回構造は$\HX(\HZ)^\top$が差分のみに依存するようにし、結果である
+Interaction Matrix$\Psi_r$により、可換性制約を小さな差分集合に位置づけられる。
+
+
+$\HHX$の各ブロック行は、左側は$(F_0,F_1,\dots,F_{L/2-1})$の巡回シフトであり、右側は$(G_0,G_1,\dots,G_{L/2-1})$の巡回シフトである。
+したがってブロックは差分$(j-i)$のみに依存し、母行列の積も差分のみに依存する。
+任意の$i,k\in[L/2]$に対して、$(i,k)$ブロックは
+\begin{align}
+  (\HHX(\HHZ)^\top)_{i,k} = \sum_{u=0}^{L_2-1}\left(F_uG_{k-u} + G_{k-u}F_u\right) =: \Psi_r
+\end{align}
+で与えられ、これは$r=(k-i)\mod L_2$のみに依存する。
+$r\in[L/2]$に対し、すべての$u\in[L/2]$に対し$F_u$と$G_{r-u}$が可換ならば、$\Psi_r=0$である。
+
+\subsection{アクティブ部の直交性の十分条件}
+\begin{definition}\label{def:01239}
+  \begin{align}
+    \Delta := \left\{(k-i)\mod L/2\mid 0\leq i,k\leq J-1\right\}\subseteq[L/2]
+  \end{align}
+\end{definition}
+\begin{theorem}\label{th:012310}
+  もし$F_u$と$G_{r-u}$がすべての$r\in\Delta,u\in[L/2]$に対し可換ならば、$\HX\HZ^\top=0$である。
+\end{theorem}
+
+\subsection{潜在部の非直交性の必要条件}
+\begin{definition}\label{def:012311}
+  可換性が必要な$(F_i,G_j)$のインデックスペアを以下で定義する。
+  \begin{align}
+    \Gamma := \bigcup_{r\in\Delta} \Gamma_r,\quad \Gamma_r := \{(i,j)\mid(i,j)=(u,r-u), u\in[L/2]\}
+  \end{align}
+\end{definition}
+$L\geq 4J$および$\Psi_r\neq 0$を満たすような$r\in[L/2]\backslash \Delta$が存在することが、
+潜在部の非直交性の必要条件である。
+
+\subsection{ガーズの上界}
+長さ8のサイクルは必ず存在する。
+\begin{align}
+    W=F_{i}G_j\inv G_{j'}F_i\inv F_{i'}G_{j'}\inv G_jF_{i'}\inv\label{eq:01232}
+\end{align}
+はUTCBCである。
+他にもUTCBCの形があるかもしれない。
+
+\subsection{行列構築の方法}
+与えられた$(L/2,P,J)$に対して、以下を同時に満たす$\{F_i\},\{G_i\}$を構築する。
+\begin{enumerate}[label=\Alph*', ref=\Alph*']
+  \item $f_i,G_j$は$(i,j)\in\Delta$に対して可換である\label{condition:a'}
+  \item 少なくとも一つの$(i,j)\in[L/2]^2\backslash\Delta$に対して非可換である\label{condition:b'}
+  \item アクティブ行列$\HX,\HZ$内の短いサイクルを避ける(長さ8以下のUTCBC以外のサイクル)\label{condition:c'}
+\end{enumerate}
+可換表テーブル：
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cccccc}
+      & $G_0$ & $G_1$ & $G_2$ & $G_3$ & $G_4$ & $G_5$ \\ \hline
+$F_0$ & 1     & 1     & 1     & 0     & 1     & 1     \\
+$F_1$ & 1     & 1     & 0     & 1     & 1     & 1     \\
+$F_2$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_3$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_4$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+$F_5$ & 1     & 1     & 1     & 1     & 1     & 1     \\
+\end{tabular}
+\end{table}
+
+\section{この論文での条件を満たす$F_i,G_i$の構成}
+目標は、$f_0$と$g_3$、$f_1$と$g_2$が非可換であり、他がすべて可換であるような$F_i,G_i$を見つけることである。(他が厳密に可換である必要があるのかはわからないが、今は条件から解空間を特定することに集中する。)
+
+これまでと同様、$f_i(x) = a_{f_i}x+b_{f_i}$のようにあらわす。
+\subsection{条件\ref{condition:a'}}
+\begin{align}
+  (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \equiv 0 \pmod P\quad\text{ for }(i,j)\in[L/2]^2\backslash\{(0,3),(1,2)\}\label{eq:01231}
+\end{align}
+
+\subsection{条件\ref{condition:b'}}
+\begin{align}
+  (a_{f_i} - 1)b_{g_j} - (a_{g_j} - 1)b_{f_i} \not\equiv 0 \pmod P\quad\text{ for }(i,j)=(0,3),(1,2)\label{eq:012312}
+\end{align}
+
+
+\subsection{条件\ref{condition:c'}}
+条件\ref{condition:c'}を考える前に、今回の$\HHX,\HHZ$におけるUTCBCを特定する。
+$\HHX,\HHZ$は以下である。
+\begin{align}
+  \HHX &= \left( \begin{array}{cccccc|cccccc}
+  F_0 & F_1 & F_2 & F_3 & F_4 & F_5 & G_0 & G_1 & G_2 & G_3 & G_4 & G_5 \\
+  F_5 & F_0 & F_1 & F_2 & F_3 & F_4 & G_5 & G_0 & G_1 & G_2 & G_3 & G_4 \\
+  F_4 & F_5 & F_0 & F_1 & F_2 & F_3 & G_4 & G_5 & G_0 & G_1 & G_2 & G_3 \\ \hline
+  F_3 & F_4 & F_5 & F_0 & F_1 & F_2 & G_3 & G_4 & G_5 & G_0 & G_1 & G_2 \\
+  F_2 & F_3 & F_4 & F_5 & F_0 & F_1 & G_2 & G_3 & G_4 & G_5 & G_0 & G_1 \\
+  F_1 & F_2 & F_3 & F_4 & F_5 & F_0 & G_1 & G_2 & G_3 & G_4 & G_5 & G_0
+  \end{array} \right).\\
+  \HHZ &= \left( \begin{array}{cccccc|cccccc}
+  G'_0 & G'_5 & G'_4 & G'_3 & G'_2 & G'_1 & F'_0 & F'_5 & F'_4 & F'_3 & F'_2 & F'_1 \\
+  G'_1 & G'_0 & G'_5 & G'_4 & G'_3 & G'_2 & F'_1 & F'_0 & F'_5 & F'_4 & F'_3 & F'_2 \\
+  G'_2 & G'_1 & G'_0 & G'_5 & G'_4 & G'_3 & F'_2 & F'_1 & F'_0 & F'_5 & F'_4 & F'_3 \\ \hline
+  G'_3 & G'_2 & G'_1 & G'_0 & G'_5 & G'_4 & F'_3 & F'_2 & F'_1 & F'_0 & F'_5 & F'_4 \\
+  G'_4 & G'_3 & G'_2 & G'_1 & G'_0 & G'_5 & F'_4 & F'_3 & F'_2 & F'_1 & F'_0 & F'_5 \\
+  G'_5 & G'_4 & G'_3 & G'_2 & G'_1 & G'_0 & F'_5 & F'_4 & F'_3 & F'_2 & F'_1 & F'_0
+  \end{array} \right).
+\end{align}
+
+\subsubsection{サイクルの定義について}
+\cite{kasai2025quantum}によると、
+"In this construction, each step in the path moves either to a different row or to a different column, but not both simultaneously. That is, consecutive blocks must differ in exactly one of their row or column indices"
+とあり、サイクルの隣り合う要素は行か列いずれか1つが異ならなければならない。よって、行インデックスシーケンス、列インデックスシーケンスともに同じ要素が連続してはいけない、という前提とする。(要確認)
+
+サイクルは最初の位置から、1つおきに位置を指定することで、サイクルを一意に特定できる。
+% 例えば、長さ8のサイクルについて、4つの位置($[r_1, c_1],[r_2, c_2],[r_3, c_3],[r_4, c_4]$)を指定すれば、サイクルは
+% \[
+% [r_1, c_1]\rightarrow[r_1,c_2]\rightarrow[r_2,c_2]\rightarrow[r_2,c_3]\rightarrow[r_3,c_3]\rightarrow[r_3,c_4]\rightarrow[r_4,c_4]\rightarrow[r_4,c_1]\rightarrow[r_1,c_1]
+% \]
+% と一意に特定される。
+
+\subsubsection{検査すべきサイクルの個数}
+\paragraph{長さ4のサイクル}
+長さ4のサイクルは、2つの位置を与えれば、一意に特定される。
+2つの位置を$[r_1, c_1],[r_2, c_2]$とすると、サイクルは
+\begin{align}
+  [r_1, c_1]\rightarrow[r_1,c_2]\rightarrow[r_2,c_2]\rightarrow[r_2,c_1]\rightarrow[r_1,c_1]\label{cy:012801}
+\end{align}
+である。
+この時、位置$[r_1, c_2],[r_2, c_1]$により指定されるサイクルは、
+\begin{align}
+  [r_1,c_2]\rightarrow[r_1,c_1]\rightarrow[r_2,c_1]\rightarrow[r_2,c_2]\rightarrow[r_1,c_2]\label{cy:012802}
+\end{align}
+である。
+このサイクルはサイクル\ref{cy:012801}とは異なるが、辿る順番が逆であるだけなので、\ref{cy:012801}が閉であることと\ref{cy:012802}が閉であることは同値である。
+
+以上を踏まえ、検査すべきサイクルの個数を考える。
+まず、2つの位置の選び方は、列、行ともに異なるものを選ぶ必要があることを考えると、1つ目が$L/2\times L$通り、2つ目は$(L/2-1)\times (L-1)$通りであり、全部で$L/2\times (L/2-1)\times L\times (L-1)$通りである。
+長さ4のサイクルについて、構成する4つの位置が決まれば、その辿り方は一意に定まるので、同値な条件を導く位置選択は4つずつ存在する。
+よって、検査すべきサイクルの個数は
+\begin{align}
+  L/2\times (L/2-1)\times L\times (L-1)/4\label{eq:012803}
+\end{align}
+個である。
+
+\paragraph{長さ6のサイクル}
+長さ6のサイクルは、長さ3の行インデックスシーケンス及び長さ3の列インデックスシーケンスを与えれば、一意に特定される。
+\ref{th:numberOfSequence}より、行インデックスシーケンスは$(L/2-1)^3 - (L/2-1)$通り、列インデックスシーケンスは$(L-1)^3 - (L-1)$通りある。
+ここで、同一のサイクルを形成する行インデックスシーケンスと列インデックスシーケンスの組み合わせは、3つずつ存在する。($\cy{[0,1,2]}{[0,1,2]}{X}$と、$\cy{[1,2,0]}{[1,2,0]}{X}$、$\cy{[2,1,0]}{[2,1,0]}{X}$は同一)
+よって、考えるべきサイクル数は
+\[
+((L/2-1)^3 - (L/2-1))\times ((L-1)^3 - (L-1))/3\times 2
+\]
+通りある。
+
+$L=12$で考えると、
+\[
+  ((L/2-1)^3 - (L/2-1))\times ((L-1)^3 - (L-1))/3\times 2 = 105600
+\]
+通りとなる。
+
+\paragraph{長さ8のサイクル}
+長さ8のサイクルは、長さ4の行インデックスシーケンス及び長さ4の列インデックスシーケンスを与えれば、一意に特定される。
+同様に考えると\ref{th:numberOfSequence}より、行インデックスシーケンスは$(L/2-1)^4 +(L/2-1)$通り、列インデックスシーケンスは$(L-1)^4 + (L-1)$通りある。
+ここで、同一のサイクルを形成する行インデックスシーケンスと列インデックスシーケンスの組み合わせは、4つずつ存在する。($\cy{[0,1,2,3]}{[0,1,2,3]}{X}$と、$\cy{[3,0,1,2]}{[3,0,1,2]}{X}$、$\cy{[2,3,0,1]}{[2,3,0,1]}{X}$、$\cy{[1,2,3,0]}{[1,2,3,0]}{X}$は同一)
+よって、考えるべきサイクル数は
+\[
+  ((L/2-1)^4 + (L/2-1))\times ((L-1)^4 + (L-1))/4\times 2通りある。
+\]
+$L=12$で考えると、
+\[
+  ((L/2-1)^4 +(L/2-1))\times ((L-1)^4 + (L-1))/ 2 = 4615380
+\]
+通りとなる。
+
+以上合わせると、検査すべきサイクルは
+$10368+105600+4615380 = 4731348$個である。
+
+\section{行列を用いた条件\ref{condition:a'},\ref{condition:b'}の定式化}\label{sec:14}
+\ref{sec:8}節と同様に、条件\ref{condition:a'}および\ref{condition:b'}を行列を用いて表現する。
+\begin{align}
+  \aU = [a_{f_0},a_{f_1},\dots,a_{f_5},a_{g_0},a_{g_1},\dots,a_{g_5}]\tr,\qquad
+  \bU = [b_{f_0},b_{f_1},\dots,b_{f_5},b_{g_0},b_{g_1},\dots,b_{g_5}]\tr
+\end{align}
+とする。
+$\aU$を定数として固定することで条件を満たす$\bU$の解空間を求める。
+
+行列$G'$を以下の$L,R$を用いて$G' = [L\mid R]$と定義する。
+\begin{align}
+  L_{(6i+j, k)} &= \begin{cases}
+    1-a_{g_i} & \mif k = i\\
+    0 & \text{otherwise}
+  \end{cases}\\
+  R_{(6i+j, k)} &= \begin{cases}
+    a_{f_j}-1 & \mif k = j\\
+    0 & \text{otherwise}
+  \end{cases}
+\end{align}
+
+\paragraph{条件\ref{condition:a'}}
+$G'$から3,8行目($(i,j)=(0,3),(1,2)$に対応する行)を除いたものを$G_a'$とすると、条件\ref{condition:a'}は以下で表される。
+\begin{align}
+  G_a'\bU \equiv O \pmod P
+\end{align}
+
+\paragraph{条件\ref{condition:b'}}
+$G'$の3,8行目のみを取り出したものを$G_b'$とすると、条件\ref{condition:b'}は、
+\begin{align}
+  G_b'\bU \not\equiv \cU_b' \pmod P
+\end{align}
+かつ$\cU_b'$の要素がすべて非ゼロであることである。
+
+\paragraph{条件\ref{condition:c'}}
+条件\ref{condition:c'}は、4731348個ものサイクルについて考える必要があるので、代表として合成関数が$f_C(x) = a_C x + b_C$であるサイクルを考える。
+条件は、
+\begin{align}
+  b_C \not\equiv 0 \pmod{\gcd(a_C-1, P)}\label{eq:012601}
+\end{align}
+が成り立つことで、$b_C$は$\bU$の線形結合として$b_C = c_C \bU$で表せる。
+これを用いると、\eqref{eq:012601}は以下のように表せる。
+\begin{align}
+  c_C\bU \not\equiv 0 \pmod{\gcd(a_C-1, P)}\label{eq:012602}\\
+  \iff \frac{P}{\gcd(a_C-1, P)}c_C\bU \not\equiv 0 \pmod{P}\label{eq:012603}
+\end{align}
+これをすべてのサイクルについて連結することで行列$G_c'$を得ることで、条件\ref{condition:c'}は
+\begin{align}
+  G_c'\bU \not\equiv \cU_c' \pmod P
+\end{align}
+かつ$\cU_c'$の要素がすべて非ゼロであることである。
+
+\bibliography{refs}
+\bibliographystyle{junsrt} %参考文献出力スタイル
+
+\end{document}

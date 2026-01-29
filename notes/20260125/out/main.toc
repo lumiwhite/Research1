@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}ブロックサイクルが閉かどうかの判定}{2}{section.1}%
+\contentsline {section}{\numberline {2}笠井先生の論文Breaking the Orthogonality Barrier in Quantum LDPC Codesについて}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}従来の行列の構成方法}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}新しい行列の構成方法}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}アクティブ部の直交性の十分条件}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}潜在部の非直交性の必要条件}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}ガーズの上界}{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}行列構築の方法}{4}{subsection.2.6}%
+\contentsline {section}{\numberline {3}この論文での条件を満たす$F_i,G_i$の構成}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}条件\ref {condition:a'}}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}条件\ref {condition:b'}}{5}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}条件\ref {condition:c'}}{5}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}サイクルの定義について}{6}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}検査すべきサイクルの個数}{6}{subsubsection.3.3.2}%
+\contentsline {paragraph}{長さ4のサイクル}{6}{section*.2}%
+\contentsline {paragraph}{長さ6のサイクル}{6}{section*.3}%
+\contentsline {paragraph}{長さ8のサイクル}{7}{section*.4}%
+\contentsline {section}{\numberline {4}行列を用いた条件\ref {condition:a'},\ref {condition:b'}の定式化}{7}{section.4}%
+\contentsline {paragraph}{条件\ref {condition:a'}}{7}{section*.5}%
+\contentsline {paragraph}{条件\ref {condition:b'}}{7}{section*.6}%
+\contentsline {paragraph}{条件\ref {condition:c'}}{8}{section*.7}%
