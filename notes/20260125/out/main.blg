@@ -1,47 +1,47 @@
 This is upBibTeX, Version 0.99d-j0.36-u2.00 (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-The style file: junsrt.bst
+The style file: unsrt.bst
 Database file #1: refs.bib
-You've used 1 entry,
-            2270 wiz_defined-function locations,
-            543 strings with 4184 characters,
-and the built_in function-call counts, 194 in all, are:
-= -- 11
-> -- 4
+You've used 2 entries,
+            1791 wiz_defined-function locations,
+            455 strings with 3777 characters,
+and the built_in function-call counts, 267 in all, are:
+= -- 19
+> -- 8
 < -- 0
-+ -- 2
-- -- 1
-* -- 5
-:= -- 34
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 1
++ -- 4
+- -- 2
+* -- 6
+:= -- 50
+add.period$ -- 5
+call.type$ -- 2
+change.case$ -- 2
 chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 14
-empty$ -- 21
+cite$ -- 2
+duplicate$ -- 13
+empty$ -- 33
 format.name$ -- 2
-if$ -- 42
+if$ -- 57
 int.to.chr$ -- 0
-int.to.str$ -- 1
+int.to.str$ -- 2
 missing$ -- 1
-newline$ -- 8
-num.names$ -- 1
-pop$ -- 5
+newline$ -- 12
+num.names$ -- 2
+pop$ -- 10
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 11
+skip$ -- 7
 stack$ -- 0
 substring$ -- 0
-swap$ -- 1
+swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 1
-width$ -- 2
-write$ -- 12
-is.kanji.str$ -- 8
+while$ -- 2
+width$ -- 3
+write$ -- 20
+is.kanji.str$ -- 0

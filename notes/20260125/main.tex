@@ -24,9 +24,9 @@
 % =========================================
 \begin{document}
 
-\title{$\fU, \gU$の条件を満たす解空間の特定}
-\author{黒澤雅治}
-\date{2025/12/21}
+\title{}
+\author{}
+\date{\today}
 \maketitle
 \tableofcontents
 \clearpage
@@ -42,7 +42,8 @@
 と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
 $a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
 
-\section{笠井先生の論文Breaking the Orthogonality Barrier in Quantum LDPC Codesについて}
+\section{笠井先生の論文について}
+\cite{kasai2026breakingorthogonalitybarrierquantum}
 \subsection{従来の行列の構成方法}
 \begin{definition}\label{def:01231}
   $\HHX,\HHZ$を母行列、$\HX,\HZ$をアクティブ行列、$\tHX,\tHZ$を潜在部と呼ぶ。
@@ -165,7 +166,7 @@ $L\geq 4J$および$\Psi_r\neq 0$を満たすような$r\in[L/2]\backslash \Delt
   \item アクティブ行列$\HX,\HZ$内の短いサイクルを避ける(長さ8以下のUTCBC以外のサイクル)\label{condition:c'}
 \end{enumerate}
 可換表テーブル：
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{c|cccccc}
       & $G_0$ & $G_1$ & $G_2$ & $G_3$ & $G_4$ & $G_5$ \\ \hline
@@ -178,7 +179,7 @@ $F_5$ & 1     & 1     & 1     & 1     & 1     & 1     \\
 \end{tabular}
 \end{table}
 
-\section{この論文での条件を満たす$F_i,G_i$の構成}
+\section{この論文での条件を満たす\texorpdfstring{$F_i,G_i$}{Fi, Gi}の構成}
 目標は、$f_0$と$g_3$、$f_1$と$g_2$が非可換であり、他がすべて可換であるような$F_i,G_i$を見つけることである。(他が厳密に可換である必要があるのかはわからないが、今は条件から解空間を特定することに集中する。)
 
 これまでと同様、$f_i(x) = a_{f_i}x+b_{f_i}$のようにあらわす。
@@ -229,8 +230,9 @@ $\HHX,\HHZ$は以下である。
 
 \subsubsection{検査すべきサイクルの個数}
 \paragraph{長さ4のサイクル}
-長さ4のサイクルは、2つの位置を与えれば、一意に特定される。
-2つの位置を$[r_1, c_1],[r_2, c_2]$とすると、サイクルは
+長さ4のサイクルは、2つの位置を与えれば、構成する4つの位置が決まる。
+よって、同値な条件を導く位置選択は4つずつ存在する。
+例えば、2つの位置を$[r_1, c_1],[r_2, c_2]$とすると、サイクルは
 \begin{align}
   [r_1, c_1]\rightarrow[r_1,c_2]\rightarrow[r_2,c_2]\rightarrow[r_2,c_1]\rightarrow[r_1,c_1]\label{cy:012801}
 \end{align}
@@ -240,52 +242,125 @@ $\HHX,\HHZ$は以下である。
   [r_1,c_2]\rightarrow[r_1,c_1]\rightarrow[r_2,c_1]\rightarrow[r_2,c_2]\rightarrow[r_1,c_2]\label{cy:012802}
 \end{align}
 である。
-このサイクルはサイクル\ref{cy:012801}とは異なるが、辿る順番が逆であるだけなので、\ref{cy:012801}が閉であることと\ref{cy:012802}が閉であることは同値である。
+サイクル\ref{cy:012801}とサイクル\ref{cy:012802}が導く条件は同値である。
 
 以上を踏まえ、検査すべきサイクルの個数を考える。
 まず、2つの位置の選び方は、列、行ともに異なるものを選ぶ必要があることを考えると、1つ目が$L/2\times L$通り、2つ目は$(L/2-1)\times (L-1)$通りであり、全部で$L/2\times (L/2-1)\times L\times (L-1)$通りである。
-長さ4のサイクルについて、構成する4つの位置が決まれば、その辿り方は一意に定まるので、同値な条件を導く位置選択は4つずつ存在する。
 よって、検査すべきサイクルの個数は
 \begin{align}
   L/2\times (L/2-1)\times L\times (L-1)/4\label{eq:012803}
 \end{align}
 個である。
+$L=12$を代入すると、
+\begin{align}
+  6\times 5\times 12\times 11 /4 = 990
+\end{align}
+個である。
 
 \paragraph{長さ6のサイクル}
-長さ6のサイクルは、長さ3の行インデックスシーケンス及び長さ3の列インデックスシーケンスを与えれば、一意に特定される。
-\ref{th:numberOfSequence}より、行インデックスシーケンスは$(L/2-1)^3 - (L/2-1)$通り、列インデックスシーケンスは$(L-1)^3 - (L-1)$通りある。
-ここで、同一のサイクルを形成する行インデックスシーケンスと列インデックスシーケンスの組み合わせは、3つずつ存在する。($\cy{[0,1,2]}{[0,1,2]}{X}$と、$\cy{[1,2,0]}{[1,2,0]}{X}$、$\cy{[2,1,0]}{[2,1,0]}{X}$は同一)
-よって、考えるべきサイクル数は
-\[
-((L/2-1)^3 - (L/2-1))\times ((L-1)^3 - (L-1))/3\times 2
-\]
-通りある。
+長さ6のサイクルは、3つの位置を与えれば、サイクルが一意に決まる。
+例えば、3つの位置を$[r_1, c_1],[r_2, c_2], [r_3, c_3]$とすると、サイクルは
+\begin{align}
+  [r_1, c_1]\rightarrow[r_1,c_2]\rightarrow[r_2,c_2]\rightarrow[r_2,c_3]\rightarrow[r_3,c_3]\rightarrow[r_3,c_1]\rightarrow[r_1,c_1]\label{cy:012804}
+\end{align}
+である。
 
-$L=12$で考えると、
-\[
-  ((L/2-1)^3 - (L/2-1))\times ((L-1)^3 - (L-1))/3\times 2 = 105600
-\]
-通りとなる。
+以上を踏まえ、検査すべきサイクルの個数を考える。
+まず、3つの位置の選び方は、行インデックス$\{r_1,r_2,r_3\}$と列インデックス$\{c_1,c_2,c_3\}$がそれぞれ相異なる必要があるので、
+\begin{align}
+  (L/2)\times (L/2-1)\times (L/2-2)\times L\times (L-1)\times (L-2)
+\end{align}
+通りである。
+また、同一のサイクルを与える3つの位置の並べ方は、サイクルの開始点の選び方(3通り)と巡回方向(2通り)により$6$通りある。
+したがって、検査すべきサイクルの個数は
+\begin{align}
+  \frac{(L/2)\times (L/2-1)\times (L/2-2)\times L\times (L-1)\times (L-2)}{6}\label{eq:012805}
+\end{align}
+個である。
+$L=12$を代入すると、
+\begin{align}
+  \frac{6\times 5\times 4\times 12\times 11\times 10}{6} = 26400
+\end{align}
+個である。
 
 \paragraph{長さ8のサイクル}
-長さ8のサイクルは、長さ4の行インデックスシーケンス及び長さ4の列インデックスシーケンスを与えれば、一意に特定される。
-同様に考えると\ref{th:numberOfSequence}より、行インデックスシーケンスは$(L/2-1)^4 +(L/2-1)$通り、列インデックスシーケンスは$(L-1)^4 + (L-1)$通りある。
-ここで、同一のサイクルを形成する行インデックスシーケンスと列インデックスシーケンスの組み合わせは、4つずつ存在する。($\cy{[0,1,2,3]}{[0,1,2,3]}{X}$と、$\cy{[3,0,1,2]}{[3,0,1,2]}{X}$、$\cy{[2,3,0,1]}{[2,3,0,1]}{X}$、$\cy{[1,2,3,0]}{[1,2,3,0]}{X}$は同一)
-よって、考えるべきサイクル数は
+長さ8のサイクルは、4つの位置$[r_1,c_1],[r_2,c_2],[r_3,c_3],[r_4,c_4]$を与えれば一意に定まる。
+ここで「円勘定に考えて、隣り合うものは等しくてはいけない」という条件を課す。
+すなわち、行インデックスは
 \[
-  ((L/2-1)^4 + (L/2-1))\times ((L-1)^4 + (L-1))/4\times 2通りある。
+  r_1\neq r_2,\ r_2\neq r_3,\ r_3\neq r_4,\ r_4\neq r_1
 \]
-$L=12$で考えると、
+を満たし、列インデックスも
 \[
-  ((L/2-1)^4 +(L/2-1))\times ((L-1)^4 + (L-1))/ 2 = 4615380
+  c_1\neq c_2,\ c_2\neq c_3,\ c_3\neq c_4,\ c_4\neq c_1
 \]
-通りとなる。
+を満たす（ただし、$r_1=r_3$や$c_1=c_3$のような非隣接の一致は許す）。
+
+まず、行インデックスの並び$(r_1,r_2,r_3,r_4)$の選び方は
+\begin{align}
+  (L/2)\times (L/2-1)\times \left((L/2)^2-3(L/2)+3\right)
+\end{align}
+通りである。  
+
+ここで、$n:=L/2$とおくと、$r_1$は$n$通り、$r_2$は$r_2\neq r_1$より$n-1$通りである。
+さらに$(r_3,r_4)$は、$r_3\neq r_2$かつ$r_4\neq r_3,r_1$を満たす必要がある。
+$r_3=r_1$の場合は$r_4\neq r_1$のみなので$n-1$通り、$r_3\neq r_1$の場合は$r_3$が$n-2$通りで各々$r_4$が$n-2$通りである。
+よって$(r_3,r_4)$の選び方は
+\[
+  (n-1)+(n-2)^2 = n^2-3n+3
+\]
+通りとなり、これが$\left((L/2)^2-3(L/2)+3\right)$に対応する。
+同様に、列インデックスの並び$(c_1,c_2,c_3,c_4)$の選び方は
+\begin{align}
+  L\times (L-1)\times \left(L^2-3L+3\right)
+\end{align}
+通りである。
+したがって、4つの位置の選び方はそれらの積で与えられる。
+
+また、同一のサイクルを与える4つの位置の並べ方は、サイクルの開始点の選び方(4通り)と巡回方向(2通り)により最大で$8$通りある。
+ただし、この「$8$通り」が常に相異なるとは限らない点に注意する。
+実際、位置列$([r_1,c_1],[r_2,c_2],[r_3,c_3],[r_4,c_4])$に周期がある（巡回シフトで自分自身に戻る）場合、同一サイクルを与える表現の個数は$8$より小さくなる。
+
+ここでは、同一視する操作を
+\begin{itemize}
+  \item 巡回シフト（開始点の変更）
+  \item 反転（巡回方向の反転）
+\end{itemize}
+とし、長さ8サイクルの「表現の重複数」を場合分けする。
+
+\paragraph{ケース1：周期なし（最小周期4、すなわち長さ8の真の巡回）}
+巡回シフト$4$通りがすべて相異なり、さらに反転で$\times 2$されるので、重複数は$8$である（通常ケース）。
+
+\paragraph{ケース2：周期2（2ステップで同じ位置列に戻る）}
+巡回シフトは$4$通りのうち$2$通りしか相異ならず、反転まで含めた重複数は最大でも$4$となる。
+
+よって、周期2の個数$N_{\mathrm{per2}}$を別途評価して補正する必要がある。
+ここで$N_{\mathrm{all}}$は（隣接不一致のみ課した）4位置列の総数である。
+
+今回の設定（隣接不一致のみ）では、周期2とは
+\[(r_1,c_1)=(r_3,c_3),\ (r_2,c_2)=(r_4,c_4)\]
+が成り立つことと同値であり、よって
+\begin{align}
+  N_{\mathrm{per2}} &= (L/2)\,(L/2-1)\cdot L\,(L-1)
+\end{align}
+となる。
+また、前段で求めた4位置列の総数は
+\begin{align}
+  N_{\mathrm{all}} &= (L/2)\,(L/2-1)\,\left((L/2)^2-3(L/2)+3\right)\cdot L\,(L-1)\,\left(L^2-3L+3\right).
+\end{align}
+
+したがって$L=12$では
+\begin{align}
+  N_{\mathrm{per2}} &= 6\times 5\times 12\times 11 = 3960,\\
+  N_{\mathrm{all}} &= 6\times 5\times 21\times 12\times 11\times 111 = 9230760,\\
+  N_8 &= \frac{9230760-3960}{8}+\frac{3960}{4}=1154340.
+\end{align}
 
 以上合わせると、検査すべきサイクルは
-$10368+105600+4615380 = 4731348$個である。
+$990+26400+1154340 = 1181730$個である。
 
 \section{行列を用いた条件\ref{condition:a'},\ref{condition:b'}の定式化}\label{sec:14}
-\ref{sec:8}節と同様に、条件\ref{condition:a'}および\ref{condition:b'}を行列を用いて表現する。
+条件\ref{condition:a'}および\ref{condition:b'}を行列を用いて表現する。
 \begin{align}
   \aU = [a_{f_0},a_{f_1},\dots,a_{f_5},a_{g_0},a_{g_1},\dots,a_{g_5}]\tr,\qquad
   \bU = [b_{f_0},b_{f_1},\dots,b_{f_5},b_{g_0},b_{g_1},\dots,b_{g_5}]\tr
@@ -317,9 +392,10 @@ $G'$の3,8行目のみを取り出したものを$G_b'$とすると、条件\ref
   G_b'\bU \not\equiv \cU_b' \pmod P
 \end{align}
 かつ$\cU_b'$の要素がすべて非ゼロであることである。
+\section{条件\ref{condition:c'}の定式化}
 
 \paragraph{条件\ref{condition:c'}}
-条件\ref{condition:c'}は、4731348個ものサイクルについて考える必要があるので、代表として合成関数が$f_C(x) = a_C x + b_C$であるサイクルを考える。
+条件\ref{condition:c'}は、1181730個ものサイクルについて考える必要があるので、代表として合成関数が$f_C(x) = a_C x + b_C$であるサイクルを考える。
 条件は、
 \begin{align}
   b_C \not\equiv 0 \pmod{\gcd(a_C-1, P)}\label{eq:012601}
@@ -335,8 +411,119 @@ $G'$の3,8行目のみを取り出したものを$G_b'$とすると、条件\ref
   G_c'\bU \not\equiv \cU_c' \pmod P
 \end{align}
 かつ$\cU_c'$の要素がすべて非ゼロであることである。
+% a_{f_}x+b_{f_}
+% a_{f_}\inv(x-b_{f_})
+\subsection{サイクルの合成関数の導出}
+まず、関数$f(x)=ax+b$の逆関数は、$f\inv(x)=a\inv(x - b)$である。
+まず、$\HHX$上での条件$\ref{condition:c'}$のための制約式を導く。
+
+\subsubsection{$\HHX$での制約条件}
+
+\paragraph{長さ4のサイクル}
+長さ4のサイクルが、関数$h_0, h_1, h_2, h_3$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0\inv h_1 h_2\inv h_3(x)\\
+  &=a_{h_0}\inv((a_{h_1}(a_{h_2}\inv((a_{h_3}x+b_{h_3})-b_{h_2}))+b_{h_1})-b_{h_0})\\
+  &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}x + a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}\\
+  b_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+
+\paragraph{長さ6のサイクル}
+長さ6のサイクルが、関数$h_0, h_1, h_2, h_3, h_4, h_5$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0\inv h_1 h_2\inv h_3 h_4\inv h_5(x)\\
+  &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}x \\
+  &\quad + a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv(b_{h_5}-b_{h_4}) + a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}\\
+  b_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv(b_{h_5}-b_{h_4}) + a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+
+\paragraph{長さ8のサイクル}
+長さ8のサイクルが、関数$h_0, h_1, h_2, h_3, h_4, h_5, h_6, h_7$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0\inv h_1 h_2\inv h_3 h_4\inv h_5 h_6\inv h_7(x)\\
+  &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}a_{h_6}a_{h_7}\inv x + a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}a_{h_6}\inv(b_{h_7}-b_{h_6})\\
+  &\quad + a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv(b_{h_5}-b_{h_4}) + a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}a_{h_6}a_{h_7}\inv\\
+  b_C &= a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv a_{h_5}a_{h_6}\inv(b_{h_7}-b_{h_6})\\
+  &\quad + a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}a_{h_4}\inv(b_{h_5}-b_{h_4}) + a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+
+\subsubsection{$\HHZ$での制約条件}
+一方で$\HHZ$での条件を考えるには、工夫が必要である。
+$\HHZ$を構成する関数はすべて$f,g$の逆関数である。よって、これまでの説明で用いた$h_i$に対応する関数が$f_i\inv, g_i\inv$になってしまい、扱いづらい。
+そこで、改めて、$h\inv$を用いた表現でサイクルの合成関数を考え直す。
+
+\paragraph{長さ4のサイクル}
+長さ4のサイクルが、関数$h_0\inv, h_1\inv, h_2\inv, h_3\inv$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0 h_1\inv h_2 h_3\inv(x)\\
+  &=a_{h_0}(a_{h_1}\inv((a_{h_2}(a_{h_3}\inv(x - b_{h_3})) + b_{h_2})-b_{h_1})) + b_{h_0}\\
+  &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv x + b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2} - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3} 
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv\\
+  b_C &= b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2} - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3}
+\end{align}
+
+\paragraph{長さ6のサイクル}
+長さ6のサイクルが、関数$h_0\inv, h_1\inv, h_2\inv, h_3\inv, h_4\inv, h_5\inv$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0 h_1\inv h_2 h_3\inv h_4 h_5\inv(x)\\
+  &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4} a_{h_5}\inv x + b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_4}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_5}
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4} a_{h_5}\inv\\
+  b_C &= b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_4}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_5}
+\end{align}
+
+\paragraph{長さ8のサイクル}
+長さ6のサイクルが、関数$h_0\inv, h_1\inv, h_2\inv, h_3\inv, h_4\inv, h_5\inv. h_6\inv, h_7\inv$から構成されるとすると、このサイクルの合成関数の逆関数$f_C\inv$は、
+\begin{align}
+  f_C\inv(x) &= h_0 h_1\inv h_2 h_3\inv h_4 h_5\inv h_6 h_7\inv(x)\\
+  &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4} a_{h_5}\inv a_{h_6} a_{h_7}\inv x + b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_4}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_5} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_6}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv a_{h_6}a_{h_7}\inv b_{h_7}
+\end{align}
+よって、
+\begin{align}
+  a_C &= a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4} a_{h_5}\inv a_{h_6} a_{h_7}\inv\\
+  b_C &= b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_4}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_5} + a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv b_{h_6}\\
+  &\quad - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv a_{h_4}a_{h_5}\inv a_{h_6}a_{h_7}\inv b_{h_7}
+\end{align}
+
+\subsection{UTCBCの定式化}
+長さ8のUTCBCは、以下の手順で導く
+\begin{enumerate}
+  \item 開始位置$[r_0,c_0]$を決める。
+  \item 次の位置$[r_0,c_1]$を決める。
+  \item 次の位置$[r_1,c_1]$を決める。
+  \item 次の位置の関数が$[r_0,c_0]$のものと等しくなるような$c_2$がただ一つに定まる。
+  \item 次の位置$[r_2,c_2]$を決める。
+  \item 次の位置の関数が$[r_1,c_1]$のものと等しくなるような$c_3$がただ一つに定まる。
+  \item 次の位置の関数が$[r_0,c_1]$のものと等しくなるような$r_3$がただ一つに定まる。
+  \item $[r_3,c_0]$の関数は$[r_2,c_2]$のものと等しい。
+\end{enumerate}
 
 \bibliography{refs}
-\bibliographystyle{junsrt} %参考文献出力スタイル
-
+\bibliographystyle{unsrt} %参考文献出力スタイル
 \end{document}
