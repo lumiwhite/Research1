@@ -547,6 +547,42 @@ $\HHZ$を構成する関数はすべて$f,g$の逆関数である。よって、
   \item スミス標準形を勉強
   \item 100万ほどの制約条件をすべて考慮しないといけないので、効率的な方法を考える。
 \end{itemize}
+\section{スミス標準形 (Smith Normal Form, SNF) による一般解の導出}
+
+本研究で扱うアフィン置換行列（APM）の可換性条件、あるいは直交性条件は、法 $P$ における線形合同式体系として記述される。ここでは、スミス標準形を用いてその一般解を導出する手法を整理する。
+
+\subsection{線形合同式体系の定式化}
+$n$ 個の未知数を含む $m$ 本の線形合同式は、行列を用いて以下のように表現できる。
+\begin{equation}
+    \mathbf{A}\mathbf{x} \equiv \mathbf{b} \pmod{P}
+\end{equation}
+ここで、$\mathbf{A} \in \mathbb{Z}^{m \times n}$ は係数行列、$\mathbf{x} \in \mathbb{Z}^n$ は求めるべき変数ベクトル（$b_i, d_j$ など）、$\mathbf{b} \in \mathbb{Z}^m$ は定数ベクトルである。
+
+\subsection{スミス標準形を用いた変換}
+整係数行列 $\mathbf{A}$ に対して、以下の条件を満たす可逆な整係数行列 $\mathbf{U} \in \mathbb{Z}^{m \times m}$ および $\mathbf{V} \in \mathbb{Z}^{n \times n}$ が存在する（$\det \mathbf{U}, \det \mathbf{V} = \pm 1$）。
+\begin{equation}
+    \mathbf{A} = \mathbf{U} \mathbf{S} \mathbf{V}
+\end{equation}
+ここで、$\mathbf{S}$ は対角行列であり、その対角成分（単因子）$s_1, s_2, \dots, s_k$ は $s_i | s_{i+1}$ を満たす。これを元の合同式に代入すると、
+\begin{equation}
+    \mathbf{U} \mathbf{S} \mathbf{V} \mathbf{x} \equiv \mathbf{b} \pmod{P}
+\end{equation}
+となる。$\mathbf{U}$ は法 $P$ において可逆であるため、左から $\mathbf{U}^{-1}$ を乗じて変数を置き換える。
+\begin{align}
+    \mathbf{S} (\mathbf{V} \mathbf{x}) &\equiv \mathbf{U}^{-1} \mathbf{b} \pmod{P} \\
+    \mathbf{S} \mathbf{y} &\equiv \mathbf{b}' \pmod{P}
+\end{align}
+ここで、$\mathbf{y} = \mathbf{V} \mathbf{x} \pmod{P}$ および $\mathbf{b}' = \mathbf{U}^{-1} \mathbf{b} \pmod{P}$ である。
+
+\subsection{独立した合同式の解法}
+対角行列 $\mathbf{S}$ により、多変数の系は以下の独立した一次合同式に分解される。
+\begin{equation}
+    s_i y_i \equiv b'_i \pmod{P} \quad (i = 1, \dots, \min(m, n))
+\end{equation}
+各式の解 $y_i$ が存在するための必要十分条件は、$\gcd(s_i, P)$ が $b'_i$ を割り切ることである。解が存在する場合、各 $y_i$ の一般解が得られ、最終的に元の変数は以下の変換で求められる。
+\begin{equation}
+    \mathbf{x} \equiv \mathbf{V}^{-1} \mathbf{y} \pmod{P}
+\end{equation}
 
 
 

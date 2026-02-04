@@ -35,3 +35,7 @@
 \contentsline {section}{\numberline {6}2/4 ゼミ}{12}{section.6}%
 \contentsline {subsection}{\numberline {6.1}確認したいこと}{13}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}今後のタスク}{13}{subsection.6.2}%
+\contentsline {section}{\numberline {7}スミス標準形 (Smith Normal Form, SNF) による一般解の導出}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}線形合同式体系の定式化}{14}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}スミス標準形を用いた変換}{14}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}独立した合同式の解法}{14}{subsection.7.3}%

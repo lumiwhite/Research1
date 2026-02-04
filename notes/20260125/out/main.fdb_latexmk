@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex out/main"] 1770170939.32033 "out/main.aux" "out/main.bbl" "out/main" 1770170941.98475 0
+["bibtex out/main"] 1770173144.99559 "out/main.aux" "out/main.bbl" "out/main" 1770173147.70655 0
   "./refs.bib" 1769957434 508 a3d312b268936f9d9a62e56a80b1214d ""
   "c:/texlive/2025/texmf-dist/bibtex/bst/base/unsrt.bst" 1747642207 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "out/main.aux" 1770170940 7254 6a2a107efa94c7ca2f0a040b2861b4b0 "latex"
+  "out/main.aux" 1770173146 7846 337a21228b55e29cdbc86734d7fa32aa "latex"
   (generated)
   "out/main.bbl"
   "out/main.blg"
   (rewritten before read)
-["dvipdf"] 1770170941.3782 "out/main.dvi" "out/main.pdf" "out/main" 1770170941.98774 0
-  "out/main.dvi" 1770170940 76860 a3cbf51e815d3334cdb9b4968f12e155 "latex"
+["dvipdf"] 1770173147.08553 "out/main.dvi" "out/main.pdf" "out/main" 1770173147.70977 0
+  "out/main.dvi" 1770173146 83156 4e5af6756169611bc07e2cab6450fb59 "latex"
   (generated)
   "out/main.pdf"
   (rewritten before read)
-["latex"] 1770170939.66365 "c:/Users/black/Research/notes/20260125/main.tex" "out/main.dvi" "main" 1770170941.98493 0
+["latex"] 1770173145.33664 "c:/Users/black/Research/notes/20260125/main.tex" "out/main.dvi" "main" 1770173147.70671 0
   "../command.tex" 1769433649 1898 24d37bfee5b7620385b8495cd872282e ""
-  "c:/Users/black/Research/notes/20260125/main.tex" 1770170937 29971 97f2240cb89bd253c8cfab67fb5f255d ""
+  "c:/Users/black/Research/notes/20260125/main.tex" 1770173140 32562 872ef07a17d76e73ab49075e5303256d ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1767945889 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1747642494 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -131,11 +131,11 @@
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1767948312 3567191 f5eef60ea3d5704d4df2cd0d99cba114 ""
   "c:/texlive/2025/texmf.cnf" 1747644115 713 e69b156964470283e0530f5060668171 ""
   "image.png" 1770135063 17423 39f67179baeabec17fc215ca34a4bb8c ""
-  "main.tex" 1770170937 29971 97f2240cb89bd253c8cfab67fb5f255d ""
-  "out/main.aux" 1770170940 7254 6a2a107efa94c7ca2f0a040b2861b4b0 "latex"
-  "out/main.bbl" 1770170939 377 dae8b413579b46dc3964967ab7eaf88a "bibtex out/main"
-  "out/main.out" 1770170940 2661 2e579becc52a8b1bc40e6b2844749f6d "latex"
-  "out/main.toc" 1770170940 3329 2efef07985506355824557d62164a7a2 "latex"
+  "main.tex" 1770173140 32562 872ef07a17d76e73ab49075e5303256d ""
+  "out/main.aux" 1770173146 7846 337a21228b55e29cdbc86734d7fa32aa "latex"
+  "out/main.bbl" 1770173145 377 dae8b413579b46dc3964967ab7eaf88a "bibtex out/main"
+  "out/main.out" 1770173146 3414 cf15f6372fa3fb6195ac7fb5bc15d503 "latex"
+  "out/main.toc" 1770173146 3757 824eaa912aa139ad4807e1124156b8b4 "latex"
   (generated)
   "out/main.aux"
   "out/main.dvi"
