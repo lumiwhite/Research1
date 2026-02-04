@@ -56,7 +56,6 @@ def solve_with_z3(cond_a, cond_b, cond_c):
     for x in b:
         solver.add(x >= 0, x < P)
 
-
     for row in cond_a:
         expr = Sum([row[i] * b[i] for i in range(L)])
         solver.add(expr % P == 0)
@@ -74,7 +73,7 @@ def solve_with_z3(cond_a, cond_b, cond_c):
         return [model[x].as_long() for x in b]
     else:
         return None
-    
+
 def is_commute(f, g):
     a_1 = f[0]
     b_1 = f[1]
@@ -107,7 +106,7 @@ def is_valid(r_seq, c_seq):
 def generate_cycles(max_len):
     def generate_utcbc():
         utcbcs = set()
-        for r_seq in itertools.permutations(list(range(l_h)), 3):
+        for r_seq in itertools.permutations(list(range(l_h//2)), 3):
             r0, r1, r2 = r_seq
             for c_seq in itertools.permutations(list(range(L)), 2):
                 c0, c1 = c_seq
@@ -119,7 +118,7 @@ def generate_cycles(max_len):
                     c3 = (r2+c1-r1) % l_h
                 else:
                     c3 = l_h + (r2+c1-r1) % l_h
-                r3 = (c3+r0-c1) % l_h
+                r3 = (c3+r0-c1) % (l_h//2)
                 rows=[r0,r1,r2,r3]
                 cols=[c0,c1,c2,c3]
                 if is_valid(rows, cols):
@@ -148,7 +147,7 @@ def generate_cycles(max_len):
 
     cycles = set()
     for i in range(2, max_len//2+1):
-        for r_seq in itertools.permutations(list(range(l_h)), i):
+        for r_seq in itertools.permutations(list(range(l_h//2)), i):
             for c_seq in itertools.permutations(list(range(L)), i):
                 if is_valid(r_seq, c_seq):
                     positions = get_positions(r_seq, c_seq)
@@ -249,10 +248,10 @@ def generate_functions(cycles, a_vec, b_vec, h_x, h_z):
         function_x = [1, 0]
         function_z = [1, 0]
         for i in range(len(cycle) // 2):
-            function_x = composite_affine(function_x, func_inv([a_x[2*i], b_x[2*i]]))
-            function_x = composite_affine(function_x, [a_x[2*i+1], b_x[2*i+1]])
-            function_z = composite_affine(function_z, [a_z[2*i], b_z[2*i]])
-            function_z = composite_affine(function_z, func_inv([a_z[2*i+1], b_z[2*i+1]]))
+            function_x = composite_affine(function_x, [a_x[2*i], b_x[2*i]])
+            function_x = composite_affine(function_x, func_inv([a_x[2*i+1], b_x[2*i+1]]))
+            function_z = composite_affine(function_z, func_inv([a_z[2*i], b_z[2*i]]))
+            function_z = composite_affine(function_z, [a_z[2*i+1], b_z[2*i+1]])
             
         functions.append(function_x)
         functions.append(function_z)
