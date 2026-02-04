@@ -71,4 +71,50 @@
 \subsection{本実装の優位性}
 本コードは浮動小数点演算を一切含まず、整数の整除性のみに基づいている。そのため、法 $P$ が大きな合成数である場合や、行列が特異（フルランクでない）に近い場合でも、数値的な不安定性を排除して厳密な一般解を計算できる点が、量子符号の設計における代数的な制約条件の探索に非常に適している。
 
+\section{行列の基本変形と変換行列 $U, V$ の対応関係}
+
+スミス標準形（SNF）の計算過程において、行列 $A$ に対する操作が $U$ および $V$ にどのように反映されるかは、不変式 $S = U A V$ を維持するという観点から定義される。ここで、$U$ は行操作を記録し、$V$ は列操作（変数の変換）を記録する。
+
+\subsection{行操作と $U$ の対応：左からの基本行列}
+行列 $A$ に対する行操作は、数学的には左から基本行列 $E$ を乗じることに相当する。
+初期状態を $I \cdot A \cdot I = A$ とすると、一連の行操作 $E_1, E_2, \dots, E_n$ は次のように累積される。
+\begin{equation}
+    (E_n \dots E_1 I) A = U A
+\end{equation}
+したがって、コード内での対応は以下のようになる。
+\begin{itemize}
+    \item \textbf{$A$ の第 $i$ 行と第 $j$ 行を入れ替える}: $U$ の第 $i$ 行と第 $j$ 行を入れ替える。
+    \item \textbf{$A$ の $dst$ 行に $src$ 行の $k$ 倍を加える}: $U$ の $dst$ 行に $src$ 行の $k$ 倍を加える。
+\end{itemize}
+
+\subsection{列操作と $V$ の対応：右からの基本行列と変数変換}
+行列 $A$ に対する列操作は、右から基本行列 $E$ を乗じることに相当する。
+$S = U A V$ を維持するためには、列操作の履歴を $V$ に蓄積していく必要がある。
+\begin{equation}
+    U A (I E_1 E_2 \dots E_m) = U A V
+\end{equation}
+実装上の注意点として、$V$ に対する更新は**「列操作」ではなく「行操作」**として記述されることが多い。これは、線形方程式 $A\mathbf{x} = \mathbf{b}$ において、$\mathbf{x} = V\mathbf{z}$ という変数変換を行っているためである。
+\begin{itemize}
+    \item \textbf{$A$ の第 $i$ 列と第 $j$ 列を入れ替える}: $V$ の第 $i$ \textbf{行}と第 $j$ \textbf{行}を入れ替える。
+    \item \textbf{$A$ の $dst$ 列に $src$ 列の $k$ 倍を加える}: $V$ の $src$ \textbf{行}に $dst$ \textbf{行}の $-k$ 倍を加える（あるいは $V$ 自体に右から基本行列を掛ける操作に相当する処理を行う）。
+\end{itemize}
+
+\subsection{不変式の維持と計算の整合性}
+アルゴリズムの各ステップ終了時において、以下の不変式が常に成立している。
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+操作対象 & 数学的表現 & 変換行列の役割 \\ \hline
+行 (Row) & $A \leftarrow E A$ & $U \leftarrow E U$ ($U$ は行操作の積) \\ \hline
+列 (Col) & $A \leftarrow A E$ & $V \leftarrow V E$ (または $V^{-1} \leftarrow E^{-1} V^{-1}$) \\ \hline
+\end{tabular}
+\end{table}
+
+最終的に $A$ が対角行列 $S$ に到達したとき、得られた $U$ と $V$ を用いて元の行列を $A = U^{-1} S V^{-1}$ と分解できる。これにより、法 $P$ における合同式は次のように変形され、解が導出される。
+\begin{equation}
+    A\mathbf{x} \equiv \mathbf{b} \pmod{P} \implies S(V^{-1}\mathbf{x}) \equiv U\mathbf{b} \pmod{P}
+\end{equation}
+ここで $\mathbf{z} = V^{-1}\mathbf{x}$ と置くと、$\mathbf{x} \equiv V\mathbf{z} \pmod{P}$ となり、対角体系の解 $\mathbf{z}$ から元の解 $\mathbf{x}$ を復元できる。
+
 \end{document}
