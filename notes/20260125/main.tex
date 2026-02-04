@@ -42,8 +42,7 @@
 と書き換えられる。つまり、$a=1$のとき、$b=0$ならばすべての$x$が解である。
 $a\neq 1$のとき、$b$が$\gcd(a-1, P)$で割り切れる時のみ解が存在、すなわちサイクルは閉である。
 
-\section{笠井先生の論文について}
-\cite{kasai2026breakingorthogonalitybarrierquantum}
+\section{論文\cite{kasai2026breakingorthogonalitybarrierquantum}について}
 \subsection{従来の行列の構成方法}
 \begin{definition}\label{def:01231}
   $\HHX,\HHZ$を母行列、$\HX,\HZ$をアクティブ行列、$\tHX,\tHZ$を潜在部と呼ぶ。
@@ -179,8 +178,9 @@ $F_5$ & 1     & 1     & 1     & 1     & 1     & 1     \\
 \end{tabular}
 \end{table}
 
+\newpage
 \section{この論文での条件を満たす\texorpdfstring{$F_i,G_i$}{Fi, Gi}の構成}
-目標は、$f_0$と$g_3$、$f_1$と$g_2$が非可換であり、他がすべて可換であるような$F_i,G_i$を見つけることである。(他が厳密に可換である必要があるのかはわからないが、今は条件から解空間を特定することに集中する。)
+目標は、$f_0$と$g_3$、$f_1$と$g_2$が非可換であり、他がすべて可換であるような$F_i,G_i$を見つけることである。
 
 これまでと同様、$f_i(x) = a_{f_i}x+b_{f_i}$のようにあらわす。
 \subsection{条件\ref{condition:a'}}
@@ -219,7 +219,7 @@ $\HHX,\HHZ$は以下である。
 \subsubsection{サイクルの定義について}
 \cite{kasai2025quantum}によると、
 "In this construction, each step in the path moves either to a different row or to a different column, but not both simultaneously. That is, consecutive blocks must differ in exactly one of their row or column indices"
-とあり、サイクルの隣り合う要素は行か列いずれか1つが異ならなければならない。よって、行インデックスシーケンス、列インデックスシーケンスともに同じ要素が連続してはいけない、という前提とする。(要確認)
+とあり、サイクルの隣り合う要素は行か列いずれか1つが異ならなければならない。よって、行インデックスシーケンス、列インデックスシーケンスともに同じ要素が連続してはいけない、という前提とする。
 
 サイクルは最初の位置から、1つおきに位置を指定することで、サイクルを一意に特定できる。
 % 例えば、長さ8のサイクルについて、4つの位置($[r_1, c_1],[r_2, c_2],[r_3, c_3],[r_4, c_4]$)を指定すれば、サイクルは
@@ -523,6 +523,32 @@ $\HHZ$を構成する関数はすべて$f,g$の逆関数である。よって、
   \item 次の位置の関数が$[r_0,c_1]$のものと等しくなるような$r_3$がただ一つに定まる。
   \item $[r_3,c_0]$の関数は$[r_2,c_2]$のものと等しい。
 \end{enumerate}
+
+
+
+\section{2/4 ゼミ}
+\cite{kasai2026breakingorthogonalitybarrierquantum}では、以下の関数がガースが8となるような$F_i, G_i$として挙げられた。
+\begin{figure}[htbp]
+    \includegraphics{image.png}
+\end{figure}
+しかし、Pythonプログラムでこの$\aU$から$\bU$を求めようとしても解が見つからないので、テストしたら、閉ブロックサイクルが見つかった。
+
+サイクル:$[0, 0], [0, 7], [3, 7], [3, 4], [2, 4], [2, 0]$について、サイクルの関数は$f\inv(x) = f_0\inv g_1 g_4\inv f_1 f_2\inv f_4  = 209x+ 640$であり、$x=640$を解にもつ。
+\subsection{確認したいこと}
+\begin{itemize}
+  \item \cite{kasai2025quantum}ではガースが12の符号について、UTCBC以外の長さ12のサイクルを含まない、という条件も課していた、\cite{kasai2026breakingorthogonalitybarrierquantum}ではガース8で、長さ4と6のサイクルを含まない、と記述されている。つまり、UTCBC以外の長さ8のサイクルは存在してよい、という認識で正しいのか。
+  \item 現状、長さ6以下のサイクルを含まない、という条件なら20秒ほどで探索が終わるが、解なし。長さ8のUTCBC以外のサイクルを含まない、という条件での探索だと、7分ほどかかる。
+  \item 整数計画法は特殊解を求めるためのアルゴリズムなので、一般解を求めるという今回のゴールには向いてなさそう。->スミス標準形を使って一般解を求め、制約条件に基づき係数の条件を求める。
+\end{itemize}
+
+\subsection{今後のタスク}
+\begin{itemize}
+  \item 整数計画法で特殊解を求める。
+  \item スミス標準形を勉強
+  \item 100万ほどの制約条件をすべて考慮しないといけないので、効率的な方法を考える。
+\end{itemize}
+
+
 
 \bibliography{refs}
 \bibliographystyle{unsrt} %参考文献出力スタイル

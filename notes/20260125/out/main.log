@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  1 FEB 2026 23:51
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.sjis) (TeX Live 2025) (preloaded format=platex 2026.1.9)  4 FEB 2026 11:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -443,26 +443,30 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 [1
 
 ]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@ifnextchar' on input line 45.
+
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 47.
+(Font)              scaled to size 11.53198pt on input line 46.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 48.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 47.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 48.
+(Font)              scaled to size 9.60999pt on input line 47.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 48.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 47.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 48.
+(Font)              scaled to size 9.60999pt on input line 47.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 6.72699pt on input line 72.
+(Font)              scaled to size 6.72699pt on input line 71.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 4.805pt on input line 72.
+(Font)              scaled to size 4.805pt on input line 71.
 
 
 [2
 
 ]
-Underfull \hbox (badness 1281) in paragraph at lines 124--127
+Underfull \hbox (badness 1281) in paragraph at lines 123--126
 []$[]$ \JY1/mc/m/n/10 の各ブロ ック行は 、 左側は $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 F[]; F[]; [] ; F[]\OT1/cmr/m/n/10 )$ \JY1/mc/m/n/10 の巡回シフトであり 、 右側は
  []
 
@@ -484,7 +488,17 @@ Underfull \hbox (badness 1281) in paragraph at lines 124--127
 
 [10]
 
-[11] (out/main.bbl
+[11]
+File: image.png Graphic file (type bmp)
+<image.png>
+
+Underfull \hbox (badness 1859) in paragraph at lines 536--537
+[]\JY1/mc/m/n/10 サイクル\OT1/cmr/m/n/10 :$[0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0]\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 7]\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 [3\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 7]\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 [3\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 4]\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 [2\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 4]\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 [2\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0]$ \JY1/mc/m/n/10 について 、 サイクルの関数は $\OML/cmm/m/it/10 f[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) =
+ []
+
+
+
+[12] (out/main.bbl
 LaTeX Font Info:    Font shape `JT1/gt/m/it' in size <10> not available
 (Font)              Font shape `JT1/gt/m/n' tried instead on input line 10.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
@@ -495,22 +509,22 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 (Font)              scaled to size 9.60999pt on input line 10.
 )
 
-[12] (out/main.aux)
+[13] (out/main.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-29>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FEE6C532E10C9C4E97B95AD3D435E965;2178.
+(rerunfilecheck)             Checksum: 2E579BECC52A8B1BC40E6B2844749F6D;2661.
  ) 
 Here is how much of TeX's memory you used:
- 12012 strings out of 470235
- 183435 string characters out of 5489043
- 601472 words of memory out of 5000000
- 38675 multiletter control sequences out of 15000+600000
+ 12025 strings out of 470235
+ 183649 string characters out of 5489043
+ 599988 words of memory out of 5000000
+ 38684 multiletter control sequences out of 15000+600000
  704651 words of font info for 144 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 72i,16n,79p,580b,640s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,16n,79p,580b,679s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on out/main.dvi (12 pages, 71324 bytes).
+Output written on out/main.dvi (13 pages, 76860 bytes).

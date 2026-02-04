@@ -251,6 +251,10 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm
+INPUT ./image.png
+INPUT ./image.png
+INPUT ./image.png
+INPUT extractbb -B cropbox -O image.png
 INPUT out/main.bbl
 INPUT out/main.bbl
 INPUT out/main.bbl

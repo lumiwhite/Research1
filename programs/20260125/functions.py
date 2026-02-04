@@ -94,22 +94,22 @@ def commute_matrix(a_vec, b_vec):
         result.append(row)
     return result 
 
-def is_valid(positions):
-    length = len(positions)
+def is_valid(r_seq, c_seq):
+    length = len(r_seq)
     for i in range(length):
-        if positions[i][0] == positions[(i+1)%length][0] and positions[i][1] == positions[(i+1)%length][1]:
+        if r_seq[i] == r_seq[(i+1)%length]:
             return False
-        if positions[i][0] != positions[(i+1)%length][0] and positions[i][1] != positions[(i+1)%length][1]:
+        if c_seq[i] == c_seq[(i+1)%length]:
             return False
     return True
     
 
-def generate_cycles():
+def generate_cycles(max_len):
     def generate_utcbc():
         utcbcs = set()
-        for r_seq in itertools.combinations(list(range(l_h)), 3):
+        for r_seq in itertools.permutations(list(range(l_h)), 3):
             r0, r1, r2 = r_seq
-            for c_seq in itertools.combinations(list(range(L)), 2):
+            for c_seq in itertools.permutations(list(range(L)), 2):
                 c0, c1 = c_seq
                 if  c0 < l_h:
                     c2 = (r1+c0-r0) % l_h
@@ -122,8 +122,8 @@ def generate_cycles():
                 r3 = (c3+r0-c1) % l_h
                 rows=[r0,r1,r2,r3]
                 cols=[c0,c1,c2,c3]
-                positions = get_positions(rows, cols)
-                if is_valid(positions):
+                if is_valid(rows, cols):
+                    positions = get_positions(rows, cols)
                     utcbcs.add(tuple(canonicalize(positions)))
         return utcbcs
 
@@ -131,7 +131,6 @@ def generate_cycles():
         length = len(r_seq)
         pos = []
         for i in range(length):
-            # [] ではなく () を使うことで Hashable にする
             pos.append((r_seq[i], c_seq[i]))
             pos.append((r_seq[i], c_seq[(i+1)%length]))
         return pos
@@ -148,23 +147,12 @@ def generate_cycles():
         return min(symmetries)
 
     cycles = set()
-    for r_seq in itertools.combinations(list(range(l_h)), 2):
-        for c_seq in itertools.combinations(list(range(L)), 2):
-            positions = get_positions(r_seq, c_seq)
-            if is_valid(positions):
-                cycles.add(tuple(canonicalize(positions)))
-                
-    for r_seq in itertools.combinations(list(range(l_h)), 3):
-        for c_seq in itertools.combinations(list(range(L)), 3):
-            positions = get_positions(r_seq, c_seq)
-            if is_valid(positions):
-                cycles.add(tuple(canonicalize(positions)))
-
-    for r_seq in itertools.combinations(list(range(l_h)), 4):
-        for c_seq in itertools.combinations(list(range(L)), 4):
-            positions = get_positions(r_seq, c_seq)
-            if is_valid(positions):
-                cycles.add(tuple(canonicalize(positions)))
+    for i in range(2, max_len//2+1):
+        for r_seq in itertools.permutations(list(range(l_h)), i):
+            for c_seq in itertools.permutations(list(range(L)), i):
+                if is_valid(r_seq, c_seq):
+                    positions = get_positions(r_seq, c_seq)
+                    cycles.add(tuple(canonicalize(positions)))
     cycles = cycles - generate_utcbc()
     return list(cycles)
 
@@ -174,11 +162,12 @@ def composite_affine(left, right):
     return [a_new, b_new]
 
 def func_inv(input):
+        a,b = input
         try:
-            a_inv = pow(input[0], -1, P)
+            a_inv = pow(a, -1, P)
         except ValueError:
-             raise ValueError("Inverse does not exist")
-        b_new = (-1 * a_inv * input[1]) % P
+            raise ValueError("Inverse does not exist")
+        b_new = (-1 * a_inv * b) % P
         return [a_inv, b_new]
 
 def generate_h_xz():
@@ -210,82 +199,37 @@ def inv(val):
 def generate_constraints(cycles, a_vec, h_x, h_z):
     constraints = []
     for cycle in cycles:
-        row_x = [0]*L
-        row_z = [0]*L
-        idx_x = []
-        idx_z = []
-        if len(cycle) == 4:
-            for i in range(4):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            row_x[idx_x[0]] -= inv(a_x[0])
-            row_x[idx_x[1]] += inv(a_x[0])
-            row_x[idx_x[2]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            row_x[idx_x[3]] += inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            a_c_x = inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] % P
-            row_x = [val % P for val in row_x]
-            row_z[idx_z[0]] += 1
-            row_z[idx_z[1]] -= a_z[0] * inv(a_z[1])
-            row_z[idx_z[2]] += a_z[0] * inv(a_z[1])
-            row_z[idx_z[3]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3])
-            a_c_z = a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) % P
-            row_z = [val % P for val in row_z]
-            constraints.append([row_x, a_c_x])
-            constraints.append([row_z, a_c_z]) 
-        elif len(cycle) == 6:
-            for i in range(6):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            row_x[idx_x[0]] -= inv(a_x[0])
-            row_x[idx_x[1]] += inv(a_x[0])
-            row_x[idx_x[2]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            row_x[idx_x[3]] += inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            row_x[idx_x[4]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4])
-            row_x[idx_x[5]] += inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4])
-            a_c_x = inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4]) * a_x[5] % P
-            row_x = [val % P for val in row_x]
-            constraints.append([row_x, a_c_x])
-            row_z[idx_z[0]] += 1
-            row_z[idx_z[1]] -= a_z[0] * inv(a_z[1])
-            row_z[idx_z[2]] += a_z[0] * inv(a_z[1])
-            row_z[idx_z[3]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3])
-            row_z[idx_z[4]] += a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3])
-            row_z[idx_z[5]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5])
-            a_c_z = a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5]) % P
-            row_z = [val % P for val in row_z]
-            constraints.append([row_z, a_c_z])
-        elif len(cycle) == 8:
-            for i in range(8):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            row_x[idx_x[0]] -= inv(a_x[0])
-            row_x[idx_x[1]] += inv(a_x[0])
-            row_x[idx_x[2]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            row_x[idx_x[3]] += inv(a_x[0]) * a_x[1] * inv(a_x[2])
-            row_x[idx_x[4]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4])
-            row_x[idx_x[5]] += inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4])
-            row_x[idx_x[6]] -= inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4]) * a_x[5] * inv(a_x[6])
-            row_x[idx_x[7]] += inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4]) * a_x[5] * inv(a_x[6])  
-            a_c_x = inv(a_x[0]) * a_x[1] * inv(a_x[2]) * a_x[3] * inv(a_x[4]) * a_x[5] * inv(a_x[6]) * a_x[7] % P
-            row_x = [val % P for val in row_x]
-            constraints.append([row_x, a_c_x])
-            row_z[idx_z[0]] += 1
-            row_z[idx_z[1]] -= a_z[0] * inv(a_z[1])
-            row_z[idx_z[2]] += a_z[0] * inv(a_z[1])
-            row_z[idx_z[3]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3])
-            row_z[idx_z[4]] += a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3])
-            row_z[idx_z[5]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5])
-            row_z[idx_z[6]] += a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5])
-            row_z[idx_z[7]] -= a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5]) * a_z[6] * inv(a_z[7])
-            a_c_z = a_z[0] * inv(a_z[1]) * a_z[2] * inv(a_z[3]) * a_z[4] * inv(a_z[5]) * a_z[6] * inv(a_z[7]) % P
-            row_z = [val % P for val in row_z]
-            constraints.append([row_z, a_c_z])
+        N = len(cycle)
+        row_x = [0] * L
+        row_z = [0] * L
+        idx_x = [h_x[r][c] for r, c in cycle]
+        idx_z = [h_z[r][c] for r, c in cycle]
+        a_x = [a_vec[idx] for idx in idx_x]
+        a_z = [a_vec[idx] for idx in idx_z]
+
+        term_x = inv(a_x[0])
+        for i in range(0, N, 2):
+            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
+            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
+            if i + 2 < N:
+                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
+        a_c_x = 1
+        for i in range(0, N, 2):
+            a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
+        constraints.append([row_x, a_c_x])
+
+        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
+        term_z = 1
+        for i in range(0, N - 2, 2):
+            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
+            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
+            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
+        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
+        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
+        a_c_z = 1
+        for i in range(0, N, 2):
+            a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
+        constraints.append([row_z, a_c_z])
     return constraints
 
 def is_equiv(func1, func2):
@@ -296,55 +240,22 @@ def is_equiv(func1, func2):
 def generate_functions(cycles, a_vec, b_vec, h_x, h_z):
     functions = []
     for cycle in cycles:
-        idx_x = []
-        idx_z = []
+        idx_x = [h_x[r][c] for r, c in cycle]
+        idx_z = [h_z[r][c] for r, c in cycle]
+        a_x = [a_vec[idx] for idx in idx_x]
+        b_x = [b_vec[idx] for idx in idx_x]
+        a_z = [a_vec[idx] for idx in idx_z]
+        b_z = [b_vec[idx] for idx in idx_z]
         function_x = [1, 0]
         function_z = [1, 0]
-        if len(cycle) == 4:
-            for i in range(4):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            b_x = [b_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            b_z = [b_vec[idx] for idx in idx_z]
-            for i in range(2):
-                function_x = composite_affine(function_x, func_inv([a_x[2*i], b_x[2*i]]))
-                function_x = composite_affine(function_x, [a_x[2*i+1], b_x[2*i+1]])
-                function_z = composite_affine(function_z, [a_z[2*i], b_z[2*i]])
-                function_z = composite_affine(function_z, func_inv([a_z[2*i+1], b_z[2*i+1]]))
-            functions.append(function_x)
-            functions.append(function_z)
-        elif len(cycle) == 6:
-            for i in range(6):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            b_x = [b_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            b_z = [b_vec[idx] for idx in idx_z]
-            for i in range(3):
-                function_x = composite_affine(function_x, func_inv([a_x[2*i], b_x[2*i]]))
-                function_x = composite_affine(function_x, [a_x[2*i+1], b_x[2*i+1]])
-                function_z = composite_affine(function_z, [a_z[2*i], b_z[2*i]])
-                function_z = composite_affine(function_z, func_inv([a_z[2*i+1], b_z[2*i+1]]))
-            functions.append(function_x)
-            functions.append(function_z)
-        elif len(cycle) == 8:
-            for i in range(8):
-                idx_x.append(h_x[cycle[i][0]][cycle[i][1]])
-                idx_z.append(h_z[cycle[i][0]][cycle[i][1]])
-            a_x = [a_vec[idx] for idx in idx_x]
-            b_x = [b_vec[idx] for idx in idx_x]
-            a_z = [a_vec[idx] for idx in idx_z]
-            b_z = [b_vec[idx] for idx in idx_z]
-            for i in range(4):
-                function_x = composite_affine(function_x, func_inv([a_x[2*i], b_x[2*i]]))
-                function_x = composite_affine(function_x, [a_x[2*i+1], b_x[2*i+1]])
-                function_z = composite_affine(function_z, [a_z[2*i], b_z[2*i]])
-                function_z = composite_affine(function_z, func_inv([a_z[2*i+1], b_z[2*i+1]]))
-            functions.append(function_x)
-            functions.append(function_z)
+        for i in range(len(cycle) // 2):
+            function_x = composite_affine(function_x, func_inv([a_x[2*i], b_x[2*i]]))
+            function_x = composite_affine(function_x, [a_x[2*i+1], b_x[2*i+1]])
+            function_z = composite_affine(function_z, [a_z[2*i], b_z[2*i]])
+            function_z = composite_affine(function_z, func_inv([a_z[2*i+1], b_z[2*i+1]]))
+            
+        functions.append(function_x)
+        functions.append(function_z)
     return functions
 
 def is_closed(input):
@@ -358,6 +269,41 @@ def is_closed(input):
     else:
         return False
     
-
+def make_matrix(func):
+    a,b = func
+    matrix = []
+    for i in range(P):
+        row = []
+        for j in range(P):
+            if (a*i + b) % P == j:
+                row.append(1)
+            else:
+                row.append(0)
+        matrix.append(row)
+    return matrix
+def create_h_x(a_vec, b_vec, h_x):
+    rows = []
+    for i in range(l_h):
+        current_row_matrices = []
+        for j in range(L):
+            idx = h_x[i][j]
+            params = [a_vec[idx], b_vec[idx]]
+            mat = make_matrix(params)
+            current_row_matrices.append(mat)
+        rows.append(current_row_matrices)
+    h_x = np.block(rows)
+    return h_x
+def create_h_z(a_vec, b_vec, h_z):
+    rows = []
+    for i in range(l_h):
+        current_row_matrices = []
+        for j in range(L):
+            idx = h_z[i][j]
+            params = [a_vec[idx], b_vec[idx]]
+            mat = make_matrix(params)
+            current_row_matrices.append(mat.T)
+        rows.append(current_row_matrices)
+    h_x = np.block(rows)
+    return h_x
 
 
