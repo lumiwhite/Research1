@@ -1,0 +1,93 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{../command.tex}
+% =========================================
+\begin{document}
+
+\title{}
+\author{}
+\date{\today}
+\maketitle
+\tableofcontents
+\clearpage
+\section{02/04のゼミの内容}
+\begin{itemize}
+  \item 長さ6のサイクルがあるのではないか：関数$f(x)$と行列$F$の関係について、\cite{kasai2025quantum}とは行と列が逆。、アクティブ部でのみサイクルを考える。
+  \item UTCBC以外の長さ8のサイクルを避けるべきか？：今は長さ6以外のサイクルを含まないことを条件にしているが、もしUTCBC以外のサイクルも避ければ、性能が良くなるかも？(ならないかも)、エラーがどのサイクル由来かを調べられるとよい
+  \item 整数計画法で求めた特殊解はランダムネスが小さい
+  \item APMを使っている時点でランダムネスは減少しているのでAPMに縛らないとランダムネスを増やせる
+  \item 他の改良案：Pを小さく(2,3以外の素因数を使う)、ガースを大きく(アクティブ行列の取り出し方を変える。)
+\end{itemize}
+
+\section{UTCBCのカウント}
+UTCBCを構成する$\rU = [r_0, r_1, r_2, r_3]\in[J]^4, \cU = [c_0, c_1, c_2, c_3]\in[L]^4$は以下の条件を満たす。
+\begin{align}
+  &c_2 - r_1 \equiv c_0 - r_0\pmod{L/2}\label{02061}\\
+  &c_3 - r_2 \equiv c_1 - r_1\pmod{L/2}\label{02062}\\
+  &c_3 - r_3 \equiv c_1 - r_0\pmod{L/2}\label{02063}\\
+  &r_0\neq r_1, r_1\neq r_2, r_2\neq r_3, r_3\neq r_0\label{02064}\\
+  &c_0\neq c_1, c_1\neq c_2, c_2\neq c_3, c_3\neq c_0\label{02065}\\
+\end{align}
+式\eqref{02062}, \eqref{02063}を整理すると
+\begin{align}
+  &c_3 - c_1 \equiv r_2 - r_1\pmod{L/2}\\
+  &c_3 - c_1 \equiv r_3 - r_0\pmod{L/2}\\
+\end{align}
+なので、
+\begin{align}
+  &c_2 - c_0 \equiv r_1 - r_0(=\delta_1\neq 0)\pmod{L/2}\\\
+  &c_3 - c_1 \equiv r_2 - r_1 \equiv r_3 - r_0(=\delta_2\neq 0)\pmod{L/2}\label{02066}
+\end{align}
+が成り立つ。
+これを満たす$\rU$は、
+\begin{align}
+  [0, 1, 2, 1]&((\delta_1, \delta_2) = (1, 1))\\
+  [1, 0, 1, 2]&((\delta_1, \delta_2) = (-1, 1))\\
+  [1, 2, 1, 0]&((\delta_1, \delta_2) = (1, -1))\\
+  [2, 1, 0, 1]&((\delta_1, \delta_2) = (-1, -1))\\
+\end{align}
+のいずれかである。
+
+つぎに$\cU$の組み合わせを考える。$\rU = [0,1,2,1]$とする。
+この時、
+\begin{align}
+  &c_2 - c_0 \equiv \delta_1\pmod{L/2}\\
+  &c_3 - c_1 \equiv \delta_2\pmod{L/2}
+\end{align}
+であり、$c_0$を決めると、$c_2=c_0+\delta_1, c_0+L/2+\delta_1$の2つ存在する。
+次に$c_0, c_2$と異なるように$c_1$を決めると、$c_3=c_1+\delta_2, c_1+L/2+\delta_2$の2つ存在する。
+
+ここで、式\eqref{02065}を考慮する。
+\paragraph{$c_2=c_0+\delta_1$かつ$c_3=c_1+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が1つ存在する。
+\paragraph{$c_2=c_0+\delta_1$かつ$c_3=c_1+L/2+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が2つ存在する。
+\paragraph{$c_2=c_0+L/2+\delta_1$かつ$c_3=c_1+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が2つ存在する。
+\paragraph{$c_2=c_0+L/2+\delta_1$かつ$c_3=c_1+L/2+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が1つ存在する。
+
+よって、$\cU$の組み合わせは
+$12\times 2\times ((10-2)+(10-1))=24\times 17 = 408$通り。
+$\rU$は4通りあるので、全部で$4\times 408$通り。
+ここでシフトを考えると、同一のサイクルを構成するものが4つずつ存在する(周期2の$\rU, \cU$はない)ので、UTCBCの総数は$4\times 408/4 = 408$通りとなる。
+
+\bibliography{refs}
+\bibliographystyle{unsrt} %参考文献出力スタイル
+\end{document}
