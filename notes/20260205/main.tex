@@ -47,6 +47,8 @@ UTCBCを構成する$\rU = [r_0, r_1, r_2, r_3]\in[J]^4, \cU = [c_0, c_1, c_2, c
   &c_3 - r_3 \equiv c_1 - r_0\pmod{L/2}\label{02063}\\
   &r_0\neq r_1, r_1\neq r_2, r_2\neq r_3, r_3\neq r_0\label{02064}\\
   &c_0\neq c_1, c_1\neq c_2, c_2\neq c_3, c_3\neq c_0\label{02065}\\
+  &(c_0\in[L/2]\land c_2\in[L/2])\lor (c_0\in[L/2, L]\land c_2\in[L/2, L])\label{02071}\\
+  &(c_1\in[L/2]\land c_3\in[L/2])\lor (c_1\in[L/2, L]\land c_3\in[L/2, L])\label{02072}\\
 \end{align}
 式\eqref{02062}, \eqref{02063}を整理すると
 \begin{align}
@@ -68,25 +70,19 @@ UTCBCを構成する$\rU = [r_0, r_1, r_2, r_3]\in[J]^4, \cU = [c_0, c_1, c_2, c
 \end{align}
 のいずれかである。
 
-つぎに$\cU$の組み合わせを考える。$\rU = [0,1,2,1]$とする。
-この時、
+これらはすべて$[0, 1, 2, 1]$の左シフトで表せるので、$\rU = [0,1,2,1]$とする。
+$\cU$の組み合わせを考える。
+$(\delta_1, \delta_2) = (1, 1)$なので、
 \begin{align}
   &c_2 - c_0 \equiv \delta_1\pmod{L/2}\\
   &c_3 - c_1 \equiv \delta_2\pmod{L/2}
 \end{align}
-であり、$c_0$を決めると、$c_2=c_0+\delta_1, c_0+L/2+\delta_1$の2つ存在する。
-次に$c_0, c_2$と異なるように$c_1$を決めると、$c_3=c_1+\delta_2, c_1+L/2+\delta_2$の2つ存在する。
+であり、$c_0$を決めると、$c_2=c_0+\delta_1$が決まり、$c_0, c_2$と異なるように$c_1$を決めると、$c_3=c_1+\delta_2$が決まる。
 
 ここで、式\eqref{02065}を考慮する。
-\paragraph{$c_2=c_0+\delta_1$かつ$c_3=c_1+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が1つ存在する。
-\paragraph{$c_2=c_0+\delta_1$かつ$c_3=c_1+L/2+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が2つ存在する。
-\paragraph{$c_2=c_0+L/2+\delta_1$かつ$c_3=c_1+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が2つ存在する。
-\paragraph{$c_2=c_0+L/2+\delta_1$かつ$c_3=c_1+L/2+\delta_2$のとき}$c_3$が$c_0$または$c_3$と重複してしまう$c_1$が1つ存在する。
-
-よって、$\cU$の組み合わせは
-$12\times 2\times ((10-2)+(10-1))=24\times 17 = 408$通り。
-$\rU$は4通りあるので、全部で$4\times 408$通り。
-ここでシフトを考えると、同一のサイクルを構成するものが4つずつ存在する(周期2の$\rU, \cU$はない)ので、UTCBCの総数は$4\times 408/4 = 408$通りとなる。
+$c_3$が$c_0$または$c_2$と重複してしまう$c_1$が1つ存在する。
+さらに、逆順に辿ることものが存在することを考えると、$\cU$の組み合わせは
+$12\times (12-3)/2 = 54$通り。
 
 \bibliography{refs}
 \bibliographystyle{unsrt} %参考文献出力スタイル

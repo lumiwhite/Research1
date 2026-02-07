@@ -12,6 +12,7 @@ from z3 import *
 
 L=12
 l_h = L // 2
+J = 3
 P=768
 
 def generate_coprime_array():
@@ -106,24 +107,16 @@ def is_valid(r_seq, c_seq):
 def generate_cycles(max_len):
     def generate_utcbc():
         utcbcs = set()
-        for r_seq in itertools.permutations(list(range(l_h//2)), 3):
-            r0, r1, r2 = r_seq
-            for c_seq in itertools.permutations(list(range(L)), 2):
-                c0, c1 = c_seq
-                if  c0 < l_h:
-                    c2 = (r1+c0-r0) % l_h
-                else:
-                    c2 = l_h + (r1+c0-r0) % l_h
-                if  c1 < l_h:
-                    c3 = (r2+c1-r1) % l_h
-                else:
-                    c3 = l_h + (r2+c1-r1) % l_h
-                r3 = (c3+r0-c1) % (l_h//2)
-                rows=[r0,r1,r2,r3]
-                cols=[c0,c1,c2,c3]
-                if is_valid(rows, cols):
-                    positions = get_positions(rows, cols)
+        r_seq = [0, 1, 2, 1]
+        for c0 in range(L):
+            c2 = (c0 + 1) % l_h + (l_h if c0 >= l_h else 0)
+            for c1 in range(L):
+                c3 = (c1 + 1) % l_h + (l_h if c1 >= l_h else 0)
+                c_seq = [c0, c1, c2, c3]
+                if is_valid(r_seq, c_seq):
+                    positions = get_positions(r_seq, c_seq)
                     utcbcs.add(tuple(canonicalize(positions)))
+        print("utcbcs count:", len(utcbcs))
         return utcbcs
 
     def get_positions(r_seq, c_seq):
@@ -147,8 +140,8 @@ def generate_cycles(max_len):
 
     cycles = set()
     for i in range(2, max_len//2+1):
-        for r_seq in itertools.permutations(list(range(l_h//2)), i):
-            for c_seq in itertools.permutations(list(range(L)), i):
+        for r_seq in itertools.product(list(range(J)), repeat=i):
+            for c_seq in itertools.product(list(range(L)), repeat=i):
                 if is_valid(r_seq, c_seq):
                     positions = get_positions(r_seq, c_seq)
                     cycles.add(tuple(canonicalize(positions)))
