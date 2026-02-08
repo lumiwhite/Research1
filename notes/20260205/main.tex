@@ -32,12 +32,27 @@
 \clearpage
 \section{02/04のゼミの内容}
 \begin{itemize}
-  \item 長さ6のサイクルがあるのではないか：関数$f(x)$と行列$F$の関係について、\cite{kasai2025quantum}とは行と列が逆。、アクティブ部でのみサイクルを考える。
+  \item 長さ6のサイクルがあるのではないか：関数$f(x)$と行列$F$の関係について、\cite{kasai2025quantum}とは行と列が逆、アクティブ部でのみサイクルを考える。
   \item UTCBC以外の長さ8のサイクルを避けるべきか？：今は長さ6以外のサイクルを含まないことを条件にしているが、もしUTCBC以外のサイクルも避ければ、性能が良くなるかも？(ならないかも)、エラーがどのサイクル由来かを調べられるとよい
   \item 整数計画法で求めた特殊解はランダムネスが小さい
   \item APMを使っている時点でランダムネスは減少しているのでAPMに縛らないとランダムネスを増やせる
   \item 他の改良案：Pを小さく(2,3以外の素因数を使う)、ガースを大きく(アクティブ行列の取り出し方を変える。)
 \end{itemize}
+
+\section{関数と行列の関係}
+\cite{kasai2025quantum}では、
+\[
+f(j) = i \iff F_{i,j} = 1
+\]
+\cite{kasai2026breakingorthogonalitybarrierquantum}では、
+\[
+f(i) = j \iff F_{i,j} = 1
+\]
+よって、サイクルの合成関数も
+サイクル$c=f_0 \rightarrow f_1 \rightarrow\dots\rightarrow f_n$ならば
+\[
+f_c(x) = f_n f_{n-1}\inv\dots f_1 f_{0}\inv(x)
+\]
 
 \section{UTCBCのカウント}
 UTCBCを構成する$\rU = [r_0, r_1, r_2, r_3]\in[J]^4, \cU = [c_0, c_1, c_2, c_3]\in[L]^4$は以下の条件を満たす。
@@ -83,6 +98,171 @@ $(\delta_1, \delta_2) = (1, 1)$なので、
 $c_3$が$c_0$または$c_2$と重複してしまう$c_1$が1つ存在する。
 さらに、逆順に辿ることものが存在することを考えると、$\cU$の組み合わせは
 $12\times (12-3)/2 = 54$通り。
+
+\section{検査するサイクルの再考}
+\paragraph{長さ4のサイクル}
+長さ4のサイクルは、2つの位置を与えれば、構成する4つの位置が決まる。
+2つの位置の選び方は、列、行ともに異なるものを選ぶ必要があることを考えると、1つ目が$J\times L$通り、2つ目は$(J-1)\times (L-1)$通りであり、全部で$L/2\times (L/2-1)\times L\times (L-1)$通りである。
+よって、検査すべきサイクルの個数は
+\begin{align}
+  \frac{J\times (J-1)\times L\times (L-1)}{4}\label{eq:012803}
+\end{align}
+個である。
+$J=3, L=12$を代入すると、
+\begin{align}
+  \frac{3\times 2\times 12\times 11}{4} = 198
+\end{align}
+個である。
+
+\paragraph{長さ6のサイクル}
+長さ6のサイクルは、3つの位置を与えれば、サイクルが一意に決まる。
+3つの位置の選び方は、行インデックス$[r_0,r_1,r_2]$と列インデックス$[c_0,c_1,c_2]$がそれぞれ相異なる必要があるので、
+\begin{align}
+  J\times (J-1)\times (J-2)\times L\times (L-1)\times (L-2)
+\end{align}
+通りである。
+また、同一のサイクルを与える3つの位置の並べ方は、サイクルの開始点の選び方(3通り)と巡回方向(2通り)により$6$通りある。
+したがって、検査すべきサイクルの個数は
+\begin{align}
+  \frac{J\times (J-1)\times (J-2)\times L\times (L-1)\times (L-2)}{6}\label{eq:012805}
+\end{align}
+個である。
+$J=3, L=12$を代入すると、
+\begin{align}
+  \frac{3\times 2\times 1\times 12\times 11\times 10}{6} = 1320
+\end{align}
+個である。
+
+\paragraph{長さ8のサイクル}
+長さ8のサイクルは、4つの位置を与えれば一意に定まる。
+ここで「円勘定に考えて、隣り合うものは等しくてはいけない」という条件を課す。
+すなわち、行インデックスは
+\[
+  r_0\neq r_1,\ r_1\neq r_2,\ r_2\neq r_3,\ r_3\neq r_0
+\]
+を満たし、列インデックスも
+\[
+  c_0\neq c_1,\ c_1\neq c_2,\ c_2\neq c_3,\ c_3\neq c_0
+\]
+を満たす（ただし、$r_0=r_2$のような非隣接の一致は許す）。
+
+まず、行インデックスの並び$(r_0,r_1,r_2,r_3)$の選び方は
+\begin{align}
+  J\times (J-1)\times \left(J^2-3J+3\right)
+\end{align}
+通りである。  
+
+同様に、列インデックスの並び$(c_0,c_1,c_2,c_3)$の選び方は
+\begin{align}
+  L\times (L-1)\times \left(L^2-3L+3\right)
+\end{align}
+通りである。
+したがって、4つの位置の選び方はそれらの積で与えられる。
+
+また、同一のサイクルを与える4つの位置の並べ方は、サイクルの開始点の選び方(4通り)と巡回方向(2通り)により最大で$8$通りある。
+ただし、この「$8$通り」が常に相異なるとは限らない点に注意する。
+実際、位置列$([r_1,c_1],[r_2,c_2],[r_3,c_3],[r_4,c_4])$に周期がある（巡回シフトで自分自身に戻る）場合、同一サイクルを与える表現の個数は$8$より小さくなる。
+
+ここで、周期2の個数$N_{\mathrm{per2}}$を別途評価して補正する必要がある。
+$N_{\mathrm{all}}$は（隣接不一致のみ課した）4位置列の総数である。
+
+今回の設定（隣接不一致のみ）では、周期2とは
+\[(r_1,c_1)=(r_3,c_3),\ (r_2,c_2)=(r_4,c_4)\]
+が成り立つことと同値であり、よって
+\begin{align}
+  N_{\mathrm{per2}} &= J\,(J-1)\cdot L\,(L-1)
+\end{align}
+となる。
+また、前段で求めた4位置列の総数は
+\begin{align}
+  N_{\mathrm{all}} &= J\,(J-1)\,\left(J^2-3J+3\right)\cdot L\,(L-1)\,\left(L^2-3L+3\right).
+\end{align}
+
+したがって$J=3, L=12$では
+\begin{align}
+  N_{\mathrm{per2}} &= 3\times2\times12\times11 = 792\\
+  N_{\mathrm{all}} &= 3\times 2\times 3\times 12\times 11\times 111 = 263736,\\
+  N_8 &= \frac{263736-792}{8}+\frac{792}{4} = 32868 + 198 = 33066.
+\end{align}
+
+以上合わせると、検査すべきサイクルは
+$198+1320+33066 - 54 = 34530$個である。
+
+\section{UTCBCの長さ8のサイクルを許容しない$F_i, G_i$は存在するのか}
+ランダムに生成した$\aU$に対し、整数計画法で探索するプログラムを----ほど動かしたが、解なし。
+
+\section{ガースが6になるような$F_i, G_i$の一般解を求める}
+まず、$F_i, G_i$が満たすべき条件は以下である。
+\begin{enumerate}[label=\Alph*', ref=\Alph*']
+  \item $f_i,G_j$は$(i,j)\in\Delta$に対して可換である\label{cond:a}
+  \item 少なくとも一つの$(i,j)\in[L/2]^2\backslash\Delta$に対して非可換である\label{cond:b}
+  \item アクティブ行列$\HX,\HZ$内の短いサイクルを避ける(長さ6以下のサイクル)\label{cond:c}
+\end{enumerate}
+ここで、$\Delta = \{(0,3), (1,2)\}$である。
+
+\begin{definition}\label{def:02081}
+  行列$G$を以下の$L,R$を用いて$G = [L\mid R]$と定義する。
+\begin{align}
+  L_{(6i+j, k)} &= \begin{cases}
+    1-a_{g_i} & \mif k = i\\
+    0 & \text{otherwise}
+  \end{cases}\\
+  R_{(6i+j, k)} &= \begin{cases}
+    a_{f_j}-1 & \mif k = j\\
+    0 & \text{otherwise}
+  \end{cases}
+\end{align}
+\end{definition}
+
+\begin{definition}\label{def:02082}
+  $G$から4,8行目($(i,j)=(0,3),(1,2)$に対応する行)を除いたものを$G_a$とし、4,8行目のみを取り出したものを$G_b$とする。
+\end{definition}
+
+\subsection{条件\ref{cond:a}}
+条件\ref{cond:a}は、
+\begin{align}
+  G_a \bU \equiv \zeroU\label{02083}
+\end{align}
+で表せ、これをスミス標準形を用いて解くと、解空間
+\begin{align}
+  \bU = \sum_{i=0}^{d_a} c_i\vU_i\label{02084}
+\end{align}
+が得られる($d_a$は解空間の次元)。
+ここで、$V=[\vU_0\tr,\dots,\vU_{d_a}\tr]\quad \cU=[c_0,\dots,c_{d_a}]\tr$とすると、
+\begin{align}
+  \bU = V\cU\label{02085}
+\end{align}
+と表せる。
+
+\subsection{条件\ref{cond:b}}
+条件\ref{cond:b}は、
+\begin{align}
+  G_b \bU \equiv \dU_b\label{02086}
+\end{align}
+かつ$\dU_b$のすべての要素が非ゼロ、で表せる。
+式\eqref{02085}を代入すると、
+\begin{align}
+  &\qquad G_b V\cU \equiv \dU_b\label{02087}\\
+  &\iff G_b'\cU \equiv \dU_b\label{02088}\\
+  &\iff {G_b'}_{(k)}\cU \not\equiv 0\text{ for all }k \in \{0,1\}\label{02089}
+\end{align}
+が得られる。ただし、$G_b' = G_b V$であり、$G_{(i)}$は行列$G$の$i$行目である。
+これにより、各$k$に対して$\cU$の禁止領域が求められる。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \bibliography{refs}
 \bibliographystyle{unsrt} %参考文献出力スタイル
