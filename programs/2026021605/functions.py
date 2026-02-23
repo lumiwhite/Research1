@@ -181,11 +181,6 @@ def generate_h_xz():
         h_z.append(row_z)
     return h_x, h_z
 
-def inv(val):
-    try:
-        return pow(val, -1, P)
-    except ValueError:
-        raise ValueError("Inverse does not exist")
     
    
 def generate_constraints(cycles, a_vec, h_x, h_z):

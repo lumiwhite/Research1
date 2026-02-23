@@ -6,10 +6,9 @@ from dataclasses import dataclass
 import matplotlib.pyplot as plt
 from collections import Counter
 import sympy as sp
-from sympy import gcd, gcdex
+from sympy import gcd, gcdex, Matrix, list2numpy, eye
 from itertools import product
 from z3 import *
-from sympy import Matrix, list2numpy, eye
 
 L=12
 l_h = L // 2
@@ -182,12 +181,8 @@ def generate_h_xz():
         h_z.append(row_z)
     return h_x, h_z
 
-def inv(val):
-    try:
-        return pow(val, -1, P)
-    except ValueError:
-        raise ValueError("Inverse does not exist")
     
+   
 def generate_constraints(cycles, a_vec, h_x, h_z):
     constraints = []
     for cycle in cycles:
@@ -310,6 +305,86 @@ def generate_g(a_vec):
             G[l_h*i+j, l_h+j] = (a_vec[i]-1)
     return G
 
+def check(a_vec, b_vec):
+    commute_mat = commute_matrix(a_vec, b_vec)
+    if commute_mat != [[1, 1, 1, 0, 1, 1],
+    [1, 1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1]]:
+        return False
+    cycles = generate_cycles(6)
+    h_x, h_z = generate_h_xz()
+    functions = generate_functions(cycles, a_vec, b_vec, h_x, h_z)
+    for function in functions:
+        if is_closed(function):
+            return False
+    return True
+
+def crt_combine_val(v3, v256):
+    """
+    v = v3 (mod 3) かつ v = v256 (mod 256) となる v (mod 768) を求める
+    """
+    m1, m2 = 3, 256
+    # Garner's Algorithm の簡略版: x = v3 + m1 * ((v256 - v3) * inv(m1, m2) % m2)
+    m1_inv = pow(m1, -1, m2)
+    h = ((v256 - v3) * m1_inv) % m2
+    return (v3 + m1 * h) % 768
+
+def crt_combine_matrix(M3, M256):
+    """
+    Matrix の各要素に対して CRT 合成を行う
+    """
+    res = M3.copy()
+    for i in range(res.rows):
+        for j in range(res.cols):
+            res[i, j] = crt_combine_val(M3[i, j], M256[i, j])
+    return res
+
+def crt_combine_val(v3, v256):
+    """
+    v = v3 (mod 3) かつ v = v256 (mod 256) となる v (mod 768) を求める
+    """
+    m1, m2 = 3, 256
+    # Garner's Algorithm の簡略版: x = v3 + m1 * ((v256 - v3) * inv(m1, m2) % m2)
+    m1_inv = pow(m1, -1, m2)
+    h = ((v256 - v3) * m1_inv) % m2
+    return (v3 + m1 * h) % 768
+
+def crt_combine_matrix(M3, M256):
+    """
+    Matrix の各要素に対して CRT 合成を行う
+    """
+    res = M3.copy()
+    for i in range(res.rows):
+        for j in range(res.cols):
+            res[i, j] = crt_combine_val(M3[i, j], M256[i, j])
+    return res
+
+def crt_lift(x_mod3, x_mod256):
+    """
+    x = x_mod3 (mod 3) かつ x = x_mod256 (mod 256) となる x (mod 768) を合成する。
+    中国剰余定理の公式: x = a1*M1*y1 + a2*M2*y2 (mod M)
+    """
+    m1, m2 = 3, 256
+    M = m1 * m2 # 768
+    
+    # M1 = 256, M2 = 3
+    # y1 = inv(256, 3) = 1, y2 = inv(3, 256) = 171
+    y1 = pow(m2, -1, m1)
+    y2 = pow(m1, -1, m2)
+    
+    res = (x_mod3 * m2 * y1 + x_mod256 * m1 * y2) % M
+    return res
+
+# 行列/ベクトル全体に適用するラッパー
+def crt_combine_vectors(v3, v256):
+    res = v3.copy()
+    for i in range(res.rows):
+        res[i, 0] = crt_lift(v3[i, 0], v256[i, 0])
+    return res
+
 def solve_modular_kernel(A, P):
     """
     剰余環 Z_P 上における行列 A の核 (Ax = 0 mod P) の基底を求める。
@@ -358,19 +433,81 @@ def solve_modular_kernel(A, P):
                 
     return basis_vectors
 
-def check(a_vec, b_vec):
-    commute_mat = commute_matrix(a_vec, b_vec)
-    if commute_mat != [[1, 1, 1, 0, 1, 1],
-    [1, 1, 0, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1]]:
-        return False
-    cycles = generate_cycles(6)
-    h_x, h_z = generate_h_xz()
-    functions = generate_functions(cycles, a_vec, b_vec, h_x, h_z)
-    for function in functions:
-        if is_closed(function):
-            return False
+from z3 import *
+from sympy import Matrix
+
+def solve_decomposition_z3(V, b, p):
+    """
+    V * c = b (mod p) となる係数 c を Z3 (整数計画) で求める。
+    V: カーネル基底行列
+    b: ターゲットベクトル
+    p: 法
+    """
+    solver = Solver()
+    k = V.cols # 係数 c の数（基底の数）
+    rows = V.rows
+    
+    # 変数 c_0, ..., c_{k-1} の定義
+    c = [Int(f'c_{i}') for i in range(k)]
+    
+    # 範囲制約 (任意ですが、0以上P未満の解を探すと綺麗です)
+    for var in c:
+        solver.add(var >= 0, var < p)
+        
+    # 方程式の制約: V * c ≡ b (mod p)
+    # 各行について: sum(V_ij * c_j) - b_i = m_i * p
+    # Z3の % 演算子を使って記述します
+    for i in range(rows):
+        # 行列の成分は sympy の Integer なので int() でキャスト
+        expr = Sum([int(V[i, j]) * c[j] for j in range(k)])
+        target = int(b[i, 0])
+        solver.add((expr - target) % p == 0)
+        
+    # 解の探索
+    if solver.check() == sat:
+        model = solver.model()
+        # 結果を SymPy Matrix として返す
+        return Matrix([model[c[i]].as_long() for i in range(k)])
+    else:
+        return None
+    
+    
+def is_in_general_solution_strict(x_vec, V, forbidden_vectors, a_vec, p):
+    if x_vec is None: return False
+    
+    # 1. b_vec の復元
+    b_mat = (V * x_vec).applyfunc(lambda x: x % p)
+    b_list = [int(val) for val in b_mat]
+    
+    # 2. 条件A (特定の可換性) のチェック
+    # インデックス (1, 3) が 0 になっているものは、条件Aを満たさないので排除
+    # commute_matrix を使わずに直接計算することで高速化
+    # f1 = [a_vec[1], b_list[1]], g3 = [a_vec[6+3], b_list[6+3]]
+    # (a_1 - 1)*b_9 - (a_9 - 1)*b_1 == 0 (mod P)
+    a1, b1 = a_vec[1], b_list[1]
+    a9, b9 = a_vec[9], b_list[9] # index 6+3 = 9
+    if ((a1 - 1) * b9 - (a9 - 1) * b1) % p != 0:
+        return False # 可換でなくなった場合は不合格
+
+    # 3. 条件B/C (禁止ベクトル/ガース) のチェック
+    x_mat = Matrix(x_vec)
+    for r in forbidden_vectors:
+        if (r.T * x_mat)[0] % p == 0:
+            return False # サイクルが閉じる(または非可換部が可換になる)場合は不合格
+            
     return True
+
+
+def reconstruct_b_vectors(x_solutions, V_matrix, p):
+    """
+    da 次元の解 x から L 次元の係数ベクトル b を復元する
+    b = V * x (mod p)
+    """
+    b_vectors = []
+    for x_sol in x_solutions:
+        # 基底行列 V との積を計算し mod P を適用
+        b_mat = (V_matrix * x_sol).applyfunc(lambda val: val % p)
+        # Matrix 型から Python のリスト形式に変換
+        b_list = [int(val) for val in b_mat]
+        b_vectors.append(b_list)
+    return b_vectors
