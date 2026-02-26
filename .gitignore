@@ -15,3 +15,5 @@ __pycache__/
 
 # Jupyter Notebook のチェックポイント
 .ipynb_checkpoints/
+
+log/
