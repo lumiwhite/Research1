@@ -99,6 +99,14 @@ $c_3$が$c_0$または$c_2$と重複してしまう$c_1$が1つ存在する。
 さらに、逆順に辿ることものが存在することを考えると、$\cU$の組み合わせは
 $12\times (12-3)/2 = 54$通り。
 
+AIによると、
+\paragraph{行パターンの数}
+条件式 \eqref{02064} および \eqref{02066} を満たす行の組み合わせ $\mathbf{r} = [r_0, r_1, r_2, r_3]$ を考える。$r_3 = r_1$ かつ $r_i \in \{0, 1, \dots, J-1\}$ の場合、等差数列の条件 $r_2 - r_1 \equiv r_1 - r_0 \pmod{L/2}$ が導かれる。能動行列の行インデックス集合 $\{0, 1, \dots, J-1\}$ から、長さ3の等差数列（公差 $d \neq 0$）を構成する集合 $\{r_0, r_1, r_2\}$ の数は、以下の式で与えられる。$$A(J) = \sum_{d=1}^{\lfloor \frac{J-1}{2} \rfloor} (J - 2d) = \left\lfloor \frac{(J-1)^2}{4} \right\rfloor$$各集合に対し、順序を考慮したパターン（例：$[0,1,2,1]$ とその逆方向）が存在するが、サイクルとしての同一性を考慮すると、行の選択パターンは $A(J)$ 通りである。
+\paragraph{列パターンの数}
+固定された行パターン $\mathbf{r}$ に対し、条件を満たす列の組み合わせ $\mathbf{c} = [c_0, c_1, c_2, c_3]$ の数を考える。条件より、$c_2 \equiv c_0 + \delta_1$ および $c_3 \equiv c_1 + \delta_2$ である。$c_0$ の選択肢は $L$ 通り。$c_0$ を決めると $c_2$ が一意に決まる。$c_1$ は $L$ 通りの中から、$c_0, c_2$ および $c_3$ が $c_0, c_2$ と重複しないように選ぶ必要がある。重複を避けるための除外数は3（$c_1 \neq c_0$, $c_1 \neq c_2$, $c_1 + \delta_2 \neq c_0 \dots$等）である。サイクルの辿り方の重複（逆順）を排除するため 2 で割る。したがって、列の組み合わせ数は次のように表される。$$N_{\mathbf{c}} = \frac{L(L-3)}{2}$$
+\paragraph{総数の表現}
+行と列の組み合わせを合わせると、UTCBCの総数 $N_{\text{UTCBC}}$ は以下のようになる。$$N_{\text{UTCBC}} = A(J) \times N_{\mathbf{c}} = \left\lfloor \frac{(J-1)^2}{4} \right\rfloor \frac{L(L-3)}{2}$$具体的な数値による検証$J=3, L=12$ の場合：$$N_{\text{UTCBC}} = \left\lfloor \frac{(3-1)^2}{4} \right\rfloor \frac{12(12-3)}{2} = 1 \times \frac{12 \times 9}{2} = 54$$これは、提示された計算結果と一致する。$J=4, L=12$ の場合：$$N_{\text{UTCBC}} = \left\lfloor \frac{(4-1)^2}{4} \right\rfloor \frac{12(12-3)}{2} = 2 \times 54 = 108$$このように、行の次数 $J$ が増加するにつれて、等差数列の組み合わせ数 $A(J)$ に比例してサイクル数が増加する。
+
 \section{検査するサイクルの再考}
 段階的に目標を達成するために、まずは長さ6以下のサイクルを含まない$\fU, \gU$の一般解の導出を目指す。
 \paragraph{長さ4のサイクル}
@@ -259,12 +267,7 @@ CRTにより、環 $\mathbb{Z}_{768}$ は以下の直積環に同型である。
     ここで $y_1 = 256^{-1} \pmod 3$、$y_2 = 3^{-1} \pmod{256}$ である。
 \end{enumerate}
 
-\section{今後の方針}
-\begin{itemize}
-  \item 複数の特殊解について、長さ8以上のサイクルの個数を比較し、性能の違いを評価する。
-  \item $\aU$をランダムに生成し、それに対して整数計画法で特殊解を求め、性能を示すものを探す。また、UTCBC以外の長さ8のサイクルを含まないものが見つけられたらうれしい。
-  \item ガースが10になるような符号の構成法を考える。
-\end{itemize}
+
 
 \section{条件AおよびBを満たす解が存在するためのベクトル$\mathbf{a}$の条件}
 
@@ -302,68 +305,53 @@ CRTにより、環 $\mathbb{Z}_{768}$ は以下の直積環に同型である。
     \item \textbf{リフティングの限界：} ベースの4-サイクルが拡大された際、ガース10を達成するためには、長さ4, 6, 8のすべてのパスにおいて加法的条件を回避しなければならず、解空間が極めて狭くなる。
 \end{enumerate}
 
-\section{研究方針：ガース6のプロトグラフへの転換}
+\subsection{研究方針：ガース6のプロトグラフへの転換}
 本研究では、全結合プロトグラフの前提を崩し、ベース行列 $B$ そのものにスパース構造を導入することでガース10を論理的に可能にする。
 
-\subsection{1. ベース行列 $B$ の RC-condition 充足}
+\subsubsection{1. ベース行列 $B$ の RC-condition 充足}
 ベース行列 $B \in \{0, 1\}^{M \times N}$ に対し、任意の2行間の内積を1以下に制限する \textbf{Row-Column (RC) condition} を課す。
 \begin{equation}
     \forall i, i' \in \{1, \dots, M\}, \quad \sum_{j=1}^{N} B_{i,j} B_{i',j} \le 1
 \end{equation}
 これにより、ベース行列のガースは 6 以上となり、リフティング後のガース 10 達成に向けた「構造的8-サイクル」の芽を物理的に根絶する。
 
-\subsection{2. 直交条件（Condition A）の再定式化}
-ベース行列がスパースになることで、直交制約 $H_x H_z^T = 0$ は、ベース行列上で共通の行に接続された列ペアに対してのみ定義される。新たな直交条件行列 $\bm{G}_{sparse}$ は、全結合時よりも行数が減少し、解空間の次元 $d_a$ が増大する。
-\begin{equation}
-    \bm{G}_{sparse} \bm{b} \equiv \bm{0} \pmod P
-\end{equation}
+% \subsubsection{2. 直交条件（Condition A）の再定式化}
+% ベース行列がスパースになることで、直交制約 $H_x H_z^T = 0$ は、ベース行列上で共通の行に接続された列ペアに対してのみ定義される。新たな直交条件行列 $\bm{G}_{sparse}$ は、全結合時よりも行数が減少し、解空間の次元 $d_a$ が増大する。
+% \begin{equation}
+%     \bm{G}_{sparse} \bm{b} \equiv \bm{0} \pmod P
+% \end{equation}
 
-\subsection{3. 長さ 6, 8, 10 サイクル条件の Z3 による解決}
-リフティング次数 $P$ を法とする座標空間において、以下の条件を同時に満たす $\bm{b}$ を探索する。
+% \subsubsection{3. 長さ 6, 8, 10 サイクル条件の Z3 による解決}
+% リフティング次数 $P$ を法とする座標空間において、以下の条件を同時に満たす $\bm{b}$ を探索する。
+% \begin{itemize}
+%     \item \textbf{条件 A (可換性):} $\bm{b} \in \text{ker}(\bm{G}_{sparse}) \pmod P$
+%     \item \textbf{条件 C (ガース):} 全ての $k \in \{3, 4, 5\}$ 次のパスベクトル $\bm{r}_k$ に対し、$\bm{r}_k^T \bm{b} \not\equiv 0 \pmod P$
+% \end{itemize}
+
+% \subsection{具体的な実施ステップ}
+% \begin{description}
+%     \item[Step 1:] $M=6, N=24$ 程度のサイズで、RC-condition を満たすガース6のベース行列 $B$ を生成する。
+%     \item[Step 2:] $B$ の 1 が立っている要素に対して APM パラメータ $(a, b)$ を割り当て、新たな $\bm{G}_{sparse}$ を構築する。
+%     \item[Step 3:] Hermite Normal Form (HNF) を用いて可換空間の基底 $V$ を求め、Z3 ソルバーでガース 10 を満たす特殊解を抽出する。
+% \end{description}
+
+\section{結論}
 \begin{itemize}
-    \item \textbf{条件 A (可換性):} $\bm{b} \in \text{ker}(\bm{G}_{sparse}) \pmod P$
-    \item \textbf{条件 C (ガース):} 全ての $k \in \{3, 4, 5\}$ 次のパスベクトル $\bm{r}_k$ に対し、$\bm{r}_k^T \bm{b} \not\equiv 0 \pmod P$
+  \item UTCBCは54通り存在する。(プログラムでも確認済み)
+  \item 条件Aを満たす解空間を丁度求めることはできない。これを踏まえると、解の一般解を出す、ということは難しそう。
+  \item 1つの特殊解から、他の解を見つけることには成功した。よって、複数の解についてサイクルの個数と性能の関係を調べることはできる。
+  \item 置換の関数として2次の多項式を考えることで、解を探すのは大変になるが、解が存在する可能性が高くなるのではないか。
+  \item ガースを大きくする方法として、より疎な行列にする方法と、アクティブ行列の取り出し方を変える方法の2つを考える。
 \end{itemize}
 
-\section{具体的な実施ステップ}
-\begin{description}
-    \item[Step 1:] $M=6, N=24$ 程度のサイズで、RC-condition を満たすガース6のベース行列 $B$ を生成する。
-    \item[Step 2:] $B$ の 1 が立っている要素に対して APM パラメータ $(a, b)$ を割り当て、新たな $\bm{G}_{sparse}$ を構築する。
-    \item[Step 3:] Hermite Normal Form (HNF) を用いて可換空間の基底 $V$ を求め、Z3 ソルバーでガース 10 を満たす特殊解を抽出する。
-\end{description}
+\section{今後の方針}
+\begin{itemize}
+  \item $\aU$をランダムに生成し、それに対して整数計画法で特殊解を求め、性能を示すものを探す。また、UTCBC以外の長さ8のサイクルを含まないものが存在するのか考える。
+  \item ガースが10になるような符号の構成法を考える。今の案としては2つ。1つは置換行列を配置せず、より疎な行列にする。2つ目は、アクティブ行列の取り出し方(実質的に置換行列の配置)を変える。
+  \item 置換の関数として2次の多項式を考える。
+\end{itemize}
 
-\section{行選択（Masking）の導入：固定から動的へ}
-従来の構成では、プロトグラフの全要素にAPMを配置する全結合型を採用していた。これに対し、大きなベース行列 $\bm{B}_{base} \in \{0, 1\}^{M \times N}$ を定義し、そこから特定の $1$ を「選択（Masking）」する手法を導入することで、グラフのトポロジーを制御する。
 
-選択行列（Masking Matrix） $\bm{Z} = \{z_{i,j}\}$ を以下のように定義する。
-\begin{equation}
-    H = \sum_{i=1}^{M} \sum_{j=1}^{N} z_{i,j} \bm{P}_{a_{i,j}, b_{i,j}}, \quad z_{i,j} \in \{0, 1\}
-\end{equation}
-ここで、$z_{i,j}=1$ の場合のみ APM が配置され、$z_{i,j}=0$ は零行列（接続なし）を意味する。
-
-\section{RC条件（Row-Column Condition）による4-サイクルの根絶}
-プロトグラフ段階でのガースを 6 以上にするために、選択行列 $\bm{Z}$ に対して以下の **RC条件** を課す。
-\begin{equation}
-    \forall i, i' \in \{1, \dots, M\}, \quad \bm{z}_i \cdot \bm{z}_{i'} = \sum_{j=1}^{N} z_{i,j} z_{i',j} \le 1
-\end{equation}
-この条件により、ベース行列内で 2 つの行が 2 箇所以上の列で同時に接続を持つ（＝長方形を形成する）ことが物理的に不可能となる。
-
-\section{直交条件の緩和と探索空間の拡大}
-行の取り出し方を列ごとに分散（スパース化）させることで、量子直交条件 $H_x H_z^T = 0$ に寄与するペアが限定される。
-
-\subsection{制約行列 \texorpdfstring{$\bm{G}_{mask}$}{G\_mask} の疎性}
-全結合時と比較し、直交条件行列 $\bm{G}_{mask}$ の行数は大幅に削減される。
-\begin{equation}
-    \text{rank}(\bm{G}_{mask}) < \text{rank}(\bm{G}_{full})
-\end{equation}
-この結果、解空間（null space）の次元 $d_a$ が増大し、条件C（ガース10）を同時に満たす特殊解 $\bm{b}$ が存在する「隙間」が拡大する。
-
-\section{ガース10達成への論理的ステップ}
-\begin{enumerate}
-    \item \textbf{プロトグラフ・ガースの向上：} $\bm{Z}$ の設計により、リフティング後の「構造的な8-サイクル」の発生源（ベースの4-サイクル）を完全に削除する。
-    \item \textbf{動的行選択の最適化：} 各列の重み $J=3$ を維持しつつ、RC条件を満たす最適な行インデックスの組み合わせを PEG アルゴリズム等で算出する。
-    \item \textbf{一般解の再探索：} 拡張された自由度 $d_a$ を活用し、長さ 6, 8, 10 のパスベクトル $\bm{r}_k$ をすべて回避する $\bm{b}$ を Z3 で特定する。
-\end{enumerate}
 
 \bibliography{refs}
 \bibliographystyle{unsrt} %参考文献出力スタイル

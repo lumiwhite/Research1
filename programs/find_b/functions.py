@@ -1,49 +1,5 @@
 from constants import *
 
-def gen_c_constraints(cycles, a_vec, h_x, h_z):
-    def inv(val):
-        try:
-            return pow(val, -1, P)
-        except ValueError:
-            raise ValueError("Inverse does not exist")
-    constraints = []
-    for cycle in cycles:
-        N = len(cycle)
-        row_x = [0] * L
-        row_z = [0] * L
-        idx_x = [h_x[r][c] for r, c in cycle]
-        idx_z = [h_z[r][c] for r, c in cycle]
-        a_x = [a_vec[idx] for idx in idx_x]
-        a_z = [a_vec[idx] for idx in idx_z]
-
-        term_x = inv(a_x[0])
-        for i in range(0, N, 2):
-            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
-            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
-            if i + 2 < N:
-                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
-        a_c_x = 1
-        for i in range(0, N, 2):
-            a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
-        mul = P // math.gcd(a_c_x-1, P)
-        row_x = [(val * mul) % P for val in row_x]
-        constraints.append(row_x)
-
-        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
-        term_z = 1
-        for i in range(0, N - 2, 2):
-            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
-            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
-            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
-        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
-        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
-        a_c_z = 1
-        for i in range(0, N, 2):
-            a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
-        mul = P // math.gcd(a_c_z-1, P)
-        row_z = [(val * mul) % P for val in row_z]
-        constraints.append(row_z)
-    return constraints
 
 def gen_cycles(max_len):
     def is_valid(r_seq, c_seq):
@@ -115,6 +71,51 @@ def gen_h_xz():
         h_x.append(row_x)
         h_z.append(row_z)
     return h_x, h_z
+
+def gen_c_constraints(cycles, a_vec, h_x, h_z):
+    def inv(val):
+        try:
+            return pow(val, -1, P)
+        except ValueError:
+            raise ValueError("Inverse does not exist")
+    constraints = []
+    for cycle in cycles:
+        N = len(cycle)
+        row_x = [0] * L
+        row_z = [0] * L
+        idx_x = [h_x[r][c] for r, c in cycle]
+        idx_z = [h_z[r][c] for r, c in cycle]
+        a_x = [a_vec[idx] for idx in idx_x]
+        a_z = [a_vec[idx] for idx in idx_z]
+
+        term_x = inv(a_x[0])
+        for i in range(0, N, 2):
+            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
+            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
+            if i + 2 < N:
+                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
+        a_c_x = 1
+        for i in range(0, N, 2):
+            a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
+        mul = P // math.gcd(a_c_x-1, P)
+        row_x = [(val * mul) % P for val in row_x]
+        constraints.append(row_x)
+
+        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
+        term_z = 1
+        for i in range(0, N - 2, 2):
+            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
+            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
+            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
+        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
+        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
+        a_c_z = 1
+        for i in range(0, N, 2):
+            a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
+        mul = P // math.gcd(a_c_z-1, P)
+        row_z = [(val * mul) % P for val in row_z]
+        constraints.append(row_z)
+    return constraints
 
 def gen_constraints(Gb, a_vec, cycles, h_x, h_z):
     

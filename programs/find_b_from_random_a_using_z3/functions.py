@@ -22,51 +22,6 @@ def gen_coprime_array():
             
     return result
 
-def gen_c_constraints(cycles, a_vec, h_x, h_z):
-    def inv(val):
-        try:
-            return pow(val, -1, P)
-        except ValueError:
-            raise ValueError("Inverse does not exist")
-    constraints = []
-    for cycle in cycles:
-        N = len(cycle)
-        row_x = [0] * L
-        row_z = [0] * L
-        idx_x = [h_x[r][c] for r, c in cycle]
-        idx_z = [h_z[r][c] for r, c in cycle]
-        a_x = [a_vec[idx] for idx in idx_x]
-        a_z = [a_vec[idx] for idx in idx_z]
-
-        term_x = inv(a_x[0])
-        for i in range(0, N, 2):
-            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
-            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
-            if i + 2 < N:
-                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
-        a_c_x = 1
-        for i in range(0, N, 2):
-            a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
-        mul = P // math.gcd(a_c_x-1, P)
-        row_x = [(val * mul) % P for val in row_x]
-        constraints.append(row_x)
-
-        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
-        term_z = 1
-        for i in range(0, N - 2, 2):
-            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
-            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
-            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
-        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
-        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
-        a_c_z = 1
-        for i in range(0, N, 2):
-            a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
-        mul = P // math.gcd(a_c_z-1, P)
-        row_z = [(val * mul) % P for val in row_z]
-        constraints.append(row_z)
-    return constraints
-
 def gen_cycles(max_len):
     def is_valid(r_seq, c_seq):
         length = len(r_seq)
@@ -138,8 +93,52 @@ def gen_h_xz():
         h_z.append(row_z)
     return h_x, h_z
 
+def gen_c_constraints(cycles, a_vec, h_x, h_z):
+    def inv(val):
+        try:
+            return pow(val, -1, P)
+        except ValueError:
+            raise ValueError("Inverse does not exist")
+    constraints = []
+    for cycle in cycles:
+        N = len(cycle)
+        row_x = [0] * L
+        row_z = [0] * L
+        idx_x = [h_x[r][c] for r, c in cycle]
+        idx_z = [h_z[r][c] for r, c in cycle]
+        a_x = [a_vec[idx] for idx in idx_x]
+        a_z = [a_vec[idx] for idx in idx_z]
 
-def gen_constraints(Gb, a_vec, girth, cycles, h_x, h_z):
+        term_x = inv(a_x[0])
+        for i in range(0, N, 2):
+            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
+            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
+            if i + 2 < N:
+                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
+        a_c_x = 1
+        for i in range(0, N, 2):
+            a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
+        mul = P // math.gcd(a_c_x-1, P)
+        row_x = [(val * mul) % P for val in row_x]
+        constraints.append(row_x)
+
+        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
+        term_z = 1
+        for i in range(0, N - 2, 2):
+            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
+            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
+            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
+        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
+        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
+        a_c_z = 1
+        for i in range(0, N, 2):
+            a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
+        mul = P // math.gcd(a_c_z-1, P)
+        row_z = [(val * mul) % P for val in row_z]
+        constraints.append(row_z)
+    return constraints
+
+def gen_constraints(Gb, a_vec, cycles, h_x, h_z):
     
     constraints = gen_c_constraints(cycles, a_vec, h_x, h_z)
 
@@ -242,85 +241,44 @@ from z3 import Solver, Int, Sum, sat, Or
 # 共通変数は一度だけ定義する
 b_vars = [Int(f'b_{i}') for i in range(L)]
 
-def optimized_find_b_fast(cycles, h_x, h_z, count):
+def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
     attempt = 0
+    seen_avec = []
     while True:
         attempt += 1
+        print(f"試行回数: {attempt}")
         a_vec = gen_coprime_array()
-        Ga, Gb = gen_g_mat(a_vec)
-        
-        solver = Solver()
-        
-        # 【重要】ソルバのタイムアウトを5000ミリ秒（5秒）に設定
-        # これにより、沼にハマった場合は強制終了して次へ進む
-        solver.set("timeout", 600000)
-        
-        b_vars = [BitVec(f'b_{i}', 32) for i in range(L)]
-        
-        # 範囲制約
-        for x in b_vars:
-            solver.add(UGE(x, 0))
-            solver.add(ULT(x, P))
-            
-        # 等式制約 (Ga * b = 0 mod P)
-        for row in Ga:
-            expr = Sum([BitVecVal(int(row[i]), 32) * b_vars[i] for i in range(L)])
-            solver.add(expr % P == 0)
-            
-        # Gbの不等式制約（有望判定用）
-        for row in Gb:
-            expr = Sum([BitVecVal(int(row[j]), 32) * b_vars[j] for j in range(L)])
-            solver.add(expr % P != 0)
-            
-        # 有望かどうかの事前チェック
-        res = solver.check()
-        if res != sat:
-            # unsat（解なし）だけでなく、unknown（タイムアウト）の場合もスキップ
-            if attempt % 50 == 0 or res == unknown:
-                reason = "タイムアウト" if res == unknown else "フィルターで除外"
-                if res == unknown:
-                    print(f"試行 {attempt}: 事前チェックで{reason}。次へ進む。")
-                else:
-                    print(f"試行 {attempt}: {reason}")
+        if a_vec in seen_avec:
             continue
-            
-        print(f"試行 {attempt}: 有望な a_vec{a_vec} を発見。全制約のテストを開始...")
+        seen_avec.append(a_vec)
         
-        solver.push()
-        
-        raw_constraints = gen_c_constraints(cycles, a_vec, h_x, h_z)
-        unique_forbidden_vectors = []
-        seen_vectors = set(tuple(row) for row in Gb)
-        
-        for row in raw_constraints:
-            row_tuple = tuple(row)
-            if row_tuple not in seen_vectors:
-                unique_forbidden_vectors.append(row)
-                seen_vectors.add(row_tuple)
-                
-        # 追加の禁止ベクトル制約を追加
-        for row in unique_forbidden_vectors:
-            expr = Sum([BitVecVal(int(row[j]), 32) * b_vars[j] for j in range(L)])
-            solver.add(expr % P != 0)
+        Ga, Gb = gen_g_mat(a_vec)
+        constraints = gen_constraints(Gb, a_vec, cycles, h_x, h_z)
+        solver = Solver()
+        solver.set("timeout", 30000)  # タイムアウトを1000msに設定
+        # 32bit BitVector を使用
+        b = [BitVec(f'b_{i}', 32) for i in range(L)]
+        P = BitVecVal(p_val, 32)
+        ZERO = BitVecVal(0, 32)
+
+        # 範囲制約
+        for x in b:
+            solver.add(UGE(x, 0), ULT(x, P))
+
+        # 等式制約 (Ax = 0 mod P)
+        for row in Ga:
+            # row[i] も BitVecVal に変換して計算
+            expr = Sum([BitVecVal(int(row[i]), 32) * b[i] for i in range(L)])
+            solver.add(expr % P == ZERO)
+
+        # 不等式制約 (Cx != 0 mod P)
+        for row in constraints:
+            expr = Sum([BitVecVal(int(row[j]), 32) * b[j] for j in range(L)])
+            solver.add(expr % P != ZERO)
             
-        solutions = []
-        for _ in range(count):
-            res_full = solver.check()
-            if res_full == sat:
-                model = solver.model()
-                res_vals = [model[x].as_long() for x in b_vars]
-                solutions.append(res_vals)
-                solver.add(Or([b_vars[i] != res_vals[i] for i in range(L)]))
-            elif res_full == unknown:
-                print(f"試行 {attempt}: 全制約テスト中にタイムアウト。このa_vecは諦めて次へ進む。")
-                break # タイムアウトしたらこのa_vecは諦める
-            else:
-                break
-                
-        if solutions:
-            return a_vec, solutions
-            
-        solver.pop()
+        if solver.check() == sat:
+            model = solver.model()
+            return [model[x].as_long() for x in b]
 
 
 

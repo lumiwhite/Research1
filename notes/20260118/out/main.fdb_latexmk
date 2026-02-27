@@ -1,12 +1,12 @@
 # Fdb version 4
-["dvipdf"] 1770038838.42364 "out/main.dvi" "out/main.pdf" "out/main" 1770038839.073 0
+["dvipdf"] 1772161973.39092 "out/main.dvi" "out/main.pdf" "out/main" 1772161974.00763 0
   "out/main.dvi" 1770038838 63508 54c97619c9a95f893f11085d634e2439 "latex"
   (generated)
   "out/main.pdf"
   (rewritten before read)
-["latex"] 1770038837.6737 "c:/Users/black/Research/notes/20260118/main.tex" "out/main.dvi" "main" 1770038839.07036 0
+["latex"] 1770038837.6737 "c:/Users/black/Research/notes/20260118/main.tex" "out/main.dvi" "main" 1772161974.00485 0
   "../command.tex" 1769433649 1898 24d37bfee5b7620385b8495cd872282e ""
-  "c:/Users/black/Research/notes/20260118/main.tex" 1770038835 32013 ccaeca26ba039e2c5c9c8ee7ff3ea2e4 ""
+  "c:/Users/black/Research/notes/20260118/main.tex" 1772161960 32013 ccaeca26ba039e2c5c9c8ee7ff3ea2e4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1767945889 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jis.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/ptex-fonts/jis/jisg.tfm" 1747643610 468 53f854284f6afa6c36aaa2d1090ecc12 ""
@@ -128,7 +128,7 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1747642045 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/euptex/platex.fmt" 1767948312 3567191 f5eef60ea3d5704d4df2cd0d99cba114 ""
   "c:/texlive/2025/texmf.cnf" 1747644115 713 e69b156964470283e0530f5060668171 ""
-  "main.tex" 1770038835 32013 ccaeca26ba039e2c5c9c8ee7ff3ea2e4 ""
+  "main.tex" 1772161960 32013 ccaeca26ba039e2c5c9c8ee7ff3ea2e4 ""
   "out/main.aux" 1770038838 2563 4effbb06501fa6f722fdd792fa2d3303 "latex"
   "out/main.out" 1770038838 1231 dad3d55881b47c4aabcb88091ffc5f6d "latex"
   "out/main.toc" 1770038838 904 996aae870127d71e8d6ac0d87a874945 "latex"
