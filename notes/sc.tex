@@ -1,0 +1,67 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{command.tex}
+% =========================================
+\begin{document}
+
+\title{空間結合符号}
+\author{}
+\date{\today}
+\maketitle
+\tableofcontents
+
+\section{空間結合（SC）符号の基礎}
+
+空間結合符号は、従来のブロックLDPC符号の構造を「空間的（あるいは時間的）」に引き伸ばし、隣接するブロック同士を鎖のように繋ぎ合わせた符号である。これにより、非常に強力な誤り訂正能力を発揮する。
+
+\subsection{基本構造：コピーの並置とエッジの「つなぎ変え」}
+通常のLDPC符号は、パリティ検査行列（あるいはTannerグラフ）によって定義される。SC符号を作る基本的な手順は以下の通りである。
+
+\begin{itemize}
+    \item \textbf{コピーの配置:} まず、ベースとなる小さなLDPC符号（プロトグラフ）のコピーを、空間方向（横方向）に$N$個並べる。
+    \item \textbf{エッジの分散（結合）:} 各時点の変数ノードから出るエッジ（線）を、同じ時点の検査ノードだけでなく、隣接するいくつか先の時点（例えば時点$t+1$や$t+2$）の検査ノードにも分散させて繋ぎ変える。
+    \item \textbf{多項式表現:} 行列で表現する場合、ベースとなる行列$H$を複数の部分行列に分割し（例：$H = H_0 + H_1 + H_2$）、空間方向のシフトを遅延演算子$z$を用いて $H(z) = H_0 + H_1 z + H_2 z^2$ のように表すことが多い。これを斜めにずらしながら重ね合わせることで、巨大な帯状（バンド状）のパリティ検査行列が構成される。
+\end{itemize}
+
+\subsection{最大の特徴：「境界効果」と「復号波（Decoding Wave）」}
+SC符号を鎖状に繋いだ際、鎖の両端（境界）が生じる。この境界部分の処理（ターミネーションと呼ばれる）が、SC符号の魔法の源泉である。
+
+\begin{itemize}
+    \item \textbf{強力な境界:} 鎖の端では、繋がるべき先の変数ノードが存在しないため、検査ノードの次数（繋がっている変数の数）が通常よりも小さくなる。次数が小さい検査ノードは、パリティの条件が厳しくなるため、それに繋がる変数ノードの信頼性が非常に高くなる（誤りを特定しやすい）。
+    \item \textbf{復号波の伝播:} 境界部分で高確率に正しい値が確定すると、BP（Belief Propagation）復号の反復を通じて、その「高い信頼性」がドミノ倒しのように鎖の内側（バルク部分）に向かって次々と伝播していく。これを「復号波」と呼ぶ。
+\end{itemize}
+
+\subsection{閾値飽和（Threshold Saturation）現象}
+境界から内側へ向かって復号が成功していくメカニズムにより、SC符号は驚異的な性能向上を示す。
+
+\begin{itemize}
+    \item 通常の正則LDPC符号は、計算の軽いBP復号ではある程度のノイズまでしか耐えられず、計算量が膨大なMAP（最大事後確率）復号を用いないと理論的な限界に達しない。
+    \item しかし、SC符号化を行うと、BP復号を用いているにもかかわらず、その限界値（閾値）がMAP復号の限界値まで引き上げられる現象が起こる。これを\textbf{閾値飽和}と呼ぶ。実際、SC符号化されたアンサンブルは、BP復号の下で通信路容量を普遍的に達成することが知られている。
+\end{itemize}
+
+\subsection{Girth（最小閉路）の増大}
+ベースとなる符号のTannerグラフ内に短いサイクル（閉路）が存在していても、エッジを空間方向に斜めに繋ぎ変えることで、元のサイクルが「解きほぐされる」効果がある。結果として、元のブロック符号よりもGirthが大きくなりやすく、BP復号時の相関（同じ情報がぐるぐる回ってしまう悪影響）を軽減できる。
+
+\subsection{量子LDPC符号への応用における課題}
+古典的なSC符号は上記のように非常に強力であるが、これを量子LDPC符号（CSS符号など）にそのまま適用しようとすると、本論文のテーマである「パリティ検査行列間の直交性（$H_X H_Z^T = 0$）」を満たし続けるのが非常に難しくなる。空間的にエッジをずらした結果、直交性が崩れたり、境界部分のターミネーションによって「Latentな非直交性」が失われ、低重みの論理演算子が生じてしまうからである。
+\end{document}
