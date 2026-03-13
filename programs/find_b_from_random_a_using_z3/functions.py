@@ -138,6 +138,29 @@ def gen_c_constraints(cycles, a_vec, h_x, h_z):
         constraints.append(row_z)
     return constraints
 
+# def gen_constraints(Gb):
+    
+#     # constraints = gen_c_constraints(cycles, a_vec, h_x, h_z)
+
+#     # 全ての禁止ベクトル（法ベクトル）を個別にリスト化する
+#     unique_forbidden_vectors = []
+#     seen_vectors = set()
+
+#     # 1. 条件B (潜在部の非可換性) からの制約 r_i
+#     for row in Gb:
+#         row_tuple = tuple(row)
+#         if row_tuple not in seen_vectors:
+#             unique_forbidden_vectors.append(row) # 列ベクトルとして保存
+#             seen_vectors.add(row_tuple)
+
+#     # 2. 条件C (短いサイクルの回避) からの制約 c_prime
+#     # for row in constraints:
+#     #     row_tuple = tuple(row)
+#     #     if row_tuple not in seen_vectors:
+#     #         unique_forbidden_vectors.append(row) # 列ベクトルとして保存
+#     #         seen_vectors.add(row_tuple)
+#     return unique_forbidden_vectors
+
 def gen_constraints(Gb, a_vec, cycles, h_x, h_z):
     
     constraints = gen_c_constraints(cycles, a_vec, h_x, h_z)
@@ -160,6 +183,7 @@ def gen_constraints(Gb, a_vec, cycles, h_x, h_z):
             unique_forbidden_vectors.append(row) # 列ベクトルとして保存
             seen_vectors.add(row_tuple)
     return unique_forbidden_vectors
+
 
 def gen_g_mat(a_vec):
     def gen_g(a_vec):
@@ -243,14 +267,15 @@ b_vars = [Int(f'b_{i}') for i in range(L)]
 
 def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
     attempt = 0
-    seen_avec = []
+    # seen_avec = []
     while True:
         attempt += 1
         print(f"試行回数: {attempt}")
-        a_vec = gen_coprime_array()
-        if a_vec in seen_avec:
-            continue
-        seen_avec.append(a_vec)
+        # a_vec = gen_coprime_array()
+        a_vec = [763, 679, 397, 61, 697, 373, 289, 257, 625, 41, 193, 449]
+        # if a_vec in seen_avec:
+        #     continue
+        # seen_avec.append(a_vec)
         
         Ga, Gb = gen_g_mat(a_vec)
         constraints = gen_constraints(Gb, a_vec, cycles, h_x, h_z)
@@ -278,7 +303,7 @@ def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
             
         if solver.check() == sat:
             model = solver.model()
-            return [model[x].as_long() for x in b]
+            return a_vec, [model[x].as_long() for x in b]
 
 
 

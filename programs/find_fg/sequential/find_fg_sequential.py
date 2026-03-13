@@ -2,12 +2,6 @@
 from programs.find_fg.sequential.functions import *
 
 # %%
-P = 768
-L = 12
-L_H = 12//2
-J = 3
-
-# %%
 # 探索の設定
 a_vec = [None] * L
 b_vec = [None] * L
