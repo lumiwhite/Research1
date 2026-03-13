@@ -1,0 +1,102 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{command.tex}
+% =========================================
+\begin{document}
+
+\title{ゼミ記録ノート}
+\author{}
+\date{\today}
+\maketitle
+
+
+\section{3/13}
+\subsection{進捗}
+\begin{itemize}
+  \item 条件ABの一般解を求めた。
+  \item 置換群全体での群的構成を行ったが、可換性条件とガースの両立が難しい。
+  \item APMの不動点に着目した可換群を考えてみたが、これだと可換性条件を実現できない。
+  \item 一つの置換行列を2つの領域に分け、2つのAPMで1つのAPMを構成することを考えたが、$f,g$が見つかっていない。
+\end{itemize}
+
+\subsection{今後のタスク}
+\begin{itemize}
+  \item 2つの置換の組み合わせ方を変えてみる
+  \item 空間結合符号について考える
+\end{itemize}
+
+\subsection{今後の方針}
+
+
+\subsection{今後のタスク}
+\begin{itemize}
+  \item $\aU$をランダムに生成し、それに対して整数計画法で特殊解を求め、性能を示すものを探す。また、UTCBC以外の長さ8のサイクルを含まないものが存在するのか考える。
+  \item ガースが10になるような符号の構成法を考える。今の案としては2つ。1つは置換行列を配置せず、より疎な行列にする。2つ目は、アクティブ行列の取り出し方(実質的に置換行列の配置)を変える。
+  \item 置換の関数として2次の多項式を考える。
+\end{itemize}
+
+\subsection{今後の方針}
+\paragraph{目指すべき符号}
+サイズが小さく、ガースが大きく、最小距離が大きい符号が望ましい。
+サイズの小ささは、実用性に繋がる。ベース行列が大きくなっても、$P$を小さくできればサイズは結果的に小さくなる。
+\paragraph{$\fU,\gU$の一般解の探索}
+特殊解から見つけた他の解は、グラフ同型になり、性能が同じになってしまう。
+
+逐次的な探索アルゴリズムを実装してみる。
+
+二次の置換は、群として閉じていない。よって、一般的な置換群を扱うことになる。
+今は線型方程式を使って解こうとしているが、群の性質を使って解く方法もあるのではないか。
+\paragraph{ガースを大きくする方法}
+疎なベース行列：岡田が、列重みに、多元化を用いた構成を研究している。\\
+多元化をしない方法、空間結合符号(帯行列)の性能がいいらしい\\
+列重み2と3を混ぜる\\
+
+\paragraph{他の方針}
+最小距離の下界の証明
+
+\section{2/4}
+\subsection{進捗}
+\begin{itemize}
+  \item \cite{kasai2025quantum}ではガースが12の符号について、UTCBC以外の長さ12のサイクルを含まない、という条件も課していた、\cite{kasai2026breakingorthogonalitybarrierquantum}ではガース8で、長さ4と6のサイクルを含まない、と記述されている。つまり、UTCBC以外の長さ8のサイクルは存在してよい、という認識で正しいのか。
+  \item 整数計画法は特殊解を求めるためのアルゴリズムなので、一般解を求めるという今回のゴールには向いてなさそう。スミス標準形を使って一般解を求め、制約条件に基づき係数の条件を求める。
+\end{itemize}
+
+\subsection{今後のタスク}
+\begin{itemize}
+  \item 整数計画法で特殊解を求める。
+  \item スミス標準形を勉強。
+  \item サイクルのカウントが正しいのか確かめる(長さ8のサイクルがすべてUTCBCで正しいのか？)。
+  \item 性能評価のやり方を勉強する。
+\end{itemize}
+
+\subsection{今後の方針}
+\begin{itemize}
+  \item 長さ6のサイクルがあるのではないか：関数$f(x)$と行列$F$の関係について、\cite{kasai2025quantum}とは行と列が逆、アクティブ部でのみサイクルを考える。
+  \item UTCBC以外の長さ8のサイクルを避けるべきか？：今は長さ6以外のサイクルを含まないことを条件にしているが、もしUTCBC以外のサイクルも避ければ、性能が良くなるかも？(ならないかも)、エラーがどのサイクル由来かを調べられるとよい
+  \item 整数計画法で求めた特殊解はランダムネスが小さい
+  \item APMを使っている時点でランダムネスは減少しているのでAPMに縛らないとランダムネスを増やせる
+  \item 他の改良案：Pを小さく(2,3以外の素因数を使う)、ガースを大きく(アクティブ行列の取り出し方を変える。)
+\end{itemize}
+
+
+\end{document}

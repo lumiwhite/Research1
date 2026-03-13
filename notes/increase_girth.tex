@@ -1,0 +1,77 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\mathtoolsset{showonlyrefs}
+\usepackage[dvipdfmx, colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, setpagesize=false]{hyperref}
+\usepackage{pxjahyper}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{command.tex}
+% =========================================
+\begin{document}
+
+\title{ガースを大きくする研究}
+\author{}
+\date{\today}
+\maketitle
+\tableofcontents
+\clearpage
+\section{行列をより疎にする}
+長さ4のサイクルを含まないようなプロトグラフを設計したい。
+アクティブ行列の列重みは3,行重みは12とする。
+このために必要なアクティブ行列のサイズを考える。
+つまり、条件は
+\begin{itemize}
+  \item 列重み3
+  \item 行重み12
+  \item 各行の内積が1以下
+\end{itemize}
+今まで、行列の左半分と右半分は同じ構造を持っていたが、そうすると必ず長さ4のサイクルが含まれてしまう。
+一旦行重み6で考え左右でずらすことでうまく長さ4のサイクルを避けられないか考える。
+\subsection{プロトグラフの最小サイズの導出}
+最小行数を$M$、最小列数を$N$とする。
+列重みは3なので、各列が$\binom{3}{2} = 3$通りの行ペアの重なりを消費する。
+全ての列が異なる行ペアの重なりを持つ必要があるので、
+\begin{align}
+  3N \leq \binom{M}{2} = \frac{M(M-1)}{2}
+\end{align}
+が成り立つ必要がある。
+また、$12M=3N$より、$N=4M$である。
+これらの条件を満たす最小の$M$は25である。
+よって、最小のアクティブ行列のサイズは$25 \times 100$である。
+
+\section{空間結合LDPC符号の構造}
+
+空間結合LDPC符号のパリティ検査行列 $H_{\text{SC}}$ は、以下のような帯行列（Banded Matrix）構造を持つ。
+ここで、$L$ は結合の長さ（Coupling Length）、$w$ は結合幅を表す。
+
+\begin{equation}
+H_{\text{SC}} = 
+\begin{pmatrix}
+H_0(0) &        &        &        & \\
+H_1(0) & H_0(1) &        &        & \\
+\vdots & H_1(1) & \ddots &        & \\
+H_w(0) & \vdots & \ddots & H_0(L-1) & \\
+       & H_w(1) &        & H_1(L-1) & \\
+       &        & \ddots & \vdots   & \\
+       &        &        & H_w(L-1) & 
+\end{pmatrix}
+\end{equation}
+
+\bibliography{refs}
+\bibliographystyle{unsrt} %参考文献出力スタイル
+\end{document}

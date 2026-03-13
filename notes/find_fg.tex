@@ -1,0 +1,221 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\mathtoolsset{showonlyrefs}
+
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+\input{command.tex}
+
+\begin{document}
+
+\title{$\fU, \gU$の条件を満たす解空間の特定}
+\author{黒澤雅治}
+\date{2025/12/21}
+\maketitle
+\clearpage
+
+\section{はじめに：ブロックサイクルの閉条件}
+サイクルの関数が $f(x)=ax+b$ であるとする。このとき、サイクルが閉であることは、ある $x\in[P]$ について $ax+b \equiv x \pmod P$、すなわち $(a-1)x+b \equiv 0 \pmod P$ が成り立つことである。この条件は、以下のように書き換えられる。
+\begin{align}
+  b \equiv 0 \pmod{\gcd(a-1, P)} \label{eq:cbc}
+\end{align}
+$a=1$ のときは $b=0$ で全 $x$ が解となり、$a\neq 1$ のときは $b$ が $\gcd(a-1, P)$ の倍数であるときのみサイクルは閉となる。
+
+\section{論文 [Kasai2026] の構成手法と設計指針}
+\subsection{潜在部を利用した最小距離の改善}
+従来の母行列全体の直交性 $\HHX(\HHZ)^\top=0$ は、潜在部に強い制約を課し最小距離を劣化させる。新しい構成では、アクティブ行列 $\HX, \HZ$ のみの直交性 $\HX\HZ^\top=0$ を課し、潜在部については以下の非直交性を強制することで最小距離の上界を改善する。
+\begin{align}
+\HX\HZ^\top = 0,\quad\HX(\tHZ)^\top \neq 0, \quad\HZ(\tHX)^\top \neq 0 
+\end{align}
+
+\subsection{行列構築の具体的条件}
+与えられた $(L/2, P, J)$ に対して、以下を同時に満たす $\{F_i\}, \{G_i\}$ を構築する。
+\begin{enumerate}[label=\Alph*, ref=\Alph*]
+  \item $f_i, G_j$ は $(i,j)\in[L/2]^2\backslash\{(0,3), (1,2)\}$ に対して可換である（直交性条件）。\label{cond:A}
+  \item 少なくとも一つの $(i,j)\in\{(0,3), (1,2)\}$ に対して非可換である（非直交性条件）。\label{cond:B}
+  \item アクティブ行列 $\HX, \HZ$ 内の短いサイクル（長さ6以下および長さ8のUTCBC以外）を避ける。\label{cond:C}
+\end{enumerate}
+
+\section{検査すべきサイクルの特定とカウント}
+ガース制約を課すにあたり、対象となるパスの個数を特定する。
+
+\subsection{サイクルカウントの一般式}
+行インデックス $J$、列インデックス $L$ のアクティブ行列において、各長さの独立なサイクル数は以下の通りである。
+
+\paragraph{長さ4および6}
+\begin{align}
+  N_4 = \frac{J(J-1)L(L-1)}{4}, \quad N_6 = \frac{J(J-1)(J-2)L(L-1)(L-2)}{6}
+\end{align}
+$J=3, L=12$ の場合、$N_4=198, N_6=1320$ となる。
+
+\paragraph{長さ8}
+隣接不一致条件を課した4位置列の総数 $N_{\text{all}}$ から、周期2の重複 $N_{\text{per2}}$ を補正して算出する。
+\begin{align}
+  N_{\text{all}} &= n(n-1)(n^2-3n+3) \cdot L(L-1)(L^2-3L+3) \quad (n=J \text{ または } L/2) \\
+  N_{\text{per2}} &= n(n-1)L(L-1) \\
+  N_8 &= \frac{N_{\text{all}}-N_{\text{per2}}}{8} + \frac{N_{\text{per2}}}{4}
+\end{align}
+
+\subsection{UTCBC（Un-Trapped Check-Based Cycle）の計数}
+長さ8のサイクルのうち、置換規則によらず常に閉となる UTCBC の総数は次式で与えられる。
+\begin{align}
+  N_{\text{UTCBC}} = \left\lfloor \frac{(J-1)^2}{4} \right\rfloor \frac{L(L-3)}{2}
+\end{align}
+$J=3, L=12$ のとき $N_{\text{UTCBC}}=54$ であり、これらはガース制約から除外する。
+
+\section{サイクルの合成関数と定式化}
+各サイクルを $f_C(x) = a_C x + b_C$ と表現し、平移係数ベクトル $\bU = [b_{f_i}, b_{g_i}]^\top$ の線形制約に落とし込む。
+
+\subsection{合成関数の導出：$\HHX$ と $\HHZ$}
+関数 $h(x)=ax+b$ に対し、逆関数は $h\inv(x)=a\inv(x-b)$ である。
+\paragraph{$\HHX$ におけるパス}
+$f_C\inv(x) = h_0\inv h_1 h_2\inv h_3 \dots$ と連鎖する場合、長さ4では：
+\begin{align}
+  a_C = a_{h_0}\inv a_{h_1}a_{h_2}\inv a_{h_3}, \quad b_C = a_{h_0}\inv a_{h_1}a_{h_2}\inv(b_{h_3}-b_{h_2}) + a_{h_0}\inv(b_{h_1}-b_{h_0})
+\end{align}
+\paragraph{$\HHZ$ におけるパス}
+$\HHZ$ は $f, g$ の逆関数で構成されるため、$f_C\inv(x) = h_0 h_1\inv h_2 h_3\inv \dots$ となり、長さ4では：
+\begin{align}
+  a_C = a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv, \quad b_C = b_{h_0} - a_{h_0}a_{h_1}\inv b_{h_1} + a_{h_0}a_{h_1}\inv b_{h_2} - a_{h_0}a_{h_1}\inv a_{h_2}a_{h_3}\inv b_{h_3}
+\end{align}
+
+\subsection{行列による制約条件の統合}
+係数ベクトル $\bU$ に対し、行列 $G = [L \mid R]$ を定義する。
+\begin{align}
+  L_{(6i+j, k)} = \delta_{ik}(1-a_{g_i}), \qquad R_{(6i+j, k)} = \delta_{jk}(a_{f_j}-1)
+\end{align}
+この $G$ を用いて条件 \ref{cond:A}, \ref{cond:B}, \ref{cond:C} は以下の合同方程式に集約される。
+\begin{enumerate}
+  \item \textbf{条件\ref{cond:A}:} $G_a \bU \equiv \zeroU \pmod P$ （$G$ の $(0,3), (1,2)$ 行を除去）
+  \item \textbf{条件\ref{cond:B}:} $G_b \bU \not\equiv \zeroU \pmod P$ （$G$ の $(0,3), (1,2)$ 行のみ）
+  \item \textbf{条件\ref{cond:C}:} 各非UTCBCパス $c$ に対し、$\frac{P}{\gcd(a_C-1, P)} c_C \bU \not\equiv 0 \pmod P$
+\end{enumerate}
+
+\section{探索アルゴリズムと課題}
+\subsection{中国剰余定理（CRT）による解空間の分解}
+$P=768 = 3 \times 256$ の分解を利用し、環の同型 $\mathbb{Z}_{768} \cong \mathbb{Z}_3 \times \mathbb{Z}_{256}$ 下で探索を行う。
+特に $\mathbb{Z}_3$ 成分において、既知の特殊解 $\bU_0^{(3)}$ に対する摂動 $\bm{\delta}^{(3)} \in \mathbb{Z}_3^{d_a}$ を走査することで、巨大な探索空間を効率的にサンプリングする。
+
+\subsection{ベクトル $\aU$ の選択方針}
+条件\ref{cond:A}と\ref{cond:B}を両立させる非自明な $\bU$ が存在するためには、$\gcd(a_i-1, 768)$ が十分に大きい必要がある。これは零因子の自由度を活用し、解空間を爆発的に広げるためである。
+
+\subsection{今後の展望：RC-condition への転換}
+現在の全結合プロトグラフでは長さ8のサイクルが構造的に不可避である。ベース行列 $B$ に Row-Column (RC) condition（任意の2行の内積が1以下）を導入することで、ベース段階でのガースを6以上に保ち、リフティング後のガース10達成を目指す。
+
+\section{連立合同方程式と標準形を用いた解空間の一括探索}
+
+本章では、アフィン置換行列（APM）の可換性および非可換性条件を満たすシフトベクトル $\boldsymbol{b}$ を、剰余環上の線形代数を用いて一括して導出するアルゴリズムについて述べる。各インデックスを逐次的に決定するヒューリスティックな探索では、条件の累積によって解空間が枯渇し計算機が手詰まりに陥る問題があった。本手法は、スミス標準形（SNF）ならびにエルミート標準形（HNF）を用いて解空間全体を直接抽出することで、この構造的限界を克服するものである。
+
+\subsection{可換性条件の行列表現}
+スケーリング因子を要素とするベクトル $\boldsymbol{a}$ が与えられたとき、関数 $f_i(x) = a_i x + b_i$ と $g_j(x) = a_{6+j} x + b_{6+j}$ が可換となるための必要十分条件は、合成関数の等価性から以下のように導かれる。
+
+$$ (a_i - 1)b_{6+j} - (a_{6+j} - 1)b_i \equiv 0 \pmod P $$
+
+この関係式は、シフトベクトル $\boldsymbol{b}$ を未知数とする一次方程式と見なすことができる。すべての関数ペアに関する条件をまとめることで、係数行列 $G$ を用いた連立合同方程式 $G \boldsymbol{b} \equiv \boldsymbol{0} \pmod P$ が構成される。本アルゴリズムでは、行列 $G$ を、可換であるべきペアの条件式からなる行列 $G_a$ と、非可換であるべきペア（特定の制約ペア）の条件式からなる行列 $G_b$ の2つに分割し、探索問題の定式化を行う。
+
+\subsection{標準形による解空間（カーネル）の基底抽出}
+探索の第一段階の目的は、可換性条件 $G_a \boldsymbol{b} \equiv \boldsymbol{0} \pmod P$ を満たす $\boldsymbol{b}$ の解空間を完全に特定することである。法 $P$ の剰余環 $\mathbb{Z}_P$ 上における方程式であるため、通常の体上におけるガウスの消去法は直接適用できない。
+
+そこで、スミス標準形（Smith Normal Form）変形アルゴリズム、あるいは有理数体を経由したエルミート標準形（Hermite Normal Form）を利用して行列 $G_a$ を対角化・簡約化する。この標準形変形から得られる変換行列を解析することで、$\mathbb{Z}_P$ 上の零空間（カーネル）を張る「基底ベクトル群」を正確に抽出することが可能となる。これにより、可換性を満たす無数の組み合わせを、少数の基底の線形結合という形で表現できる。
+
+\subsection{差空間の解析と制約充足解の高速生成}
+抽出された基底ベクトル群を用いて、第二段階である非可換条件 $G_b \boldsymbol{b} \not\equiv \boldsymbol{0} \pmod P$ を満たす解の構築を行う。計算の組み合わせ爆発を防ぐため、アルゴリズムは基底ベクトル群を以下の2種類に分類して処理する。
+
+\begin{itemize}
+    \item \textbf{自由基底（Free Bases）:} 行列 $G_b$ を掛けた結果が完全に $\boldsymbol{0}$ となる基底。これらの基底は非可換条件の成否に一切影響を与えないため、任意の係数を掛けて自由に組み合わせることができる。
+    \item \textbf{制約基底（Constrained Bases）:} 行列 $G_b$ を掛けた結果が非ゼロとなる基底。非可換条件を成立させる「トリガー」となる要素である。
+\end{itemize}
+
+アルゴリズムは、探索空間が小さい「制約基底」の係数のみを全探索し、非可換条件を満たす有効なパターン（差空間）を抽出する。最終的な解ベクトル $\boldsymbol{b}$ は、この有効な制約パターンの中から選んだものと、ランダムな係数を掛けた「自由基底」を足し合わせることで生成される。
+
+この一連の手法により、矛盾するパラメータの組み合わせを試行する無駄が完全に排除され、複雑な可換・非可換制約をすべて満たすパラメータ群 $\boldsymbol{b}$ を、極めて高速かつ大量に生成することが可能となっている。
+
+\section{二面体群を用いたAPM符号の代数的構成}
+
+本構成では、置換サイズ $P$ に対して $n = P/2$ とし、以下の関係式で定義される二面体群 $D_n$ を採用する。
+\begin{equation}
+    D_n = \langle r, s \mid r^n = 1, s^2 = 1, srs = r^{-1} \rangle
+\end{equation}
+ここで、$r$ は巡回シフト（可換部分群）、$s$ は反転（非可換性の導入）を司る。
+
+\subsection{1. 置換集合 $\{F_i\}, \{G_j\}$ の割り当て}
+プロトグラフの列インデックス $i, j \in \{0, 1, \dots, L/2-1\}$ に対し、要素を以下のように定義する。
+\begin{itemize}
+    \item $F_i = r^{f_i} \quad (\forall i)$
+    \item $G_j = 
+    \begin{cases} 
+    s \cdot r^{g_j} & (j \in \{2, 3\}) \\
+    r^{g_j} & (j \notin \{2, 3\})
+    \end{cases}$
+\end{itemize}
+
+\subsection{2. 条件AおよびB（可換性・非可換性条件）}
+二面体群において、$r^k$ と $s \cdot r^m$ が可換であるための必要十分条件は $r^k \in Z(D_n)$、すなわち $k \equiv 0 \pmod n$ または $k \equiv n/2 \pmod n$ である。これに基づき、以下の制約を課す。
+
+\begin{itemize}
+    \item \textbf{条件A（直交性）の保証}: 
+    $(i, j) \in [L/2]^2 \setminus \{(0, 3), (1, 2)\}$ かつ $j \in \{2, 3\}$ である全てのペアに対し、
+    \begin{equation}
+        f_i \in \{0, n/2\} \pmod n
+    \end{equation}
+    とする。これにより、これらのペアは可換となる。$j \notin \{2, 3\}$ の場合は $F_i, G_j$ ともに $\langle r \rangle$ の元の属性を持つため常に可換である。
+    
+    \item \textbf{条件B（非直交性）の保証}: 
+    $(i, j) \in \{(0, 3), (1, 2)\}$ において、
+    \begin{equation}
+        f_0, f_1 \notin \{0, n/2\} \pmod n
+    \end{equation}
+    とする。これにより、$F_0 G_3 \neq G_3 F_0$ および $F_1 G_2 \neq G_2 F_1$ が確定する。
+\end{itemize}
+
+\subsection{課題}
+$F_0$と$G_2$および$F_1$と$G_3$が可換にならない。
+巡回置換を使っているので、ガースが小さくなってしまう。
+
+\section{ランダムな $P$ 次サイクルによる中心化群の拡張}
+
+単なる巡回シフト行列の使用によるランダム性の低下を回避するため、ランダムな $P$ 次サイクル $\rho \in S_P$ を基底とする中心化群を採用する。
+
+\subsection{スクランブル置換の生成}
+まず、対称群 $S_P$ から一様にランダムな $P$ 次サイクル $\rho$ を一つサンプリングする。このとき、中心化群 $C(\rho) = \langle \rho \rangle$ は $P$ 個の互いに可換な置換を含み、各要素は外見上ランダムな置換行列となる。
+\begin{equation}
+    C(\rho) = \{ \rho^k \mid k = 0, 1, \dots, P-1 \}
+\end{equation}
+
+\subsection{条件A, Bのランダム化設計}
+\begin{enumerate}
+    \item \textbf{条件A (高エントロピー直交性)}: 
+    可換性が要求されるブロック $F_i, G_j$ に対し、$\rho$ のランダムな冪乗 $\rho^k$ を割り当てる。これにより、CPM の代数的性質（可換性）を維持しつつ、エッジの配線をランダム化し、短サイクルの発生確率を抑制する。
+    \item \textbf{条件B (非可換性の注入)}: 
+    非可換ペアに対しては、$\rho$ との交換子が非零となる要素 $\tau \notin \langle \rho \rangle$ をサンプリングする。
+\end{enumerate}
+
+\subsection{課題}
+$F_0$と$G_2$および$F_1$と$G_3$が可換にならない。
+
+\section{APMの不動点を用いた可換性条件の制御}
+$f(x)=ax+b$について、$\gcd(a-1, P)=1$なら、ただ1つの不動点が存在し、不動点が等しい置換同氏は可換である。よって、これにより可換性、非可換性を担保できる。
+
+しかし、これもまた$F_0$と$G_2$および$F_1$と$G_3$が可換にならず、不動点に基づく可換性の制御は不可能。
+論文で挙げられていた$F,G$はどれも不動点なし$\gcd(a-1, P)\neq1$であり、線形代数に落とす必要がある。
+
+\section{一つの置換行列を2つの領域に分け、2つのAPMで1つのAPMを構成}
+$[0,P]$を2つ(例えば$[0, P/2],[P/2, P]$)に分け、それぞれでAPMを構成して結合することで、各置換を構成する。
+
+今回、前後半の2つに分ける分割、奇数偶数で交互に分ける分割を試したが、$P=768, 896, 1536$では解が見つからない。
+解があるかどうかは、分割の仕方には影響しない。性能に影響するのか？
+\end{document}
