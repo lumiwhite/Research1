@@ -1,4 +1,5 @@
 from constants import *
+from z3 import Solver, Int, Sum, sat, Or
 
 def gen_coprime_array():
     # 通常の互いに素な候補（奇数かつ3の倍数でない）
@@ -99,6 +100,7 @@ def gen_c_constraints(cycles, a_vec, h_x, h_z):
             return pow(val, -1, P)
         except ValueError:
             raise ValueError("Inverse does not exist")
+    
     constraints = []
     for cycle in cycles:
         N = len(cycle)
@@ -109,12 +111,18 @@ def gen_c_constraints(cycles, a_vec, h_x, h_z):
         a_x = [a_vec[idx] for idx in idx_x]
         a_z = [a_vec[idx] for idx in idx_z]
 
-        term_x = inv(a_x[0])
-        for i in range(0, N, 2):
-            row_x[idx_x[i]] = (row_x[idx_x[i]] - term_x) % P
-            row_x[idx_x[i+1]] = (row_x[idx_x[i+1]] + term_x) % P
-            if i + 2 < N:
-                term_x = (term_x * a_x[i+1] * inv(a_x[i+2])) % P
+        term_x = inv(a_x[0])*a_x[1]
+        row_x[idx_x[0]] -= 1
+        row_x = [(val * term_x) % P for val in row_x]
+        
+        for i in range(1, N-1, 2):
+            term_x = (inv(a_x[i+1]) * a_x[i+2]) % P
+            row_x[idx_x[i]] += 1
+            row_x[idx_x[i+1]] -= 1
+            row_x = [(val * term_x) % P for val in row_x]
+            
+        row_x[idx_x[N-1]] += 1
+        
         a_c_x = 1
         for i in range(0, N, 2):
             a_c_x = (a_c_x * inv(a_x[i]) * a_x[i+1]) % P
@@ -122,14 +130,17 @@ def gen_c_constraints(cycles, a_vec, h_x, h_z):
         row_x = [(val * mul) % P for val in row_x]
         constraints.append(row_x)
 
-        row_z[idx_z[0]] = (row_z[idx_z[0]] + 1) % P
-        term_z = 1
-        for i in range(0, N - 2, 2):
-            term_z = (term_z * a_z[i] * inv(a_z[i+1])) % P
-            row_z[idx_z[i+1]] = (row_z[idx_z[i+1]] - term_z) % P
-            row_z[idx_z[i+2]] = (row_z[idx_z[i+2]] + term_z) % P
-        term_z = (term_z * a_z[N-2] * inv(a_z[N-1])) % P
-        row_z[idx_z[N-1]] = (row_z[idx_z[N-1]] - term_z) % P
+        for i in range(0, N-2, 2):
+            term_z = (inv(a_z[i+1]) * a_z[i+2]) % P
+            row_z[idx_z[i]] += 1
+            row_z[idx_z[i+1]] -= 1
+            row_z = [(val * term_z) % P for val in row_z]
+
+        term_z = inv(a_z[N-1]) % P
+        row_z[idx_z[N-2]] += 1
+        row_z[idx_z[N-1]] -= 1
+        row_z = [(val * term_z) % P for val in row_z]
+        
         a_c_z = 1
         for i in range(0, N, 2):
             a_c_z = (a_c_z * a_z[i] * inv(a_z[i+1])) % P
@@ -137,29 +148,6 @@ def gen_c_constraints(cycles, a_vec, h_x, h_z):
         row_z = [(val * mul) % P for val in row_z]
         constraints.append(row_z)
     return constraints
-
-# def gen_constraints(Gb):
-    
-#     # constraints = gen_c_constraints(cycles, a_vec, h_x, h_z)
-
-#     # 全ての禁止ベクトル（法ベクトル）を個別にリスト化する
-#     unique_forbidden_vectors = []
-#     seen_vectors = set()
-
-#     # 1. 条件B (潜在部の非可換性) からの制約 r_i
-#     for row in Gb:
-#         row_tuple = tuple(row)
-#         if row_tuple not in seen_vectors:
-#             unique_forbidden_vectors.append(row) # 列ベクトルとして保存
-#             seen_vectors.add(row_tuple)
-
-#     # 2. 条件C (短いサイクルの回避) からの制約 c_prime
-#     # for row in constraints:
-#     #     row_tuple = tuple(row)
-#     #     if row_tuple not in seen_vectors:
-#     #         unique_forbidden_vectors.append(row) # 列ベクトルとして保存
-#     #         seen_vectors.add(row_tuple)
-#     return unique_forbidden_vectors
 
 def gen_constraints(Gb, a_vec, cycles, h_x, h_z):
     
@@ -201,69 +189,6 @@ def gen_g_mat(a_vec):
     Gb = G[gb_indices]
     return Ga, Gb
 
-def solve_with_bitvec(Ga, constraints, count):
-    solver = Solver()
-    
-    # 32ビットのビットベクトルを定義
-    b = [BitVec(f'b_{i}', 32) for i in range(L)]
-    
-    # 範囲制約: 0 <= b_i < P
-    for x in b:
-        solver.add(UGE(x, 0))
-        solver.add(ULT(x, P))
-
-    # 等式制約 (Ga * b = 0 mod P)
-    for row in Ga:
-        expr = Sum([BitVecVal(int(row[i]), 32) * b[i] for i in range(L)])
-        solver.add(expr % P == 0)
-
-    # 不等式制約 (C * b != 0 mod P)
-    for row in constraints:
-        expr = Sum([BitVecVal(int(row[j]), 32) * b[j] for j in range(L)])
-        solver.add(expr % P != 0)
-    
-    solutions = []
-    
-    for _ in range(count):
-        if solver.check() == sat:
-            model = solver.model()
-            # 現在のモデルから解を抽出
-            res = [model[x].as_long() for x in b]
-            solutions.append(res)
-            
-            # 少なくとも1つの変数が今の解と異なることを保証する
-            solver.add(Or([b[i] != res[i] for i in range(L)]))
-        else:
-            # これ以上解が存在しない場合はループを抜ける
-            break
-    if not solutions:
-        return None
-    else:
-        return solutions
-
-def is_a_vec_promising(a_vec):
-    Ga, Gb = gen_g_mat(a_vec)
-    solver = Solver()
-    b = [BitVec(f'b_{i}', 32) for i in range(L)]
-    
-    for x in b:
-        solver.add(UGE(x, 0))
-        solver.add(ULT(x, P))
-        
-    for row in Ga:
-        expr = Sum([BitVecVal(int(row[i]), 32) * b[i] for i in range(L)])
-        solver.add(expr % P == 0)
-        
-    # Gb（2行）の制約のみをチェック
-    for row in Gb:
-        expr = Sum([BitVecVal(int(row[j]), 32) * b[j] for j in range(L)])
-        solver.add(expr % P != 0)
-        
-    return solver.check() == sat
-from z3 import Solver, Int, Sum, sat, Or
-
-# 共通変数は一度だけ定義する
-b_vars = [Int(f'b_{i}') for i in range(L)]
 
 def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
     attempt = 0
@@ -305,6 +230,38 @@ def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
             model = solver.model()
             return a_vec, [model[x].as_long() for x in b]
 
+def find_b_from_a(a_vec, cycles, h_x, h_z, p_val=P):
+        Ga, Gb = gen_g_mat(a_vec)
+        constraints = gen_constraints(Gb, a_vec, cycles, h_x, h_z)
+        solver = Solver()
+        # 32bit BitVector を使用
+        b = [BitVec(f'b_{i}', 32) for i in range(L)]
+        P = BitVecVal(p_val, 32)
+        ZERO = BitVecVal(0, 32)
+
+        # 範囲制約
+        for x in b:
+            solver.add(UGE(x, 0), ULT(x, P))
+
+        # 等式制約 (Ax = 0 mod P)
+        for row in Ga:
+            # row[i] も BitVecVal に変換して計算
+            expr = Sum([BitVecVal(int(row[i])%p_val, 32) * b[i] for i in range(L)])
+            solver.add(expr % P == ZERO)
+
+        # 不等式制約 (Cx != 0 mod P)
+        for row in constraints:
+            expr = Sum([BitVecVal(int(row[j])%p_val, 32) * b[j] for j in range(L)])
+            solver.add(expr % P != ZERO)
+            
+        res = solver.check()
+        if res == sat:
+            model = solver.model()
+            return a_vec, [model[x].as_long() for x in b]
+        else:
+            # unsat なのか timeout(unknown) なのかを出力して原因を切り分ける
+            print(f"Solver check result: {res}")
+            return None
 
 
 

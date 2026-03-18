@@ -218,4 +218,68 @@ $[0,P]$を2つ(例えば$[0, P/2],[P/2, P]$)に分け、それぞれでAPMを構
 
 今回、前後半の2つに分ける分割、奇数偶数で交互に分ける分割を試したが、$P=768, 896, 1536$では解が見つからない。
 解があるかどうかは、分割の仕方には影響しない。性能に影響するのか？
+
+\section{条件Cの制約}
+\subsection{置換行列の定義}
+置換$f: [P]\rightarrow [P]$について、$F=P(f)$は、$f(x)=y$ならば$F_{x,y}=1$によって定義される。
+
+\subsection{サイクルの関数の定義}
+サイクル$c$が以下で与えられるとする。
+\[
+\underline{c} := f_{11} \rightarrow f_{12} \rightarrow f_{21} \rightarrow f_{22} \rightarrow \cdots\rightarrow f_{n1} \rightarrow f_{n2} \rightarrow f_{11}
+\]
+このとき、サイクルの関数は
+\[
+f_{\underline{c}}(j) = (f_{n2}f\inv_{n1}\cdots f_{22}f\inv_{21}f_{12}f\inv_{11})(j)
+\]
+であり、逆関数は
+\[
+f_{\underline{c}}\inv(j) = (f_{11}f\inv_{12}\cdots f_{n1}f\inv_{n2})(j)
+\]
+である。
+\subsection{サイクル関数の定式化}
+\subsubsection{長さ8のサイクルの関数}
+\[
+  \underline{c} := f_{1} \rightarrow f_{2} \rightarrow f_{3} \rightarrow \cdots \rightarrow f_{8}
+  \]
+  であり、$f_i = a_i x + b_i$とする。
+  このとき、$f_i\inv = a_i\inv(x - b_i)$である。
+\paragraph{$H_X$}
+\begin{align}
+  f_{\underline{c}}(x) &= (f_{8}f\inv_{7}\cdots f\inv_{1})(x)\\
+  &=a_8(a_7\inv(a_6(a_5\inv(a_4(a_3\inv(a_2(a_1\inv(x-b_1))+b_2-b_3))+b_4-b_5))+b_6-b_7))+b_8\\
+  &=a_8a_7\inv a_6a_5\inv a_4a_3\inv a_2a_1\inv x\\
+  &\quad -a_8a_7\inv a_6a_5\inv a_4a_3\inv a_2a_1\inv b_1+a_8a_7\inv a_6a_5\inv a_4a_3\inv(b_2-b_3)\\
+  &\quad +a_8a_7\inv a_6a_5\inv(b_4-b_5)+a_8a_7\inv(b_6-b_7)+b_8
+\end{align}
+
+\paragraph{$H_Z$}
+$H_Z$の構成要素はすべて逆関数である。これに合わせて計算すると、
+\begin{align}
+  f_{\underline{c}}(x) &= (f_{8}\inv f_{7}\cdots f_{1})(x)\\
+  &=a_8\inv((a_7 a_6\inv((a_5 a_4\inv((a_3 a_2\inv((a_1 x+b_1)-b_2)+b_3)-b_4)+b_5)-b_6)+b_7)-b_8)\\
+  &=a_8\inv a_7 a_6\inv a_5 a_4\inv a_3 a_2\inv a_1 x\\
+  &\quad +a_8\inv a_7 a_6\inv a_5 a_4\inv a_3 a_2\inv(b_1-b_2)+a_8\inv a_7 a_6\inv a_5 a_4\inv(b_3-b_4)\\
+  &\quad +a_8\inv a_7 a_6\inv(b_5-b_6)+a_8\inv(b_7-b_8)\\
+\end{align}
+
+\subsection{条件Cの定式化}
+サイクルの関数が$f_{\underline{c}}(x) = A_{\underline{c}}x + B_{\underline{c}}$であるとき、これが閉であることは、
+$B_{\underline{c}}$が$\gcd(A_{\underline{c}}-1, P)$で割り切れることと同値である。
+
+\section{現状の整理}
+逐次的探索アルゴリズムを使えば、$P=768$に対し、ガースが6であるような$f,g$を見つけられる。\\
+$\aU$に対し、条件A,Bをみたす$\bU$の一般解は求められる。\\
+$\aU$に対し、条件A,B,Cをみたす$\bU$の特殊解はILPで求められる。\\
+
+\section{03/18}
+条件ABを満たす解空間の係数を変数として、条件Cを満たすようにILPを使って解を探索する。
+1572864通りもあるので、探索に時間がかかる。
+条件Cを条件C1,C2に分け、一方を条件ABとともに解空間の条件に加えることで、探索の範囲を減らせる。
+
+\paragraph{分け方の候補}
+サイクルの長さ(4と6)、$F,G$内のサイクルと$F,G$相互のサイクル
+よく発生するサイクルはあるのか？
+
+
 \end{document}
