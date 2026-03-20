@@ -189,3 +189,86 @@ def find_b_with_z3(free_bases, constrained_bases, valid_patterns, constraints, P
         
     print("\n全てのパターンを探索したが、ガース条件を満たす解は存在しなかった。")
     return None
+
+def find_b_with_z3_staged(free_bases, constrained_bases, valid_patterns, constraints_4, constraints_6, P, cols=12):
+    P_bv = BitVecVal(P, 32)
+    ZERO = BitVecVal(0, 32)
+    
+    # 制約の重複を排除してZ3の負荷を極限まで減らす
+    def get_unique_constraints(constraints):
+        seen = set()
+        uniq = []
+        for r in constraints:
+            t = tuple(x % P for x in r)
+            if t not in seen and any(x != 0 for x in t):
+                seen.add(t)
+                uniq.append(r)
+        return uniq
+
+    uniq_c4 = get_unique_constraints(constraints_4)
+    uniq_c6 = get_unique_constraints(constraints_6)
+
+    for i, pattern in enumerate(valid_patterns):
+        solver = Solver()
+        
+        # 【重要】Z3が無限探索に陥るのを防ぐため、タイムアウトを設定 (2000ミリ秒 = 2秒)
+        # 2秒で見つからないような複雑な制約空間の a_vec は「ハズレ」として切り捨てる
+        solver.set("timeout", 2000) 
+        
+        c_vars = []
+        for j, info in enumerate(free_bases):
+            c = BitVec(f'c_{j}', 32)
+            solver.add(UGE(c, 0), ULT(c, info['num_vals']))
+            c_vars.append(c)
+            
+        b_vars = [BitVec(f'b_{k}', 32) for k in range(cols)]
+        for b in b_vars:
+            solver.add(UGE(b, 0), ULT(b, P))
+            
+        const_b = np.zeros(cols, dtype=int)
+        for val, info in zip(pattern, constrained_bases):
+            const_b += val * np.array(info['vector'])
+            
+        for k in range(cols):
+            expr_terms = [BitVecVal(int(const_b[k]) % P, 32)]
+            for j, info in enumerate(free_bases):
+                v_val = int(info['vector'][k]) % P
+                if v_val != 0:
+                    expr_terms.append(BitVecVal(v_val, 32) * c_vars[j])
+            linear_expr = Sum(expr_terms) if len(expr_terms) > 1 else expr_terms[0]
+            solver.add(b_vars[k] == URem(linear_expr, P_bv))
+            
+        # 【第1段階】条件C (長さ4のガース制約)
+        for row in uniq_c4:
+            row_terms = []
+            for j in range(cols):
+                val = int(row[j]) % P
+                if val != 0:
+                    row_terms.append(BitVecVal(val, 32) * b_vars[j])
+            if row_terms:
+                row_expr = Sum(row_terms) if len(row_terms) > 1 else row_terms[0]
+                solver.add(URem(row_expr, P_bv) != ZERO)
+                
+        res1 = solver.check()
+        if res1 != sat:
+            continue # unsat または unknown(タイムアウト) ならスキップ
+            
+        # 【第2段階】長さ4をクリアした場合のみ、長さ6を追加
+        for row in uniq_c6:
+            row_terms = []
+            for j in range(cols):
+                val = int(row[j]) % P
+                if val != 0:
+                    row_terms.append(BitVecVal(val, 32) * b_vars[j])
+            if row_terms:
+                row_expr = Sum(row_terms) if len(row_terms) > 1 else row_terms[0]
+                solver.add(URem(row_expr, P_bv) != ZERO)
+                
+        res2 = solver.check()
+        if res2 == sat:
+            model = solver.model()
+            return True, np.array([model[b].as_long() for b in b_vars])
+            
+        return True, None
+
+    return False, None
