@@ -1,5 +1,5 @@
 # %%
-from programs.find_fg.sequential.functions import *
+from functions import *
 
 # %%
 # 探索の設定
