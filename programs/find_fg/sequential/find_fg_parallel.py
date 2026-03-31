@@ -22,7 +22,6 @@ def search_task(worker_id):
     max_reached = 0  # プロセスごとに、どこまで深く進めたかを記録する変数
 
     while idx < L:
-        # max_attempt などの引数を削除し、シンプルに呼び出し
         res = generate_random_apm(a_vec, b_vec, cx, cz, idx)
         
         if res is not None:
@@ -37,8 +36,8 @@ def search_task(worker_id):
         else:
             if idx == L_H:
                 # idx=6でのハードリセット。画面が埋まるのを防ぐため、約5%の確率で表示
-                if random.random() < 0.05:
-                    print(f"[Worker {worker_id:02d}] idx={L_H} で手詰まり。初期からやり直します。")
+                # if random.random() < 0.05:
+                #     print(f"[Worker {worker_id:02d}] idx={L_H} で手詰まり。初期からやり直します。")
                 idx = 0
                 max_reached = 0  # 最初からやり直すので新記録もリセット
             elif idx > 0:
@@ -89,7 +88,7 @@ if __name__ == "__main__":
     WORKERS = multiprocessing.cpu_count()
     
     # 並列探索の実行
-    a_result, b_result = parallel_search(num_workers=WORKERS)
+    a_result, b_result = parallel_search(num_workers=WORKERS//2)  # CPUの半分をワーカーに割り当てる（必要に応じて調整）
     
     print("\nFinal Results:")
     print("a_vec:", a_result)

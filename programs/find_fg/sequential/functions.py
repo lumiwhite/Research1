@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import random
 import math
 import numpy as np
@@ -11,7 +10,8 @@ J = 3
 
 # 【追加】aの候補を事前計算し、グローバルリストとして保持する
 # Pと互いに素であり、かつ gcd(a-1, P) <= 2 を満たすもののみを厳密に抽出
-VALID_A_LIST = [a for a in range(2, P - 1) if math.gcd(a, P) == 1 and math.gcd(a - 1, P) <= 2]
+# VALID_A_LIST = [a for a in range(2, P - 1) if math.gcd(a, P) == 1 and math.gcd(a - 1, P) <= 2]
+VALID_A_LIST = [a for a in range(1, P) if math.gcd(a, P) == 1]
 
 def gen_cycles(max_len, L=L, L_H=L_H):
     def is_valid(r_seq, c_seq):
@@ -99,6 +99,7 @@ def get_commute_b(a, b, c, P):
     solutions = [(d_0 + k * P_prime) % P for k in range(g)]
     return sorted(solutions)
 
+# 探索の順番を変えたら変更する必要がある
 def get_new_cycles(cycles_x, cycles_z, idx):
     new_cycles_x = []
     new_cycles_z = []
@@ -123,6 +124,13 @@ def is_closed(func, P=P):
     d = math.gcd(a - 1, P)
     return b % d == 0
 
+def is_commute(func1, func2, P=P):
+    a1, b1 = func1
+    a2, b2 = func2
+    left = composite(func1, func2, P)
+    right = composite(func2, func1, P)
+    return left == right
+
 def find_closed_cycle_x(cycles, a_vec, b_vec):
     for cycle in cycles:
         cycle_func = [1, 0]
@@ -141,7 +149,7 @@ def find_closed_cycle_z(cycles, a_vec, b_vec):
         cycle_func = [1, 0]
         for i, idx in enumerate(cycle):
             func = [a_vec[idx], b_vec[idx]]
-            if i % 2 == 1:
+            if i%2 == 1:
                 cycle_func = composite(cycle_func, func)
             else:
                 cycle_func = composite(cycle_func, func_inv(func))
@@ -161,52 +169,27 @@ def generate_random_apm(a_vec, b_vec, cycles_x, cycles_z, idx, P=P, L=L):
     for a_val in a_candidates:
         b_cand = []
         
-        if idx == 0:
-            # idx=0は以前の関数が存在しないため、全てのbが候補となる
+        if idx < L_H:
             b_cand = list(range(P))
-            
-        elif idx < L_H:
-            # 【厳密な条件の適用】前半は、すでに確定している 0 〜 idx-1 全てと可換でなければならない
-            # まず idx=0 との可換条件から初期候補を生成し、探索空間を劇的に絞る
-            initial_cands = get_commute_b(a_vec[0], b_vec[0], a_val, P)
-            if not initial_cands:
-                continue
-                
-            for b_val in initial_cands:
-                is_valid = True
-                # idx=1 から idx-1 までの「すべて」の関数と可換かチェックする
-                for i in range(1, idx):
-                    left = (b_val * (a_vec[i] - 1)) % P
-                    right = (b_vec[i] * (a_val - 1)) % P
-                    if left != right: # 1つでも非可換なら除外
-                        is_valid = False
-                        break
-                if is_valid:
-                    b_cand.append(b_val)
-                    
+          
         else:
-            # idx >= L_H の場合は既存の厳しいチェックロジックを踏襲
-            base_i = 1 if idx == 9 else 0
-            
-            initial_cands = get_commute_b(a_vec[base_i], b_vec[base_i], a_val, P)
-            if not initial_cands:
-                continue
-                
+            if idx == 8 or idx == 9:
+                base_i = 9 - idx
+                initial_cands = list(set(range(P)) - set(get_commute_b(a_vec[base_i], b_vec[base_i], a_val, P)))
+                if not initial_cands:
+                    continue
+            else:
+                initial_cands = list(range(P))
+
             for b_val in initial_cands:
                 is_valid = True
                 for i in range(L_H):
-                    if i == base_i:
-                        continue
-                        
-                    left = (b_val * (a_vec[i] - 1)) % P
-                    right = (b_vec[i] * (a_val - 1)) % P
-                    
                     if (idx == 8 and i == 1) or (idx == 9 and i == 0):
-                        if left == right: 
+                        if is_commute([a_val, b_val], [a_vec[i], b_vec[i]], P):
                             is_valid = False
                             break
                     else:
-                        if left != right: 
+                        if not is_commute([a_val, b_val], [a_vec[i], b_vec[i]], P):
                             is_valid = False
                             break
                             
