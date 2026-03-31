@@ -16,7 +16,7 @@ def search_task(worker_id):
     b_vec = [None] * L
     
     idx = 0
-    cycles = gen_cycles(8)
+    cycles = gen_cycles(6)
     cx, cz = get_func_idx(cycles)
 
     max_reached = 0  # プロセスごとに、どこまで深く進めたかを記録する変数
@@ -34,10 +34,7 @@ def search_task(worker_id):
                 print(f"[Worker {worker_id:02d}] 新記録: idx={idx} に到達 (a_vec={a_vec[:idx]})")
                 
         else:
-            if idx == L_H:
-                # idx=6でのハードリセット。画面が埋まるのを防ぐため、約5%の確率で表示
-                # if random.random() < 0.05:
-                #     print(f"[Worker {worker_id:02d}] idx={L_H} で手詰まり。初期からやり直します。")
+            if idx >= L_H:
                 idx = 0
                 max_reached = 0  # 最初からやり直すので新記録もリセット
             elif idx > 0:
@@ -93,3 +90,5 @@ if __name__ == "__main__":
     print("\nFinal Results:")
     print("a_vec:", a_result)
     print("b_vec:", b_result)
+
+    

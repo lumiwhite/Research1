@@ -7,10 +7,9 @@ P = 768
 L = 12
 L_H = 12 // 2
 J = 3
+ACTIVE_S = [0, 2, 4]
 
 # 【追加】aの候補を事前計算し、グローバルリストとして保持する
-# Pと互いに素であり、かつ gcd(a-1, P) <= 2 を満たすもののみを厳密に抽出
-# VALID_A_LIST = [a for a in range(2, P - 1) if math.gcd(a, P) == 1 and math.gcd(a - 1, P) <= 2]
 VALID_A_LIST = [a for a in range(1, P) if math.gcd(a, P) == 1]
 
 def gen_cycles(max_len, L=L, L_H=L_H):
@@ -125,8 +124,6 @@ def is_closed(func, P=P):
     return b % d == 0
 
 def is_commute(func1, func2, P=P):
-    a1, b1 = func1
-    a2, b2 = func2
     left = composite(func1, func2, P)
     right = composite(func2, func1, P)
     return left == right
@@ -161,12 +158,13 @@ def generate_random_apm(a_vec, b_vec, cycles_x, cycles_z, idx, P=P, L=L):
     new_a_vec = a_vec.copy()
     new_b_vec = b_vec.copy()
     new_cycles_x, new_cycles_z = get_new_cycles(cycles_x, cycles_z, idx)
-    
+    a_count = 0
     # 事前計算したaのリストをコピーしてシャッフル（ランダム性を確保しつつ全探索）
     a_candidates = VALID_A_LIST.copy()
     random.shuffle(a_candidates)
     
     for a_val in a_candidates:
+        a_count += 1
         b_cand = []
         
         if idx < L_H:
@@ -202,11 +200,13 @@ def generate_random_apm(a_vec, b_vec, cycles_x, cycles_z, idx, P=P, L=L):
         random.shuffle(b_cand)
 
         # 見つかった候補の中からサイクルチェックを実行（最大10個程度に制限して時間節約）
-        for b_val in b_cand[:10]: 
+        for b_val in b_cand: 
             new_a_vec[idx] = a_val
             new_b_vec[idx] = b_val
             if find_closed_cycle_x(new_cycles_x, new_a_vec, new_b_vec) and find_closed_cycle_z(new_cycles_z, new_a_vec, new_b_vec):
                 return a_val, b_val
-                
+        if a_count % 50 == 0:
+            print(f"  (idx {idx}: {a_count}個の 'a' を試行中...)", end="\r")
     # 全てのaの候補を試しても見つからなければ、明確な手詰まりとしてNoneを返す
     return None
+    
