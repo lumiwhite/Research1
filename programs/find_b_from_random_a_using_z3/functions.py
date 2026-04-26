@@ -192,15 +192,15 @@ def gen_g_mat(a_vec):
 
 def find_b_from_random_a(cycles, h_x, h_z, p_val=P):
     attempt = 0
-    # seen_avec = []
+    seen_avec = []
     while True:
         attempt += 1
         print(f"試行回数: {attempt}")
-        # a_vec = gen_coprime_array()
-        a_vec = [763, 679, 397, 61, 697, 373, 289, 257, 625, 41, 193, 449]
-        # if a_vec in seen_avec:
-        #     continue
-        # seen_avec.append(a_vec)
+        a_vec = gen_coprime_array()
+        # a_vec = [763, 679, 397, 61, 697, 373, 289, 257, 625, 41, 193, 449]
+        if a_vec in seen_avec:
+            continue
+        seen_avec.append(a_vec)
         
         Ga, Gb = gen_g_mat(a_vec)
         constraints = gen_constraints(Gb, a_vec, cycles, h_x, h_z)

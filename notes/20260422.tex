@@ -1,0 +1,67 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule を使うために必須
+\usepackage{multirow} % \multirow を使うために必須
+\usepackage{listings}
+\mathtoolsset{showonlyrefs}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+
+% =========================================
+\input{command.tex}
+\begin{document}
+
+\title{ゼミ用資料}
+\author{}
+\date{\today}
+\maketitle
+
+\section{前回のゼミまでの進捗}
+逐次的アルゴリズムを改良し、アクティブ行を0,2,4行に変更することで、$P=768$以下でも条件を満たすものを見つけられたが、最小距離が小さく、性能がよくない。
+
+\section{今回の進捗}
+
+\subsection{アクティブ行の選択}
+アクティブ行が0,1,2行の時、$\Delta=\{0,1,2,4,5\}$である。
+アクティブ行が0,2,4行の時、$\Delta=\{0,2,4\}$である。
+他のアクティブ行について考えてみると、例えばアクティブ行が0,1,3行の時、$\Delta=\{0,1,2,3,4,5\}$となってしまう。
+よって、アクティブ行として選択できるのは$0,1,2$や$0,2,4$のような等間隔のみである。
+
+\subsection{非可換ペアの選択}
+アクティブ行が0,2,4行の時、$\Psi_1, \Psi_3, \Psi_5$のいずれかを非ゼロにできる。
+非可換ペアについて、1～3組を非可換にすることを試してみたが、性能がよいものは見つからなかった。
+
+\subsection{空間結合符号との組み合わせ}
+\cite{yang2025spatially}で空間結合符号について勉強した。
+この論文では、特性関数を用いた直交性条件の定式化と、サイクルの最適化について述べられている
+現在、笠井先生の非直交性を導入した符号と組み合わせて性能がいいものが得られないか試してみている。
+
+\section{構想発表会の題目}
+\begin{itemize}
+  \item 復号性能がよく、$P$の小さい符号を構成したい。
+  \item そのためには、ガースを大きく、最小距離を大きくする必要がある。
+  \item 今は、そのための手法として空間結合符号との組み合わせを考えている。
+\end{itemize}
+題目案：「小規模実装に向けた量子誤り訂正符号の構成と性能評価」
+
+
+
+\bibliographystyle{junsrt}
+\bibliography{refs}
+
+\end{document}

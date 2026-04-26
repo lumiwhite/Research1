@@ -199,14 +199,14 @@ def generate_random_apm(a_vec, b_vec, cycles_x, cycles_z, idx, P=P, L=L):
             
         random.shuffle(b_cand)
 
-        # 見つかった候補の中からサイクルチェックを実行（最大10個程度に制限して時間節約）
+        # 見つかった候補の中からサイクルチェックを実行
         for b_val in b_cand: 
             new_a_vec[idx] = a_val
             new_b_vec[idx] = b_val
             if find_closed_cycle_x(new_cycles_x, new_a_vec, new_b_vec) and find_closed_cycle_z(new_cycles_z, new_a_vec, new_b_vec):
                 return a_val, b_val
-        if a_count % 50 == 0:
-            print(f"  (idx {idx}: {a_count}個の 'a' を試行中...)", end="\r")
+        # if a_count % 50 == 0:
+        #     print(f"  (idx {idx}: {a_count}個の 'a' を試行中...)", end="\r")
     # 全てのaの候補を試しても見つからなければ、明確な手詰まりとしてNoneを返す
     return None
     

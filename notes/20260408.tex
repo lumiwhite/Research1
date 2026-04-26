@@ -1,0 +1,260 @@
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule を使うために必須
+\usepackage{multirow} % \multirow を使うために必須
+\usepackage{listings}
+\mathtoolsset{showonlyrefs}
+% --- 定理・定義環境 ---
+\theoremstyle{definition}
+\newtheorem{definition}{定義}[section]
+\newtheorem{theorem}[definition]{定理}
+\newtheorem{lemma}[definition]{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{proposition}[definition]{命題}
+\newtheorem{requirement}[definition]{要請}
+\newtheorem{example}[definition]{例}
+% =========================================
+\input{command.tex}
+\begin{document}
+
+\title{ゼミ用資料}
+\author{}
+\date{\today}
+\maketitle
+
+\section{前回までの振り返り}
+\subsection{前回のゼミまでの進捗}
+\begin{itemize}
+  \item 条件ABの一般解を求めることができた。
+  \item 群的性質に基づく構成を考えたが、可換性条件とガースの両立が難しい。
+  \item 一つの置換行列を2つの領域に分け、2つのAPMで1つのAPMを構成することを考えたが、$f,g$が見つかっていない。
+\end{itemize}
+
+\subsection{前回のゼミ後のタスク}
+\begin{itemize}
+  \item 条件ABを満たす解は高速で見つけられるのでそこからILPで条件Cを満たすものを求める。
+  \item 条件Cの一部を解を求める段階に入れる
+  \item 何を定数として固定するか?今は$a,c$を固定しているが、$a,b$の固定や$b,d$の固定も考える。
+\end{itemize}
+
+\section{今回の進捗}
+
+\subsection{条件ABを満たすものに対するILPの適用}
+条件ABを満たす$\aU, \bU$は高速で見つけられるが、条件Cを満たすものは見つからない。
+条件ABを満たす$\bU$が存在する$\aU$に対し、条件Cを満たす$\bU$を探すことも試したが、条件Cを満たす$\bU$を見つけることはできなかった。
+
+\subsection{条件Cの一部を制約に入れた一般解の導出}
+数式化が不可能な不等式制約をプログラム上で処理するためには、ベース空間の係数の組み合わせを列挙し、条件を満たすパターンのみを抽出してリスト化する手法が考えられる。
+条件B（非可換条件）は、条件式が2つしかないため、係数の全パターンを評価しても計算量は限られており、有効なパターンを抽出して擬似的な一般解として扱うことができた。
+しかし、これに条件Cの制約式を加えると、探索すべき空間が広がってしまい、深刻な組み合わせ爆発を引き起こしてしまった。
+少数(2,3)個の制約式を加えることも考えたが、条件Cの制約式は1518個もあるため、効果的な方法ではなかった。
+
+\subsection{逐次的アルゴリズムの改良}
+論文で述べられていた逐次的アルゴリズム($f_0, f_1, \dots, f_5, g_0, g_1, \dots, g_5$と求めていくもの)の場合、$P = 768$で解を見つけることができなかった。
+そこで、非可換性制約を課されているものから順に求める($f_0, g_3, f_1, g_2, \dots$)を試した結果、解を見つけられるようになった。
+24個の並列プロセスを用いた、$P=768$での実行時間の測定結果は以下のようである。
+\begin{table}[htb]
+  \centering
+  \caption{探索アルゴリズムの実行時間測定結果（15回試行）}
+  \begin{tabular}{lc}
+    \hline
+    \textbf{評価項目} & \textbf{結果} \\
+    \hline
+    実行回数 & 15 回 \\
+    平均実行時間 & 160.557 秒 \\
+    標準偏差 & 191.418 秒 \\
+    最速実行時間 & 11.047 秒 \\
+    最遅実行時間 & 797.792 秒 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\subsection{より小さなPの探索}
+上記のように、平均160秒程度で見つけられることが分かったので、より小さな$P$で解を見つけることも試みた。
+500以上800未満の2つの素因数からなる$P$に対し、タイムアウトを1000秒に設定し、解が求まるか順に試したが、$P=768$以外では解を見つけることができなかった。
+
+\subsection{$P$を小さくするための構成の変更}
+$P$を小さくするため、アクティブ部の取り出し方を変更することを試した。論文では$0,1,2$行目を取り出していたが、$0,2,4$行目を取り出すことを試した。ここで、$3$行目は依然として潜在部に含まれるので、条件$A,B$は変更せずともアクティブ部の直交性、潜在部の非直交性は保たれる。
+
+24個の並列プロセスを用いた、$P=768$での実行時間の測定結果は以下のようである。
+\begin{table}[htb]
+  \centering
+  \caption{探索アルゴリズムの実行時間測定結果（15回試行）}
+  \begin{tabular}{lc}
+    \hline
+    \textbf{評価項目} & \textbf{結果} \\
+    \hline
+    実行回数 & 15 回 \\
+    平均実行時間 & 2.595 秒 \\
+    標準偏差 & 2.004 秒 \\
+    最速実行時間 & 0.470 秒 \\
+    最遅実行時間 & 6.916 秒 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+さらに、800未満の2種類の素因数を持つ$P$に対し、タイムアウトを200秒に設定し、解が求まるか順に試した。
+結果は以下である。
+\begin{itemize}
+    \item \textbf{$P = 144$} （探索時間: 41.56秒）
+    \begin{align*}
+        \bm{a} &= [85, 85, 97, 121, 121, 1, 1, 109, 91, 127, 37, 73] \\
+        \bm{b} &= [126, 42, 112, 68, 92, 112, 84, 6, 87, 15, 126, 24]
+    \end{align*}
+
+    \item \textbf{$P = 160$} （探索時間: 27.30秒）
+    \begin{align*}
+        \bm{a} &= [153, 57, 33, 49, 129, 17, 41, 81, 101, 141, 1, 41] \\
+        \bm{b} &= [26, 62, 80, 28, 152, 20, 90, 40, 115, 95, 80, 50]
+    \end{align*}
+
+    \item \textbf{$P = 192$} （探索時間: 7.19秒）
+    \begin{align*}
+        \bm{a} &= [113, 49, 65, 65, 1, 161, 49, 145, 25, 73, 49, 49] \\
+        \bm{b} &= [102, 162, 152, 96, 0, 4, 54, 102, 87, 147, 186, 174]
+    \end{align*}
+
+    \item \textbf{$P = 216$} （探索時間: 6.13秒）
+    \begin{align*}
+        \bm{a} &= [133, 61, 37, 109, 73, 145, 109, 109, 19, 37, 163, 163] \\
+        \bm{b} &= [214, 110, 30, 78, 120, 204, 54, 126, 165, 84, 27, 27]
+    \end{align*}
+
+    \item \textbf{$P = 288$} （探索時間: 1.31秒）
+    \begin{align*}
+        \bm{a} &= [269, 125, 133, 49, 169, 229, 253, 1, 169, 103, 271, 109] \\
+        \bm{b} &= [222, 278, 90, 216, 84, 186, 54, 0, 108, 87, 27, 198]
+    \end{align*}
+
+    \item \textbf{$P = 324$} （探索時間: 47.55秒）
+    \begin{align*}
+        \bm{a} &= [109, 163, 1, 1, 163, 163, 1, 1, 289, 109, 1, 217] \\
+        \bm{b} &= [228, 210, 261, 45, 171, 189, 90, 60, 308, 254, 30, 174]
+    \end{align*}
+
+    \item \textbf{$P = 384$} （探索時間: 1.29秒）
+    \begin{align*}
+        \bm{a} &= [265, 193, 241, 241, 97, 193, 289, 1, 49, 353, 353, 257] \\
+        \bm{b} &= [279, 204, 114, 138, 252, 120, 332, 32, 106, 348, 132, 112]
+    \end{align*}
+
+    \item \textbf{$P = 432$} （探索時間: 5.39秒）
+    \begin{align*}
+        \bm{a} &= [97, 73, 1, 241, 145, 193, 73, 1, 145, 307, 109, 145] \\
+        \bm{b} &= [124, 84, 24, 112, 360, 224, 264, 18, 123, 141, 234, 6]
+    \end{align*}
+
+    \item \textbf{$P = 448$} （探索時間: 1.28秒）
+    \begin{align*}
+        \bm{a} &= [435, 99, 1, 197, 29, 309, 57, 249, 293, 109, 225, 393] \\
+        \bm{b} &= [273, 161, 224, 98, 14, 266, 220, 380, 162, 150, 176, 196]
+    \end{align*}
+
+    \item \textbf{$P = 500$} （探索時間: 24.90秒）
+    \begin{align*}
+        \bm{a} &= [261, 401, 201, 201, 301, 301, 1, 251, 351, 1, 251, 1] \\
+        \bm{b} &= [398, 194, 340, 200, 160, 320, 275, 0, 80, 135, 225, 50]
+    \end{align*}
+
+    \item \textbf{$P = 576$} （探索時間: 4.18秒）
+    \begin{align*}
+        \bm{a} &= [415, 127, 145, 1, 145, 361, 193, 289, 337, 329, 1, 97] \\
+        \bm{b} &= [375, 81, 432, 288, 0, 540, 0, 336, 104, 380, 448, 80]
+    \end{align*}
+
+    \item \textbf{$P = 640$} （探索時間: 8.42秒）
+    \begin{align*}
+        \bm{a} &= [637, 389, 129, 97, 273, 577, 41, 441, 331, 211, 441, 401] \\
+        \bm{b} &= [326, 618, 384, 112, 168, 480, 580, 620, 465, 285, 460, 40]
+    \end{align*}
+
+    \item \textbf{$P = 648$} （探索時間: 5.91秒）
+    \begin{align*}
+        \bm{a} &= [37, 109, 217, 217, 433, 541, 1, 433, 271, 73, 1, 217] \\
+        \bm{b} &= [250, 141, 516, 12, 528, 174, 126, 300, 273, 646, 540, 240]
+    \end{align*}
+
+    \item \textbf{$P = 768$} （探索時間: 1.75秒）
+    \begin{align*}
+        \bm{a} &= [433, 481, 65, 449, 1, 641, 433, 1, 25, 73, 1, 337] \\
+        \bm{b} &= [694, 204, 680, 120, 320, 592, 630, 192, 675, 549, 144, 282]
+    \end{align*}
+
+    \item \textbf{$P = 784$} （探索時間: 72.11秒）
+    \begin{align*}
+        \bm{a} &= [393, 687, 393, 393, 1, 1, 225, 449, 225, 309, 561, 113] \\
+        \bm{b} &= [427, 658, 644, 700, 532, 0, 48, 248, 142, 404, 368, 744]
+    \end{align*}
+\end{itemize}
+これにより、アクティブ部の選択の変更により、$P$を小さくすることができる可能性が示された。
+
+\subsection{性能評価}
+\texttt{./jointbp\_ets}について、アクティブ行を指定できるように変更を加えた。（パラメータを与えるtxtファイルで指定可能）
+
+実行コマンドは以下である。
+
+\begin{verbatim}
+./jointbp_ets(llr) \
+  --params ファイル名 \
+  --simulate --p 0.04000000 --trials 1000000 --max-iter 1000 \
+  --flip-hist 5 --damping 0.000000 --report-every 20
+\end{verbatim}
+\begin{itemize}
+    \item 論文のパラメータで実行した結果(P=768)
+    \begin{itemize}
+        \item ets
+        % xleftmargin=2em で箇条書きの階層に合わせた左余白を設定します
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=0 bp_fail=8 pp_success=8 flip_pp_success=0 stab_success=79 ets_used=3 ets_saved=3 ets6_used=2 ets6_saved=2 ets12_used=0 ets12_saved=0 fer=0.00000000 ci95=[0.00000000,0.00000384] iters=9302209 avg_iter=9.30 avg_latency=28.9ms exact_rate=0.999921 elapsed_s=29047.54s
+        \end{lstlisting}
+        
+        \item llr
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=0 bp_fail=24 pp_success=24 flip_pp_success=1 stab_success=74 ets_used=11 ets_saved=11 ets6_used=7 ets6_saved=7 ets12_used=0 ets12_saved=0 fer=0.00000000 ci95=[0.00000000,0.00000384] iters=9306474 avg_iter=9.31 avg_latency=24.6ms exact_rate=0.999926 elapsed_s=24816.86s
+        \end{lstlisting}
+    \end{itemize}
+    \item P=648
+    \begin{itemize}
+        \item ets
+        % xleftmargin=2em で箇条書きの階層に合わせた左余白を設定します
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=241147 bp_fail=31093 pp_success=10783 flip_pp_success=3510 stab_success=1 ets_used=2194 ets_saved=1153 ets6_used=2185 ets6_saved=1152 ets12_used=0 ets12_saved=0 fer=0.24114700 ci95=[0.24030955,0.24198644] iters=18360840 avg_iter=18.36 avg_latency=42.0ms exact_rate=0.758852 elapsed_s=42065.20s
+        \end{lstlisting}
+        
+        \item llr
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=240211 bp_fail=27116 pp_success=9586 flip_pp_success=3186 stab_success=4 ets_used=2172 ets_saved=1078 ets6_used=2160 ets6_saved=1078 ets12_used=0 ets12_saved=0 fer=0.24021100 ci95=[0.23937466,0.24104933] iters=17753203 avg_iter=17.75 avg_latency=41.2ms exact_rate=0.759785 elapsed_s=41419.92s
+        \end{lstlisting}
+    \end{itemize}
+    \item P=576
+    \begin{itemize}
+        \item ets
+        % xleftmargin=2em で箇条書きの階層に合わせた左余白を設定します
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=215743 bp_fail=25211 pp_success=9295 flip_pp_success=2828 stab_success=3 ets_used=1750 ets_saved=1209 ets6_used=1750 ets6_saved=1209 ets12_used=0 ets12_saved=0 fer=0.21574300 ci95=[0.21493787,0.21655031] iters=17127270 avg_iter=17.13 avg_latency=32.8ms exact_rate=0.784254 elapsed_s=32908.02s
+        \end{lstlisting}
+        
+        \item llr
+        \begin{lstlisting}[breaklines=true, basicstyle=\ttfamily\small, frame=single, xleftmargin=2em]
+trials=1000000 failures=215231 bp_fail=22639 pp_success=8499 flip_pp_success=2675 stab_success=3 ets_used=1767 ets_saved=1253 ets6_used=1767 ets6_saved=1253 ets12_used=0 ets12_saved=0 fer=0.21523100 ci95=[0.21442657,0.21603762] iters=16774394 avg_iter=16.77 avg_latency=33.8ms exact_rate=0.784766 elapsed_s=34022.39s
+        \end{lstlisting}
+    \end{itemize}
+\end{itemize}
+
+\section{今後の方針}
+\begin{itemize}
+  \item $P$を小さくする構成として、非可換性条件の変更を試すことも考える。
+  \item アクティブ部の選択の変更、非可換条件の変更を組み合わせてみる。
+  \item 復号性能が低下している原因の特定、改善(最小距離が小さい？)
+  \item 
+\end{itemize}
+
+\end{document}
